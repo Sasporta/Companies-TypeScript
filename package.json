@@ -1,0 +1,17 @@
+{
+  "name": "company-hierarchy-service-ts",
+  "version": "1.0.0",
+  "description": "ts project",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
