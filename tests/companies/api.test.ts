@@ -1,7 +1,15 @@
-describe('companies CRUD requests', () => {
-  describe('get companies request', () => {
-    it('should return 200 status with companies', async () => {
+import { get, post, patch, destroy, testError } from '../helpers';
 
+const basePath = '/companies';
+
+describe('companies CRUD requests', () => {
+  describe.only('get companies request', () => {
+    it.only('should return 200 status with companies', async () => {
+      const { statusCode, headers, body } = await get(basePath);
+
+      expect(statusCode).toBe(200);
+      expect(headers['content-type']).toMatch('application/json');
+      expect(body).toBe([]);
     });
   });
 
