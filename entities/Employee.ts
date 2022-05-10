@@ -20,8 +20,23 @@ export class Employee extends PrimaryEntity {
     () => Company,
     company => company.employees
   )
+
   @JoinColumn({
     name: 'company_id'
   })
-  company: Company
+  company_id: number
+
+  static toJson(employee: Employee) {
+    const {
+      uuid,
+      name,
+      age,
+    } = employee;
+
+    return {
+      uuid,
+      name,
+      age,
+    }
+  }
 }

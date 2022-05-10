@@ -4,5 +4,6 @@ export default async (): Promise<Config.InitialOptions> => {
   return {
     preset: 'ts-jest',
     testEnvironment: 'node',
+    clearMocks: true,
   }
 }
