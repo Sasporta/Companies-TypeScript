@@ -1,6 +1,6 @@
 import { post, testError } from '../helpers';
 import { mockAllBasics } from '../__mocks__';
-import { companiesPath, mockCompany, postedCompany } from '../__mocks__/company';
+import { companiesPath, mockCompany, mockToJsonPostedCompany, postedCompany } from '../__mocks__/company';
 
 describe('companies CRUD requests', () => {
   beforeAll(() => {
@@ -9,6 +9,8 @@ describe('companies CRUD requests', () => {
   });
 
   describe('post company request', () => {
+    beforeEach(() => mockToJsonPostedCompany());
+
     it('should return 201 status with new company', async () => {
       const { statusCode, headers, body } = await post(companiesPath).send(postedCompany);
 

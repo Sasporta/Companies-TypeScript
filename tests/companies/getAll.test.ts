@@ -16,17 +16,17 @@ describe('companies CRUD requests', () => {
       expect(headers['content-type']).toMatch('application/json');
       expect(body).toStrictEqual([
         {
-          uuid: expect.any(String),
+          uuid: existingCompanies[0].uuid,
           name: existingCompanies[0].name,
           country: existingCompanies[0].country,
         },
         {
-          uuid: expect.any(String),
+          uuid: existingCompanies[1].uuid,
           name: existingCompanies[1].name,
           country: existingCompanies[1].country,
         },
         {
-          uuid: expect.any(String),
+          uuid: existingCompanies[2].uuid,
           name: existingCompanies[2].name,
           country: existingCompanies[2].country,
         },

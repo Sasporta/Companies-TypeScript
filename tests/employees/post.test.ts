@@ -1,7 +1,7 @@
 import { post, testError } from '../helpers';
 import { mockAllBasics } from '../__mocks__';
 import { mockCompany, mockCompanyNotFound } from '../__mocks__/company';
-import { employeesPath, mockEmployee, mockEmployeeNotFound, postedEmployee } from '../__mocks__/employee';
+import { employeesPath, mockEmployee, mockEmployeeNotFound, mockToJsonPostedEmployee, postedEmployee } from '../__mocks__/employee';
 
 describe('employees CRUD requests', () => {
   beforeAll(() => {
@@ -11,6 +11,8 @@ describe('employees CRUD requests', () => {
   });
 
   describe('post employee request', () => {
+    beforeEach(() => mockToJsonPostedEmployee());
+
     it('should return 201 status with new employee', async () => {
       const { statusCode, headers, body } = await post(employeesPath).send(postedEmployee);
 
