@@ -3,8 +3,12 @@ import { Company } from '../../entities/Company';
 export const companiesPath = '/companies';
 
 export const postedCompany = {
-  name: 'wix',
-  country: 'USA'
+  name: 'Blizzard Entertainment',
+  country: 'USA',
+}
+
+export const updatedCompany = {
+  country: 'England',
 }
 
 export const existingCompanies = [
@@ -54,7 +58,11 @@ export const mockCompany = () => {
 
 const mockFindOneBy = jest.fn();
 
-const mockCompanyFound = () => mockFindOneBy.mockReturnValue({ ...existingCompanies[0], remove: jest.fn() });
+const mockCompanyFound = () => mockFindOneBy.mockReturnValue({
+  ...existingCompanies[0],
+  remove: jest.fn(),
+  save: jest.fn(),
+});
 
 export const mockCompanyNotFound = () => mockFindOneBy.mockReturnValueOnce(null);
 
@@ -67,6 +75,12 @@ const mockToJsonFirstExistingCompany = () => mockToJson.mockReturnValue({
 });
 
 export const mockToJsonPostedCompany = () => mockToJson.mockReturnValueOnce({
-    ...postedCompany,
-    uuid: '58589d65-8f6b-4e64-bb7c-50cd1957c569',
-  });
+  ...postedCompany,
+  uuid: '58589d65-8f6b-4e64-bb7c-50cd1957c569',
+});
+
+export const mockToJsonUpdatedCompany = () => mockToJson.mockReturnValueOnce({
+  uuid: existingCompanies[0].uuid,
+  name: existingCompanies[0].name,
+  country: updatedCompany.country,
+});

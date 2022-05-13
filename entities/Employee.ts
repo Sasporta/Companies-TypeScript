@@ -18,7 +18,10 @@ export class Employee extends PrimaryEntity {
 
   @ManyToOne(
     () => Company,
-    company => company.employees
+    company => company.employees,
+    {
+      onDelete: 'CASCADE',
+    }
   )
 
   @JoinColumn({

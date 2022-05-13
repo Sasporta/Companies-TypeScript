@@ -1,5 +1,5 @@
-import { destroy, testError } from '../helpers';
 import { mockAllBasics } from '../__mocks__';
+import { destroy, testError } from '../helpers';
 import { companiesPath, existingCompanies, mockCompany, mockCompanyNotFound } from '../__mocks__/company';
 
 describe('companies CRUD requests', () => {

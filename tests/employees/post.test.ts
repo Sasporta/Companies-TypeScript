@@ -18,8 +18,7 @@ describe('employees CRUD requests', () => {
 
       expect(statusCode).toBe(201);
       expect(headers['content-type']).toMatch('application/json');
-      expect(body).toStrictEqual(
-        {
+      expect(body).toStrictEqual({
           uuid: expect.any(String),
           name: postedEmployee.name,
           age: postedEmployee.age,
@@ -34,13 +33,13 @@ describe('employees CRUD requests', () => {
     describe('when company uuid invalid', () => {
       beforeEach(() => mockCompanyNotFound());
 
-      testError(post, employeesPath, 422, { ...postedEmployee });
+      testError(post, employeesPath, 422, postedEmployee);
     });
 
     describe('when manager uuid invalid', () => {
       beforeEach(() => mockEmployeeNotFound());
 
-      testError(post, employeesPath, 422, { ...postedEmployee });
+      testError(post, employeesPath, 422, postedEmployee);
     });
   });
 });
