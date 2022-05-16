@@ -1,13 +1,7 @@
 import { get } from '../helpers';
-import { mockAllBasics } from '../__mocks__';
-import { companiesPath, existingCompanies, mockCompany } from '../__mocks__/company';
+import { companiesPath, existingCompanies } from '../__mocks__/company';
 
-describe('companies CRUD requests', () => {
-  beforeAll(() => {
-    mockAllBasics();
-    mockCompany();
-  });
-
+export const getAllRequestTest = () => {
   describe('get companies request', () => {
     it('should return 200 status with companies', async () => {
       const { statusCode, headers, body } = await get(companiesPath);
@@ -33,4 +27,4 @@ describe('companies CRUD requests', () => {
       ]);
     });
   });
-});
+};

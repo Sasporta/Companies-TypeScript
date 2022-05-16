@@ -1,19 +1,12 @@
-import { mockAllBasics } from '../__mocks__';
 import { patch, testError } from '../helpers';
-import { mockCompany, mockCompanyNotFound } from '../__mocks__/company';
-import { employeesPath, existingEmployees, mockEmployee, mockEmployeeNotFound, mockEmployeeNotFoundOnSecondTime, mockToJsonUpdatedEmployee, updatedEmployee } from '../__mocks__/employee';
+import { mockCompanyNotFound } from '../__mocks__/company';
+import { employeesPath, existingEmployees, mockEmployeeNotFound, mockEmployeeNotFoundOnSecondTime, mockToJsonUpdatedEmployee, updatedEmployee } from '../__mocks__/employee';
 
-describe('employees CRUD requests', () => {
-  beforeAll(() => {
-    mockAllBasics();
-    mockCompany();
-    mockEmployee();
-  });
-
+export const updateRequestTest = () => {
   describe('update employee request', () => {
-    beforeEach(() => mockToJsonUpdatedEmployee());
-
     it('should return 200 status with updated employee', async () => {
+      mockToJsonUpdatedEmployee();
+
       const { statusCode, headers, body } = await patch(employeesPath + '/' + existingEmployees[0].uuid).send(updatedEmployee);
 
       expect(statusCode).toBe(200);
@@ -53,4 +46,4 @@ describe('employees CRUD requests', () => {
       });
     });
   });
-});
+};

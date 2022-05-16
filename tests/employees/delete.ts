@@ -1,13 +1,7 @@
-import { mockAllBasics } from '../__mocks__';
 import { destroy, testError } from '../helpers';
-import { employeesPath, existingEmployees, mockEmployee, mockEmployeeNotFound } from '../__mocks__/employee';
+import { employeesPath, existingEmployees, mockEmployeeNotFound } from '../__mocks__/employee';
 
-describe('employees CRUD requests', () => {
-  beforeAll(() => {
-    mockAllBasics();
-    mockEmployee();
-  });
-
+export const deleteRequestTest = () => {
   describe('delete employee request', () => {
     it('should return 204 status with no content', async () => {
       const { statusCode, body } = await destroy(employeesPath + '/' + existingEmployees[0].uuid);
@@ -22,4 +16,4 @@ describe('employees CRUD requests', () => {
       testError(destroy, employeesPath + '/a1111111-b222-c333-d444-e55555555555', 404);
     });
   });
-});
+};

@@ -1,13 +1,7 @@
 import { get, testError } from '../helpers';
-import { mockAllBasics } from '../__mocks__';
-import { employeesPath, existingEmployees, mockEmployee, mockEmployeeNotFound } from '../__mocks__/employee';
+import { employeesPath, existingEmployees, mockEmployeeNotFound } from '../__mocks__/employee';
 
-describe('employees CRUD requests', () => {
-  beforeAll(() => {
-    mockAllBasics();
-    mockEmployee();
-  });
-
+export const getOneRequestTest = () => {
   describe('get employee request', () => {
     it('should return 200 status with employee', async () => {
       const { statusCode, headers, body } = await get(employeesPath + '/' + existingEmployees[0].uuid);
@@ -27,4 +21,4 @@ describe('employees CRUD requests', () => {
       testError(get, employeesPath + '/a1111111-b222-c333-d444-e55555555555', 404);
     });
   });
-});
+};

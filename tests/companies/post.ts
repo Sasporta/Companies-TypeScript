@@ -1,17 +1,11 @@
 import { post, testError } from '../helpers';
-import { mockAllBasics } from '../__mocks__';
-import { companiesPath, mockCompany, mockToJsonPostedCompany, postedCompany } from '../__mocks__/company';
+import { companiesPath, mockToJsonPostedCompany, postedCompany } from '../__mocks__/company';
 
-describe('companies CRUD requests', () => {
-  beforeAll(() => {
-    mockAllBasics();
-    mockCompany();
-  });
-
+export const postRequestTest = () => {
   describe('post company request', () => {
-    beforeEach(() => mockToJsonPostedCompany());
-
     it('should return 201 status with new company', async () => {
+      mockToJsonPostedCompany();
+
       const { statusCode, headers, body } = await post(companiesPath).send(postedCompany);
 
       expect(statusCode).toBe(201);
@@ -28,4 +22,4 @@ describe('companies CRUD requests', () => {
       testError(post, companiesPath, 422);
     });
   });
-});
+};

@@ -1,19 +1,12 @@
 import { post, testError } from '../helpers';
-import { mockAllBasics } from '../__mocks__';
-import { mockCompany, mockCompanyNotFound } from '../__mocks__/company';
-import { employeesPath, mockEmployee, mockEmployeeNotFound, mockToJsonPostedEmployee, postedEmployee } from '../__mocks__/employee';
+import { mockCompanyNotFound } from '../__mocks__/company';
+import { employeesPath, mockEmployeeNotFound, mockToJsonPostedEmployee, postedEmployee } from '../__mocks__/employee';
 
-describe('employees CRUD requests', () => {
-  beforeAll(() => {
-    mockAllBasics();
-    mockCompany();
-    mockEmployee();
-  });
-
+export const postRequestTest = () => {
   describe('post employee request', () => {
-    beforeEach(() => mockToJsonPostedEmployee());
-
     it('should return 201 status with new employee', async () => {
+      mockToJsonPostedEmployee();
+
       const { statusCode, headers, body } = await post(employeesPath).send(postedEmployee);
 
       expect(statusCode).toBe(201);
@@ -42,4 +35,4 @@ describe('employees CRUD requests', () => {
       testError(post, employeesPath, 422, postedEmployee);
     });
   });
-});
+};

@@ -1,15 +1,8 @@
 import { get } from '../helpers';
-import { mockAllBasics } from '../__mocks__';
-import { existingCompanies, mockCompany } from '../__mocks__/company';
-import { employeesPath, existingEmployees, mockArrayToJsonGetEmployeesByCompany, mockArrayToJsonGetEmployeesByManager, mockEmployee, mockEmployeesFoundByCompany, mockEmployeesFoundByManager } from '../__mocks__/employee';
+import { existingCompanies } from '../__mocks__/company';
+import { employeesPath, existingEmployees, mockArrayToJsonGetEmployeesByCompany, mockArrayToJsonGetEmployeesByManager, mockEmployeesFoundByCompany, mockEmployeesFoundByManager } from '../__mocks__/employee';
 
-describe('employees CRUD requests', () => {
-  beforeAll(() => {
-    mockAllBasics();
-    mockCompany();
-    mockEmployee();
-  });
-
+export const getAllRequestTest = () => {
   describe('get employees request', () => {
     it('should return 200 status with employees', async () => {
       const { statusCode, headers, body } = await get(employeesPath);
@@ -36,12 +29,10 @@ describe('employees CRUD requests', () => {
     });
 
     describe('when companyUuid param is given', () => {
-      beforeEach(() => {
+      it('should return 200 status with employees of the given company only', async () => {
         mockEmployeesFoundByCompany();
         mockArrayToJsonGetEmployeesByCompany();
-      });
 
-      it('should return 200 status with employees of the given company only', async () => {
         const { statusCode, headers, body } = await get(employeesPath + '?companyUuid=' + existingCompanies[0].uuid);
 
         expect(statusCode).toBe(200);
@@ -62,12 +53,10 @@ describe('employees CRUD requests', () => {
     });
 
     describe('when managerUuid param is given', () => {
-      beforeEach(() => {
+      it('should return 200 status with employees of the given manager only', async () => {
         mockEmployeesFoundByManager();
         mockArrayToJsonGetEmployeesByManager();
-      });
 
-      it('should return 200 status with employees of the given manager only', async () => {
         const { statusCode, headers, body } = await get(employeesPath + '?managerUuid=' + existingEmployees[0].uuid);
 
         expect(statusCode).toBe(200);
@@ -82,4 +71,4 @@ describe('employees CRUD requests', () => {
       });
     });
   });
-});
+};
