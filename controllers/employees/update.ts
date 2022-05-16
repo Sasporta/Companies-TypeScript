@@ -8,9 +8,9 @@ export const updateEmployee = async (req: Request, res: Response) => {
   const { id: uuid } = req.params;
   const { companyUuid, managerUuid, name, age } = req.body;
 
-  if (!name && !age && !companyUuid && !managerUuid) return errorHandler(res, 422);
+  if (!name && !age && !companyUuid && managerUuid === undefined) return errorHandler(res, 422);
 
-  let update = { name, age, companyId: undefined, managerId: undefined };
+  let update = { name, age, company_id: undefined, manager_id: undefined };
 
   try {
     const employee = await Employee.findOneBy({ uuid });
@@ -22,7 +22,7 @@ export const updateEmployee = async (req: Request, res: Response) => {
 
       if (!company) { return errorHandler(res, 422); }
 
-      update.companyId = company.id;
+      update.company_id = company.id;
     }
 
     if (managerUuid || managerUuid === null) {
@@ -31,14 +31,14 @@ export const updateEmployee = async (req: Request, res: Response) => {
 
         if (!manager) { return errorHandler(res, 422); }
 
-        update.managerId = manager.id;
+        update.manager_id = manager.id;
       }
       else {
-        update.managerId = null;
+        update.manager_id = null;
       }
     }
 
-    Object.keys(req.body).forEach(param => employee[param] = req.body[param]);
+    Object.keys(update).forEach(param => employee[param] = update[param]);
 
     await employee.save();
 
