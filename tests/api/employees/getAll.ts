@@ -1,6 +1,6 @@
-import { get } from '../helpers';
+import { get } from '../../helpers';
 import { existingCompanies } from '../__mocks__/company';
-import { employeesPath, existingEmployees, mockArrayToJsonGetEmployeesByCompany, mockArrayToJsonGetEmployeesByManager, mockEmployeesFoundByCompany, mockEmployeesFoundByManager } from '../__mocks__/employee';
+import { employeesPath, existingEmployees, mockEmployeesFoundByCompany, mockEmployeesFoundByManager } from '../__mocks__/employee';
 
 export const getAllRequestTest = () => {
   describe('get employees request', () => {
@@ -31,7 +31,6 @@ export const getAllRequestTest = () => {
     describe('when companyUuid param is given', () => {
       it('should return 200 status with employees of the given company only', async () => {
         mockEmployeesFoundByCompany();
-        mockArrayToJsonGetEmployeesByCompany();
 
         const { statusCode, headers, body } = await get(employeesPath + '?companyUuid=' + existingCompanies[0].uuid);
 
@@ -55,7 +54,6 @@ export const getAllRequestTest = () => {
     describe('when managerUuid param is given', () => {
       it('should return 200 status with employees of the given manager only', async () => {
         mockEmployeesFoundByManager();
-        mockArrayToJsonGetEmployeesByManager();
 
         const { statusCode, headers, body } = await get(employeesPath + '?managerUuid=' + existingEmployees[0].uuid);
 

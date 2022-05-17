@@ -3,10 +3,10 @@ import { mockCompany } from '../__mocks__/company';
 import { mockEmployee } from '../__mocks__/employee';
 
 import { postRequestTest } from './post';
-import { updateRequestTest } from './update';
-import { deleteRequestTest } from './delete';
 import { getAllRequestTest } from './getAll';
 import { getOneRequestTest } from './getOne';
+import { updateRequestTest } from './update';
+import { deleteRequestTest } from './delete';
 
 describe('companies CRUD requests', () => {
   beforeAll(() => {
@@ -16,8 +16,8 @@ describe('companies CRUD requests', () => {
   });
 
   postRequestTest();
-  updateRequestTest();
-  deleteRequestTest();
   getAllRequestTest();
   getOneRequestTest();
+  updateRequestTest();
+  deleteRequestTest();
 });

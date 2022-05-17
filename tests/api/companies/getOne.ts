@@ -1,4 +1,4 @@
-import { get, testError } from '../helpers';
+import { get, testError } from '../../helpers';
 import { companiesPath, existingCompanies, mockCompanyNotFound } from '../__mocks__/company';
 
 export const getOneRequestTest = () => {

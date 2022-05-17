@@ -1,4 +1,4 @@
-import { get } from '../helpers';
+import { get } from '../../helpers';
 import { companiesPath, existingCompanies } from '../__mocks__/company';
 
 export const getAllRequestTest = () => {

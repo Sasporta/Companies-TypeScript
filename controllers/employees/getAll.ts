@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 
 import { errorHandler } from '../helpers';
+import { format } from '../jsons/employees';
 import { Company } from '../../entities/Company';
 import { Employee } from '../../entities/Employee';
 
@@ -12,8 +13,7 @@ export const getEmployees = async (req: Request, res: Response) => {
   let employees: Employee[];
 
   try {
-    if (req.query !== {}) {
-
+    if (Object.keys(req.query).length > 0) {
       if (typeof companyUuid === 'string') {
         const company = await Company.findOneBy({ uuid: companyUuid });
 
@@ -31,7 +31,7 @@ export const getEmployees = async (req: Request, res: Response) => {
       employees = await Employee.find();
     }
 
-    return res.status(200).json(Employee.arrayToJson(employees));
+    return res.status(200).json(employees.map(e => format(e)));
   }
   catch (error) { return errorHandler(res, 500, error.message); }
 };

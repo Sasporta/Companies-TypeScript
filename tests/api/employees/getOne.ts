@@ -1,4 +1,4 @@
-import { get, testError } from '../helpers';
+import { get, testError } from '../../helpers';
 import { employeesPath, existingEmployees, mockEmployeeNotFound } from '../__mocks__/employee';
 
 export const getOneRequestTest = () => {

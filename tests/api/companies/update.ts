@@ -1,11 +1,9 @@
-import { patch, testError } from '../helpers';
-import { companiesPath, existingCompanies, mockCompanyNotFound, mockToJsonUpdatedCompany, updatedCompany } from '../__mocks__/company';
+import { patch, testError } from '../../helpers';
+import { companiesPath, existingCompanies, mockCompanyNotFound, updatedCompany } from '../__mocks__/company';
 
 export const updateRequestTest = () => {
   describe('update company request', () => {
     it('should return 200 status with updated company', async () => {
-      mockToJsonUpdatedCompany();
-
       const { statusCode, headers, body } = await patch(companiesPath + '/' + existingCompanies[0].uuid).send(updatedCompany);
 
       expect(statusCode).toBe(200);

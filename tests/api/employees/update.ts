@@ -1,12 +1,10 @@
-import { patch, testError } from '../helpers';
+import { patch, testError } from '../../helpers';
 import { mockCompanyNotFound } from '../__mocks__/company';
-import { employeesPath, existingEmployees, mockEmployeeNotFound, mockEmployeeNotFoundOnSecondTime, mockToJsonUpdatedEmployee, updatedEmployee } from '../__mocks__/employee';
+import { employeesPath, existingEmployees, mockEmployeeNotFound, mockEmployeeNotFoundOnSecondTime, updatedEmployee } from '../__mocks__/employee';
 
 export const updateRequestTest = () => {
   describe('update employee request', () => {
     it('should return 200 status with updated employee', async () => {
-      mockToJsonUpdatedEmployee();
-
       const { statusCode, headers, body } = await patch(employeesPath + '/' + existingEmployees[0].uuid).send(updatedEmployee);
 
       expect(statusCode).toBe(200);

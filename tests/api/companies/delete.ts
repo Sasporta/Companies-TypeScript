@@ -1,4 +1,4 @@
-import { destroy, testError } from '../helpers';
+import { destroy, testError } from '../../helpers';
 import { companiesPath, existingCompanies, mockCompanyNotFound } from '../__mocks__/company';
 
 export const deleteRequestTest = () => {

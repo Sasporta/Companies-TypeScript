@@ -1,12 +1,10 @@
-import { post, testError } from '../helpers';
+import { post, testError } from '../../helpers';
 import { mockCompanyNotFound } from '../__mocks__/company';
-import { employeesPath, mockEmployeeNotFound, mockToJsonPostedEmployee, postedEmployee } from '../__mocks__/employee';
+import { employeesPath, mockEmployeeNotFound, postedEmployee } from '../__mocks__/employee';
 
 export const postRequestTest = () => {
   describe('post employee request', () => {
     it('should return 201 status with new employee', async () => {
-      mockToJsonPostedEmployee();
-
       const { statusCode, headers, body } = await post(employeesPath).send(postedEmployee);
 
       expect(statusCode).toBe(201);
