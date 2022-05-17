@@ -17,24 +17,24 @@ export const existingCompanies = [
     uuid: '12d1e461-53ce-4b59-a0d8-c3baffceadb2',
     name: 'Affogata',
     country: 'Israel',
-    updatedAt: '2022-04-11T04:31:27.798Z',
-    createdAt: '2022-04-11T04:31:27.798Z'
+    updated_at: '2022-04-11T04:31:27.798Z',
+    created_at: '2022-04-11T04:31:27.798Z'
   },
   {
     id: 9992,
     uuid: '50fb8bb5-3995-4193-a670-09b9900255e9',
     name: 'Wix',
     country: 'USA',
-    updatedAt: '2022-04-11T04:37:07.828Z',
-    createdAt: '2022-04-11T04:37:07.828Z'
+    updated_at: '2022-04-11T04:37:07.828Z',
+    created_at: '2022-04-11T04:37:07.828Z'
   },
   {
     id: 9993,
     uuid: 'fa772f84-366d-4121-9493-be1fa0d76055',
     name: 'Riot Games',
     country: 'USA',
-    updatedAt: '2022-04-11T05:50:07.828Z',
-    createdAt: '2022-04-11T05:50:07.828Z'
+    updated_at: '2022-04-11T05:50:07.828Z',
+    created_at: '2022-04-11T05:50:07.828Z'
   }
 ]
 

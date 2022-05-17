@@ -8,6 +8,8 @@ it('should return the proper employ json', () => {
   company.uuid = '5c685c36-cad4-44c6-b9cd-cc5eb153fdfe';
   company.name = 'angela smith';
   company.country = 'Israel';
+  company.created_at = new Date;
+  company.created_at = new Date;
 
   expect(format(company)).toStrictEqual({
     uuid: company.uuid,

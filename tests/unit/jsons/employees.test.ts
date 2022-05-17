@@ -10,6 +10,8 @@ it('should return the proper employ json', () => {
   employee.uuid = '5c685c36-cad4-44c6-b9cd-cc5eb153fdfe';
   employee.name = 'angela smith';
   employee.age = 33;
+  employee.created_at = new Date;
+  employee.created_at = new Date;
 
   expect(format(employee)).toStrictEqual({
     uuid: employee.uuid,
