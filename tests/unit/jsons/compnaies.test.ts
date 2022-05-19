@@ -1,7 +1,7 @@
 import { Company } from '../../../entities/company';
 import { format } from '../../../controllers/jsons/companies';
 
-it('should return the proper employ json', () => {
+it('should return the proper company json', () => {
   const company = new Company;
 
   company.id = 6661;

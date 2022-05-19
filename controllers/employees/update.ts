@@ -1,49 +1,38 @@
 import { Request, Response } from 'express';
 
-import { errorHandler } from '../helpers';
 import { format } from '../jsons/employees';
 import { Company } from '../../entities/Company';
 import { Employee } from '../../entities/Employee';
+import { findOrThrow, update, validateAtLeastOneParamExists } from '../helpers';
 
-export const updateEmployee = async (req: Request, res: Response) => {
-  const { id: uuid } = req.params;
-  const { companyUuid, managerUuid, name, age } = req.body;
-
-  if (!name && !age && !companyUuid && managerUuid === undefined) return errorHandler(res, 422);
-
-  let update = { name, age, company_id: undefined, manager_id: undefined };
+export const updateEmployee = async ({ params: { id: uuid }, body: { companyUuid, managerUuid, name, age } }: Request, res: Response) => {
+  let incomingUpdates = { name, age, company_id: undefined, manager_id: undefined };
 
   try {
-    const employee = await Employee.findOneBy({ uuid });
+    validateAtLeastOneParamExists(name, age, companyUuid, managerUuid);
 
-    if (!employee) { return errorHandler(res, 404); }
+    const employee = await findOrThrow(Employee, uuid, 404);
 
     if (companyUuid) {
-      const company = await Company.findOneBy({ uuid: companyUuid });
+      const company = await findOrThrow(Company, companyUuid, 422);
 
-      if (!company) { return errorHandler(res, 422); }
-
-      update.company_id = company.id;
+      incomingUpdates.company_id = company.id;
     }
 
-    if (managerUuid || managerUuid === null) {
-      if (managerUuid) {
-        const manager = await Employee.findOneBy({ uuid: managerUuid });
-
-        if (!manager) { return errorHandler(res, 422); }
-
-        update.manager_id = manager.id;
-      }
+    if (managerUuid !== undefined) {
+      if (managerUuid === null) incomingUpdates.manager_id = null;
       else {
-        update.manager_id = null;
+        const manager = await findOrThrow(Employee, managerUuid, 422);
+
+        incomingUpdates.manager_id = manager.id;
       }
     }
 
-    Object.keys(update).forEach(param => employee[param] = update[param]);
+    update(employee, incomingUpdates);
 
     await employee.save();
 
     return res.status(200).json(format(employee));
   }
-  catch (error) { return errorHandler(res, 500, error.message); }
+  catch (error) { return res.status(error.status ?? 500).json(error.message); }
 };

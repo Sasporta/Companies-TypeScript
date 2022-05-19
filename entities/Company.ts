@@ -15,7 +15,7 @@ export class Company extends PrimaryEntity {
 
   @OneToMany(
     () => Employee,
-    employees => employees.company_id
+    employees => employees.company
   )
   employees: Employee[];
 }

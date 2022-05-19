@@ -1,25 +1,20 @@
 import { Request, Response } from 'express';
 
-import { errorHandler } from '../helpers';
 import { format } from '../jsons/companies';
 import { Company } from '../../entities/Company';
+import { findOrThrow, update, validateAtLeastOneParamExists } from '../helpers';
 
-export const updateCompany = async (req: Request, res: Response) => {
-  const { id: uuid } = req.params;
-  const { name, country } = req.body;
-
-  if (!name && !country) return errorHandler(res, 422 );
-
+export const updateCompany = async ({ params: { id: uuid }, body: { name, country } }: Request, res: Response) => {
   try {
-    const company = await Company.findOneBy({ uuid });
+    validateAtLeastOneParamExists(name, country);
 
-    if (!company) { return errorHandler(res, 404); }
+    const company = await findOrThrow(Company, uuid, 404);
 
-    Object.keys(req.body).forEach(param => company[param] = req.body[param]);
+    update(company, { name, country });
 
     await company.save();
 
     return res.status(200).json(format(company));
   }
-  catch (error) { return errorHandler(res, 500, error.message); }
+  catch (error) { return res.status(error.status ?? 500).json(error.message); }
 };

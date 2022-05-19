@@ -1,37 +1,29 @@
 import { Request, Response } from 'express';
 
-import { errorHandler } from '../helpers';
+import { findOrThrow } from '../helpers';
 import { format } from '../jsons/employees';
 import { Company } from '../../entities/Company';
 import { Employee } from '../../entities/Employee';
+import { validateAllParamsExists } from '../helpers';
 
-export const createEmployee = async (req: Request, res: Response) => {
-  const {
-    name,
-    age,
-    managerUuid,
-    companyUuid,
-  } = req.body;
-
-  let manager: Employee;
-
-  if (!name || !age || !companyUuid) return errorHandler(res, 422);
+export const createEmployee = async ({ body: { name, age, managerUuid, companyUuid } }: Request, res: Response) => {
+  let manager_id = null;
 
   try {
-    const company = await Company.findOneBy({ uuid: companyUuid });
+    validateAllParamsExists(name, age, companyUuid);
 
-    if (!company) { return errorHandler(res, 422); }
+    const company = await findOrThrow(Company, companyUuid, 422);
 
     if (managerUuid) {
-      manager = await Employee.findOneBy({ uuid: managerUuid });
+      const manager = await findOrThrow(Employee, managerUuid, 422);
 
-      if (!manager) { return errorHandler(res, 422); }
+      manager_id = manager.id;
     }
 
     const employee = Employee.create({
       name,
       age,
-      manager_id: manager ? manager.id : null,
+      manager_id,
       company_id: company.id,
     });
 
@@ -39,5 +31,5 @@ export const createEmployee = async (req: Request, res: Response) => {
 
     return res.status(201).json(format(employee));
   }
-  catch (error) { return errorHandler(res, 500, error.message); }
+  catch (error) { return res.status(error.status ?? 500).json(error.message); }
 };

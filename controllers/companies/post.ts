@@ -1,26 +1,21 @@
 import { Request, Response } from 'express';
 
-import { errorHandler } from '../helpers';
 import { format } from '../jsons/companies';
 import { Company } from '../../entities/Company';
+import { validateAllParamsExists } from '../helpers';
 
-export const createCompany = async (req: Request, res: Response) => {
-  const {
-    name,
-    country,
-  } = req.body;
-
-  if (!name || !country) return errorHandler(res, 422);
-
-  const company = Company.create({
-    name,
-    country,
-  });
-
+export const createCompany = async ({ body: { name, country } }: Request, res: Response) => {
   try {
+    validateAllParamsExists(name, country);
+
+    const company = Company.create({
+      name,
+      country,
+    });
+
     await company.save();
 
     return res.status(201).json(format(company));
   }
-  catch (error) { return errorHandler(res, 500, error.message); }
+  catch (error) { return res.status(error.status ?? 500).json(error.message); }
 };
