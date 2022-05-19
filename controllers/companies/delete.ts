@@ -1,15 +1,12 @@
-import { Request, Response } from 'express';
+import { Request } from 'express';
 
 import { findOrThrow } from '../helpers';
 import { Company } from '../../entities/Company';
 
-export const deleteCompany = async ({ params: { id: uuid } }: Request, res: Response) => {
-  try {
-    const company = await findOrThrow(Company, uuid, 404);
+export const deleteCompany = async ({ params: { id: uuid } }: Request) => {
+  const company = await findOrThrow(Company, uuid, 404);
 
-    company.remove()
+  company.remove()
 
-    return res.status(204).json();
-  }
-  catch (error) { return res.status(error.status ?? 500).json(error.message); }
+  return { statusCode: 204 };
 };
