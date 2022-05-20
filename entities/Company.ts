@@ -5,7 +5,9 @@ import { PrimaryEntity } from './PrimaryEntity';
 
 @Entity('companies')
 export class Company extends PrimaryEntity {
-  @Column()
+  @Column({
+    unique: true,
+  })
   name: string;
 
   @Column()
@@ -13,7 +15,21 @@ export class Company extends PrimaryEntity {
 
   @OneToMany(
     () => Employee,
-    employees => employees.company
+    employees => employees.company_id
   )
   employees: Employee[];
+
+  static toJson(company: Company) {
+    const {
+      uuid,
+      name,
+      country,
+    } = company;
+
+    return {
+      uuid,
+      name,
+      country,
+    };
+  }
 }

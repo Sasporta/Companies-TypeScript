@@ -6,6 +6,7 @@ export class PrimaryEntity extends BaseEntity {
   id: number;
 
   @Column({
+    unique: true,
     type: 'uuid',
     generated: 'uuid'
   })
