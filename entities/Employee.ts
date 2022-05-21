@@ -26,17 +26,11 @@ export class Employee extends PrimaryEntity {
   })
   company_id: number
 
-  static toJson(employee: Employee) {
-    const {
-      uuid,
-      name,
-      age,
-    } = employee;
+  static toJson({ uuid, name, age }: Employee) {
+    return { uuid, name, age }
+  }
 
-    return {
-      uuid,
-      name,
-      age,
-    }
+  static arrayToJson(employees: Employee[]) {
+    return employees.map(({ uuid, name, age }) => ({ uuid, name, age }));
   }
 }
