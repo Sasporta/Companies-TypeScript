@@ -43,10 +43,9 @@ export const mockCompany = () => {
 
   Company.create = jest.fn().mockReturnValue({ save: jest.fn() });
 
-  Company.toJson = jest.fn().mockReturnValue({
-    ...postedCompany,
-    uuid: '58589d65-8f6b-4e64-bb7c-50cd1957c569',
-  });
+  Company.toJson = mockToJson;
+
+  mockToJsonFirstExistingCompany();
 
   Company.arrayToJson = jest.fn().mockReturnValue(
     existingCompanies.map(({ uuid, name, country }) => ({ uuid, name, country }))
@@ -55,6 +54,19 @@ export const mockCompany = () => {
 
 const mockFindOneBy = jest.fn();
 
+const mockCompanyFound = () => mockFindOneBy.mockReturnValue({ ...existingCompanies[0] });
+
 export const mockCompanyNotFound = () => mockFindOneBy.mockReturnValueOnce(null);
 
-export const mockCompanyFound = () => mockFindOneBy.mockReturnValue({ ...existingCompanies[0] });
+const mockToJson = jest.fn();
+
+const mockToJsonFirstExistingCompany = () => mockToJson.mockReturnValue({
+  uuid: existingCompanies[0].uuid,
+  name: existingCompanies[0].name,
+  country: existingCompanies[0].country,
+});
+
+export const mockToJsonPostedCompany = () => mockToJson.mockReturnValueOnce({
+    ...postedCompany,
+    uuid: '58589d65-8f6b-4e64-bb7c-50cd1957c569',
+  });

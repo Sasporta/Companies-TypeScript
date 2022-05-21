@@ -51,11 +51,9 @@ export const mockEmployee = () => {
 
   Employee.create = jest.fn().mockReturnValue({ save: jest.fn() });
 
-  Employee.toJson = jest.fn().mockReturnValue({
-    name: postedEmployee.name,
-    age: postedEmployee.age,
-    uuid: '4bc1a9fd-61dc-4566-bb1a-fd04538f28ea',
-  });
+  Employee.toJson = mockToJson;
+
+  mockToJsonFirstExistingEmployee()
 
   Employee.arrayToJson = jest.fn().mockReturnValue(
     existingEmployees.map(({ uuid, name, age }) => ({ uuid, name, age }))
@@ -64,6 +62,20 @@ export const mockEmployee = () => {
 
 const mockFindOneBy = jest.fn();
 
+const mockEmployeeFound = () => mockFindOneBy.mockReturnValue({ ...existingEmployees[0] });
+
 export const mockEmployeeNotFound = () => mockFindOneBy.mockReturnValueOnce(null);
 
-export const mockEmployeeFound = () => mockFindOneBy.mockReturnValue({ ...existingEmployees[0] });
+const mockToJson = jest.fn();
+
+const mockToJsonFirstExistingEmployee = () => mockToJson.mockReturnValue({
+  uuid: existingEmployees[0].uuid,
+  name: existingEmployees[0].name,
+  age: existingEmployees[0].age,
+});
+
+export const mockToJsonPostedEmployee = () => mockToJson.mockReturnValueOnce({
+  uuid: '4bc1a9fd-61dc-4566-bb1a-fd04538f28ea',
+  name: postedEmployee.name,
+  age: postedEmployee.age,
+});
