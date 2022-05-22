@@ -24,14 +24,14 @@ export const updateRequestTest = () => {
     describe('when company uuid invalid', () => {
       testError(patch, employeesPath + '/' + existingEmployees[0].uuid, 422, {
         ...updatedEmployee,
-        companyUuid: '/a1111111-b222-c333-d444-e55555555555',
+        companyUuid: 'a1111111-b222-c333-d444-e55555555555',
       });
     });
 
     describe('when manager uuid invalid', () => {
       testError(patch, employeesPath + '/' + existingEmployees[0].uuid, 422, {
         ...updatedEmployee,
-        managerUuid: '/a1111111-b222-c333-d444-e55555555555',
+        managerUuid: 'a1111111-b222-c333-d444-e55555555555',
       });
     });
   });

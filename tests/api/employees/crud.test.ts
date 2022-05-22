@@ -9,12 +9,12 @@ import { getOneRequestTest } from './getOne';
 import { updateRequestTest } from './update';
 import { deleteRequestTest } from './delete';
 
-describe('companies CRUD requests', () => {
+describe('employees CRUD requests', () => {
   applySetup([mockAllBasics, mockCompany, mockEmployee]);
 
-  postRequestTest();
   getAllRequestTest();
   getOneRequestTest();
   updateRequestTest();
   deleteRequestTest();
+  postRequestTest();
 });

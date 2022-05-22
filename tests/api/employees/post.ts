@@ -21,14 +21,14 @@ export const postRequestTest = () => {
     describe('when company uuid invalid', () => {
       testError(post, employeesPath, 422, {
         ...postedEmployee,
-        companyUuid: '/a1111111-b222-c333-d444-e55555555555',
+        companyUuid: 'a1111111-b222-c333-d444-e55555555555',
       });
     });
 
     describe('when manager uuid invalid', () => {
       testError(post, employeesPath, 422, {
         ...postedEmployee,
-        managerUuid: '/a1111111-b222-c333-d444-e55555555555',
+        managerUuid: 'a1111111-b222-c333-d444-e55555555555',
       });
     });
   });

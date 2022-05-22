@@ -14,7 +14,7 @@ export const updatedCompany = {
 
 export const existingCompanies = [
   {
-    id: 9991,
+    id: 1,
     uuid: '12d1e461-53ce-4b59-a0d8-c3baffceadb2',
     name: 'Affogata',
     country: 'Israel',
@@ -22,7 +22,7 @@ export const existingCompanies = [
     created_at: '2022-04-11T04:31:27.798Z'
   },
   {
-    id: 9992,
+    id: 2,
     uuid: '50fb8bb5-3995-4193-a670-09b9900255e9',
     name: 'Wix',
     country: 'USA',
@@ -30,7 +30,7 @@ export const existingCompanies = [
     created_at: '2022-04-11T04:37:07.828Z'
   },
   {
-    id: 9993,
+    id: 3,
     uuid: 'fa772f84-366d-4121-9493-be1fa0d76055',
     name: 'Riot Games',
     country: 'USA',
