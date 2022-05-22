@@ -1,5 +1,5 @@
 import { patch, testError } from '../../helpers';
-import { companiesPath, existingCompanies, mockCompanyNotFound, updatedCompany } from '../__mocks__/company';
+import { companiesPath, existingCompanies, updatedCompany } from '../__mocks__/company';
 
 export const updateRequestTest = () => {
   describe('update company request', () => {
@@ -15,14 +15,10 @@ export const updateRequestTest = () => {
       });
     });
 
-    describe('when params missing', () => {
-      testError(patch, companiesPath + '/' + existingCompanies[0].uuid, 422);
-    });
+    describe('when params missing', () =>
+      testError(patch, companiesPath + '/' + existingCompanies[0].uuid, 422));
 
-    describe('when company uuid invalid', () => {
-      beforeEach(() => mockCompanyNotFound());
-
-      testError(patch, companiesPath + '/a1111111-b222-c333-d444-e55555555555', 404, updatedCompany);
-    });
+    describe('when company uuid invalid', () =>
+      testError(patch, companiesPath + '/a1111111-b222-c333-d444-e55555555555', 404, updatedCompany));
   });
 };

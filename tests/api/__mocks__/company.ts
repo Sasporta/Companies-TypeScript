@@ -1,3 +1,4 @@
+import { mockFindOneBy } from '.';
 import { Company } from '../../../entities/Company';
 
 export const companiesPath = '/companies';
@@ -47,17 +48,5 @@ export const mockCompany = () => {
 
   Company.find = jest.fn().mockReturnValue([...existingCompanies]);
 
-  Company.findOneBy = mockFindOneBy;
-
-  mockCompanyFound();
+  Company.findOneBy = jest.fn().mockImplementation(({ uuid }) => mockFindOneBy(uuid, existingCompanies));
 };
-
-const mockFindOneBy = jest.fn();
-
-const mockCompanyFound = () => mockFindOneBy.mockReturnValue({
-  ...existingCompanies[0],
-  remove: jest.fn(),
-  save: jest.fn(),
-});
-
-export const mockCompanyNotFound = () => mockFindOneBy.mockReturnValueOnce(null);

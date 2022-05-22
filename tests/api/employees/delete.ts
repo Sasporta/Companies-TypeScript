@@ -1,5 +1,5 @@
 import { destroy, testError } from '../../helpers';
-import { employeesPath, existingEmployees, mockEmployeeNotFound } from '../__mocks__/employee';
+import { employeesPath, existingEmployees } from '../__mocks__/employee';
 
 export const deleteRequestTest = () => {
   describe('delete employee request', () => {
@@ -10,10 +10,7 @@ export const deleteRequestTest = () => {
       expect(body).toStrictEqual({});
     });
 
-    describe('when employee uuid invalid', () => {
-      beforeEach(() => mockEmployeeNotFound());
-
-      testError(destroy, employeesPath + '/a1111111-b222-c333-d444-e55555555555', 404);
-    });
+    describe('when employee uuid invalid', () =>
+      testError(destroy, employeesPath + '/a1111111-b222-c333-d444-e55555555555', 404));
   });
 };

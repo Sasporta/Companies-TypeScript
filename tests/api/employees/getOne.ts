@@ -1,5 +1,5 @@
 import { get, testError } from '../../helpers';
-import { employeesPath, existingEmployees, mockEmployeeNotFound } from '../__mocks__/employee';
+import { employeesPath, existingEmployees } from '../__mocks__/employee';
 
 export const getOneRequestTest = () => {
   describe('get employee request', () => {
@@ -15,10 +15,7 @@ export const getOneRequestTest = () => {
       });
     });
 
-    describe('when employee uuid invalid', () => {
-      beforeEach(() => mockEmployeeNotFound());
-
-      testError(get, employeesPath + '/a1111111-b222-c333-d444-e55555555555', 404);
-    });
+    describe('when employee uuid invalid', () =>
+      testError(get, employeesPath + '/a1111111-b222-c333-d444-e55555555555', 404));
   });
 };
