@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.ts",
     "dev": "nodemon server.ts",
-    "test": "jest --maxWorkers=50%"
+    "test:mock": "export MOCK=true && jest --maxWorkers=50%"
   },
   "keywords": [],
   "author": "",

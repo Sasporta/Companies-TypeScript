@@ -1,3 +1,4 @@
+import { applySetup } from '../../helpers';
 import { mockAllBasics } from '../__mocks__';
 import { mockCompany } from '../__mocks__/company';
 import { mockEmployee } from '../__mocks__/employee';
@@ -9,11 +10,7 @@ import { updateRequestTest } from './update';
 import { deleteRequestTest } from './delete';
 
 describe('companies CRUD requests', () => {
-  beforeAll(() => {
-    mockCompany();
-    mockEmployee();
-    mockAllBasics();
-  });
+  applySetup([mockAllBasics, mockCompany, mockEmployee]);
 
   postRequestTest();
   getAllRequestTest();
