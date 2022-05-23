@@ -37,11 +37,11 @@ export const existingCompanies = [
 export const mockCompany = () => {
   Company.find = jest.fn().mockReturnValue({ ...existingCompanies });
 
+  Company.create = jest.fn().mockReturnValue({ save: jest.fn() });
+
   Company.findOneBy = mockFindOneBy;
 
   mockCompanyFound();
-
-  Company.create = jest.fn().mockReturnValue({ save: jest.fn() });
 
   Company.toJson = mockToJson;
 
@@ -54,7 +54,7 @@ export const mockCompany = () => {
 
 const mockFindOneBy = jest.fn();
 
-const mockCompanyFound = () => mockFindOneBy.mockReturnValue({ ...existingCompanies[0] });
+const mockCompanyFound = () => mockFindOneBy.mockReturnValue({ ...existingCompanies[0], remove: jest.fn() });
 
 export const mockCompanyNotFound = () => mockFindOneBy.mockReturnValueOnce(null);
 
