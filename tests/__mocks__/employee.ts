@@ -47,9 +47,11 @@ export const existingEmployees = [
 ];
 
 export const mockEmployee = () => {
-  Employee.find = jest.fn().mockReturnValue({ ...existingEmployees });
-
   Employee.create = jest.fn().mockReturnValue({ save: jest.fn() });
+
+  Employee.find = mockFind;
+
+  mockEmployeesFound();
 
   Employee.findOneBy = mockFindOneBy;
 
@@ -57,12 +59,20 @@ export const mockEmployee = () => {
 
   Employee.toJson = mockToJson;
 
-  mockToJsonFirstExistingEmployee()
+  mockToJsonFirstExistingEmployee();
 
-  Employee.arrayToJson = jest.fn().mockReturnValue(
-    existingEmployees.map(({ uuid, name, age }) => ({ uuid, name, age }))
-  );
+  Employee.arrayToJson = mockArrayToJson;
+
+  mockArrayToJsonEmployees();
 };
+
+const mockFind = jest.fn();
+
+const mockEmployeesFound = () => mockFind.mockReturnValue([...existingEmployees]);
+
+export const mockEmployeesFoundByCompany = () => mockFind.mockReturnValueOnce([existingEmployees[0], existingEmployees[1]]);
+
+export const mockEmployeesFoundByManager = () => mockFind.mockReturnValueOnce([existingEmployees[1]])
 
 const mockFindOneBy = jest.fn();
 
@@ -99,3 +109,19 @@ export const mockToJsonUpdatedEmployee = () => mockToJson.mockReturnValueOnce({
   name: existingEmployees[0].name,
   age: updatedEmployee.age,
 });
+
+const mockArrayToJson = jest.fn();
+
+const mockArrayToJsonEmployees = () => mockArrayToJson.mockReturnValue(
+  existingEmployees.map(({ uuid, name, age }) => ({ uuid, name, age }))
+);
+
+export const mockArrayToJsonGetEmployeesByCompany = () => mockArrayToJson.mockReturnValueOnce(
+  [existingEmployees[0], existingEmployees[1]].map(({ uuid, name, age }) => ({ uuid, name, age }))
+);
+
+export const mockArrayToJsonGetEmployeesByManager = () => mockArrayToJson.mockReturnValueOnce([{
+  uuid: existingEmployees[1].uuid,
+  name: existingEmployees[1].name,
+  age: existingEmployees[1].age,
+}]);

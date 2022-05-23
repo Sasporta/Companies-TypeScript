@@ -39,9 +39,9 @@ export const existingCompanies = [
 ]
 
 export const mockCompany = () => {
-  Company.find = jest.fn().mockReturnValue({ ...existingCompanies });
-
   Company.create = jest.fn().mockReturnValue({ save: jest.fn() });
+
+  Company.find = jest.fn().mockReturnValue([...existingCompanies]);
 
   Company.findOneBy = mockFindOneBy;
 
