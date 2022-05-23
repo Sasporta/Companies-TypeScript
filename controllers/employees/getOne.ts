@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 
 import { errorHandler } from '../helpers';
+import { format } from '../jsons/employees';
 import { Employee } from '../../entities/Employee';
 
 export const getEmployee = async (req: Request, res: Response) => {
@@ -11,7 +12,7 @@ export const getEmployee = async (req: Request, res: Response) => {
 
     if (!employee) { return errorHandler(res, 404); }
 
-    return res.status(200).json(Employee.toJson(employee));
+    return res.status(200).json(format(employee));
   }
   catch (error) { return errorHandler(res, 500, error.message); }
 };
