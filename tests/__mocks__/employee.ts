@@ -45,11 +45,11 @@ export const existingEmployees = [
 export const mockEmployee = () => {
   Employee.find = jest.fn().mockReturnValue({ ...existingEmployees });
 
-  Employee.create = jest.fn().mockReturnValue({ save: jest.fn() });
-
   Employee.findOneBy = mockFindOneBy;
 
   mockEmployeeFound();
+
+  Employee.create = jest.fn().mockReturnValue({ save: jest.fn() });
 
   Employee.toJson = mockToJson;
 
@@ -62,7 +62,7 @@ export const mockEmployee = () => {
 
 const mockFindOneBy = jest.fn();
 
-const mockEmployeeFound = () => mockFindOneBy.mockReturnValue({ ...existingEmployees[0], remove: jest.fn() });
+const mockEmployeeFound = () => mockFindOneBy.mockReturnValue({ ...existingEmployees[0] });
 
 export const mockEmployeeNotFound = () => mockFindOneBy.mockReturnValueOnce(null);
 
