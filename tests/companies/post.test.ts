@@ -16,8 +16,7 @@ describe('companies CRUD requests', () => {
 
       expect(statusCode).toBe(201);
       expect(headers['content-type']).toMatch('application/json');
-      expect(body).toStrictEqual(
-        {
+      expect(body).toStrictEqual({
           uuid: expect.any(String),
           name: postedCompany.name,
           country: postedCompany.country,
