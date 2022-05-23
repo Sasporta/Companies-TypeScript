@@ -1,19 +1,15 @@
 import { Request, Response } from 'express';
 
-import { errorHandler } from '../helpers';
+import { findOrThrow } from '../helpers';
 import { Employee } from '../../entities/Employee';
 
-export const deleteEmployee = async (req: Request, res: Response) => {
-  const { id: uuid } = req.params;
-
+export const deleteEmployee = async ({ params: { id: uuid } }: Request, res: Response) => {
   try {
-    const employee = await Employee.findOneBy({ uuid });
+    const employee = await findOrThrow(Employee, uuid, 404);
 
-    if (!employee) { return errorHandler(res, 404); }
-
-    employee.remove();
+    employee.remove()
 
     return res.status(204).json();
   }
-  catch (error) { return errorHandler(res, 500, error.message); }
+  catch (error) { return res.status(error.status ?? 500).json(error.message); }
 };

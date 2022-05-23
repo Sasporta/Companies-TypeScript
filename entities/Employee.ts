@@ -11,6 +11,9 @@ export class Employee extends PrimaryEntity {
   @Column()
   age: number
 
+  @Column()
+  company_id: number
+
   @Column({
     nullable: true
   })
@@ -27,5 +30,5 @@ export class Employee extends PrimaryEntity {
   @JoinColumn({
     name: 'company_id'
   })
-  company_id: number
+  company: Company;
 }
