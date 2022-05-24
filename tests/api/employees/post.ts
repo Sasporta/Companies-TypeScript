@@ -1,6 +1,5 @@
 import { post, testError } from '../../helpers';
-import { mockCompanyNotFound } from '../__mocks__/company';
-import { employeesPath, mockEmployeeNotFound, postedEmployee } from '../__mocks__/employee';
+import { employeesPath, postedEmployee } from '../__mocks__/employee';
 
 export const postRequestTest = () => {
   describe('post employee request', () => {
@@ -17,20 +16,20 @@ export const postRequestTest = () => {
       );
     });
 
-    describe('when params missing', () => {
-      testError(post, employeesPath, 422);
-    });
+    describe('when params missing', () => testError(post, employeesPath, 422));
 
     describe('when company uuid invalid', () => {
-      beforeEach(() => mockCompanyNotFound());
-
-      testError(post, employeesPath, 422, postedEmployee);
+      testError(post, employeesPath, 422, {
+        ...postedEmployee,
+        companyUuid: '/a1111111-b222-c333-d444-e55555555555',
+      });
     });
 
     describe('when manager uuid invalid', () => {
-      beforeEach(() => mockEmployeeNotFound());
-
-      testError(post, employeesPath, 422, postedEmployee);
+      testError(post, employeesPath, 422, {
+        ...postedEmployee,
+        managerUuid: '/a1111111-b222-c333-d444-e55555555555',
+      });
     });
   });
 };

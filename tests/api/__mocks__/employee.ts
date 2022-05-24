@@ -1,3 +1,4 @@
+import { mockFindOneBy } from '.';
 import { Employee } from '../../../entities/Employee';
 
 export const employeesPath = '/employees';
@@ -54,39 +55,10 @@ export const mockEmployee = () => {
     save: jest.fn(),
   });
 
-  Employee.find = mockFind;
+  Employee.find = jest.fn().mockImplementation((params) => mockFind(params));
 
-  mockEmployeesFound();
-
-  Employee.findOneBy = mockFindOneBy;
-
-  mockEmployeeFound();
+  Employee.findOneBy = jest.fn().mockImplementation(({ uuid }) => mockFindOneBy(uuid, existingEmployees));
 };
 
-const mockFind = jest.fn();
-
-const mockEmployeesFound = () => mockFind.mockReturnValue([...existingEmployees]);
-
-export const mockEmployeesFoundByCompany = () => mockFind.mockReturnValueOnce([existingEmployees[0], existingEmployees[1]]);
-
-export const mockEmployeesFoundByManager = () => mockFind.mockReturnValueOnce([existingEmployees[1]])
-
-const mockFindOneBy = jest.fn();
-
-const mockEmployeeFound = () => mockFindOneBy.mockReturnValue({
-  ...existingEmployees[0],
-  remove: jest.fn(),
-  save() { mockSave(this) },
-});
-
-export const mockEmployeeNotFound = () => mockFindOneBy.mockReturnValueOnce(null);
-
-export const mockEmployeeNotFoundOnSecondTime = () => mockFindOneBy.mockReturnValueOnce({
-  ...existingEmployees[0],
-  remove: jest.fn(),
-  save: jest.fn(),
-}).mockReturnValueOnce(null);
-
-const mockSave = (employee: Employee) => Object.keys(employee).forEach(k => {
-  if (employee[k] === undefined) employee[k] = existingEmployees[0][k];
-});
+const mockFind = ({ where: { company_id, manager_id } }: { where: { company_id: number, manager_id: number; }; }) =>
+  existingEmployees.filter(e => company_id ? e.company_id === company_id : manager_id ? e.manager_id === manager_id : true);

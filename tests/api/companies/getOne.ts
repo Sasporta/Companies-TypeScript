@@ -1,5 +1,5 @@
 import { get, testError } from '../../helpers';
-import { companiesPath, existingCompanies, mockCompanyNotFound } from '../__mocks__/company';
+import { companiesPath, existingCompanies } from '../__mocks__/company';
 
 export const getOneRequestTest = () => {
   describe('get company request', () => {
@@ -15,10 +15,7 @@ export const getOneRequestTest = () => {
       });
     });
 
-    describe('when company uuid invalid', () => {
-      beforeEach(() => mockCompanyNotFound());
-
-      testError(get, companiesPath + '/a1111111-b222-c333-d444-e55555555555', 404);
-    });
+    describe('when company uuid invalid', () =>
+      testError(get, companiesPath + '/a1111111-b222-c333-d444-e55555555555', 404));
   });
 }

@@ -15,8 +15,7 @@ export const postRequestTest = () => {
       });
     });
 
-    describe('when params invalid or missing', () => {
-      testError(post, companiesPath, 422);
-    });
+    describe('when params invalid or missing', () =>
+      testError(post, companiesPath, 422));
   });
 };

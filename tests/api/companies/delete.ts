@@ -1,5 +1,5 @@
 import { destroy, testError } from '../../helpers';
-import { companiesPath, existingCompanies, mockCompanyNotFound } from '../__mocks__/company';
+import { companiesPath, existingCompanies } from '../__mocks__/company';
 
 export const deleteRequestTest = () => {
   describe('delete company request', () => {
@@ -10,10 +10,7 @@ export const deleteRequestTest = () => {
       expect(body).toStrictEqual({});
     });
 
-    describe('when company uuid invalid', () => {
-      beforeEach(() => mockCompanyNotFound());
-
-      testError(destroy, companiesPath + '/a1111111-b222-c333-d444-e55555555555', 404);
-    });
+    describe('when company uuid invalid', () =>
+      testError(destroy, companiesPath + '/a1111111-b222-c333-d444-e55555555555', 404));
   });
 }
