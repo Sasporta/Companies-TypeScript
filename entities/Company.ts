@@ -15,7 +15,15 @@ export class Company extends PrimaryEntity {
 
   @OneToMany(
     () => Employee,
-    employees => employees.company
+    employees => employees.company_id
   )
   employees: Employee[];
+
+  static toJson({ uuid, name, country }: Company) {
+    return { uuid, name, country };
+  }
+
+  static arrayToJson(companies: Company[]) {
+    return companies.map(({ uuid, name, country }) => ({ uuid, name, country }));
+  }
 }
