@@ -5,20 +5,11 @@ import { Company } from '../../entities/Company';
 import { Employee } from '../../entities/Employee';
 
 export const getEmployees = async ({ query: { companyUuid, managerUuid } }: Request) => {
-  let query = { company_id: undefined, manager_id: undefined };
+  const company = typeof companyUuid === 'string' ? await Company.findOneBy({ uuid: companyUuid }) : null;
 
-  if (typeof companyUuid === 'string') {
-    const company = await Company.findOneBy({ uuid: companyUuid });
+  const manager = typeof managerUuid === 'string' ? await Employee.findOneBy({ uuid: managerUuid }) : null;
 
-    if (company) { query.company_id = company.id; }
-  }
-  if (typeof managerUuid === 'string') {
-    const manager = await Employee.findOneBy({ uuid: managerUuid });
-
-    if (manager) { query.manager_id = manager.id; }
-  }
-
-  const employees = await Employee.find({ where: { ...query } });
+  const employees = await Employee.find({ where: { company_id: company?.id , manager_id: manager?.id } });
 
   return { statusCode: 200, content: employees.map(e => format(e)) };
 };

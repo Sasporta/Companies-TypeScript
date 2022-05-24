@@ -7,10 +7,7 @@ import { validateAllParamsExists } from '../helpers';
 export const createCompany = async ({ body: { name, country } }: Request) => {
   validateAllParamsExists(name, country);
 
-  const company = Company.create({
-    name,
-    country,
-  });
+  const company = Company.create({ name, country });
 
   await company.save();
 
