@@ -6,9 +6,9 @@
   "scripts": {
     "start": "node server.ts",
     "dev": "nodemon server.ts",
-    "test:mock": "export MOCK=true && jest --maxWorkers=50%",
+    "test": "export MOCK=true && jest --maxWorkers=50%",
     "test:db": "jest --maxWorkers=1",
-    "test:coverage": "export MOCK=true && jest --maxWorkers=50% --coverage"
+    "full-coverage": "export MOCK=true && jest --maxWorkers=50% --coverage-reporters=html"
   },
   "keywords": [],
   "author": "",
