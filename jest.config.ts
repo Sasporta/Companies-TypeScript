@@ -4,7 +4,9 @@ export default async (): Promise<Config.InitialOptions> => {
   return {
     clearMocks: true,
     preset: 'ts-jest',
+    collectCoverage: true,
     testEnvironment: 'node',
-    clearMocks: true,
+    coverageReporters: ['text-summary'],
+    collectCoverageFrom: ['./controllers/**'],
   }
 }

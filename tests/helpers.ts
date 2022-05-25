@@ -17,21 +17,19 @@ export const testError = (crudMethod: (a: string) => any, path: string, errorCod
     expect(status).toBe(errorCode);
     expect(body).toStrictEqual(resDoc.responses[errorCode]);
   });
-};
+}
 
-export const applySetup = async (mocks: (() => void)[]) => {
-  if (process.env.MOCK === 'true') {
-    beforeAll(() => mocks.forEach(m => m()));
+export const setupMockOrDb = async (mocks: (() => void)[]) => {
+  if (process.env.MOCK !== 'true') {
+    await dataSource.initialize();
+    await runSeeders(dataSource, { seeds: [CompanySeeder, EmployeeSeeder] });
   }
-  else {
-    beforeAll(async () => {
-      await dataSource.initialize();
-      await runSeeders(dataSource, { seeds: [CompanySeeder, EmployeeSeeder]});
-    });
+  else { mocks.forEach(m => m()); }
+}
 
-    afterAll(async () => {
-      await dataSource.dropDatabase();
-      await dataSource.destroy();
-    })
+export const cleanupDb = async () => {
+  if (process.env.MOCK !== 'true') {
+    await dataSource.dropDatabase();
+    await dataSource.destroy();
   }
-};
+}
