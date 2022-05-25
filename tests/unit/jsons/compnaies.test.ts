@@ -5,8 +5,8 @@ it('should return the proper company json', () => {
   const company = new Company;
 
   company.id = 6661;
-  company.uuid = '5c685c36-cad4-44c6-b9cd-cc5eb153fdfe';
-  company.name = 'angela smith';
+  company.uuid = '9421e3e5-589e-4dfb-89f9-0c9a9a9fc3a9';
+  company.name = 'new company';
   company.country = 'Israel';
   company.created_at = new Date;
   company.created_at = new Date;

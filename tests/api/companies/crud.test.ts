@@ -12,9 +12,9 @@ import { deleteRequestTest } from './delete';
 describe('companies CRUD requests', () => {
   applySetup([mockAllBasics, mockCompany, mockEmployee]);
 
-  postRequestTest();
   getAllRequestTest();
   getOneRequestTest();
   updateRequestTest();
   deleteRequestTest();
+  postRequestTest();
 });
