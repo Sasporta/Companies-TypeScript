@@ -6,7 +6,7 @@ const { env: { port } } = config;
 
 app.listen(port, async () => {
   try {
-    await dataSource.initialize()
+    await dataSource.initialize();
     console.log('Data Source has been initialized!');
   }
   catch (error) {

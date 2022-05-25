@@ -51,11 +51,6 @@ export const getAllRequestTest = () => {
 
     describe('when managerUuid param is given', () => {
       it('should return 200 status with employees of the given manager only', async () => {
-<<<<<<< HEAD
-=======
-        mockEmployeesFoundByManager();
-
->>>>>>> main
         const { statusCode, headers, body } = await get(employeesPath + '?managerUuid=' + existingEmployees[0].uuid);
 
         expect(statusCode).toBe(200);
