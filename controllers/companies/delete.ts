@@ -1,12 +1,18 @@
 import { Request } from 'express';
 
-import { findOrThrow } from '../helpers';
+import { throwError } from '../helpers';
 import { Company } from '../../entities/Company';
+import { dataSource } from '../../config/typeorm';
 
 export const deleteCompany = async ({ params: { id: uuid } }: Request) => {
-  const company = await findOrThrow(Company, uuid, 404);
+  const { affected } = await dataSource
+    .createQueryBuilder()
+    .delete()
+    .from(Company)
+    .where('uuid = :uuid', { uuid })
+    .execute();
 
-  company.remove()
+  if (affected === 0) throwError(404);
 
   return { statusCode: 204 };
 };

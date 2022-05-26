@@ -1,8 +1,12 @@
-import { format } from '../jsons/companies';
 import { Company } from '../../entities/Company';
+import { dataSource } from '../../config/typeorm';
 
 export const getCompanies = async () => {
-  const companies = await Company.find();
+  const companies = await dataSource
+    .createQueryBuilder()
+    .from(Company, 'company')
+    .select(['company.uuid', 'company.name', 'company.country'])
+    .getMany();
 
-  return { statusCode: 200, content: companies.map(c => format(c)) };
+  return { statusCode: 200, content: companies };
 };
