@@ -1,11 +1,18 @@
 import { Request } from 'express';
 
-import { findOrThrow } from '../helpers';
-import { format } from '../jsons/companies';
+import { throwError } from '../helpers';
 import { Company } from '../../entities/Company';
+import { dataSource } from '../../config/typeorm';
 
 export const getCompany = async ({ params: { id: uuid } }: Request) => {
-    const company = await findOrThrow(Company, uuid, 404);
+  const company = await dataSource
+    .createQueryBuilder()
+    .select(['company.uuid', 'company.name', 'company.country'])
+    .from(Company, 'company')
+    .where('uuid = :uuid', { uuid })
+    .getOne();
 
-  return { statusCode: 200, content: format(company) };
+  if (company === null) throwError(404);
+
+  return { statusCode: 200, content: company };
 };

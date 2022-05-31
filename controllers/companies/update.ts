@@ -1,17 +1,21 @@
 import { Request } from 'express';
 
-import { format } from '../jsons/companies';
 import { Company } from '../../entities/Company';
-import { findOrThrow, update, validateAtLeastOneParamExists } from '../helpers';
+import { dataSource } from '../../config/typeorm';
+import { throwError, validateAtLeastOneParamExists } from '../helpers';
 
 export const updateCompany = async ({ params: { id: uuid }, body: { name, country } }: Request) => {
   validateAtLeastOneParamExists(name, country);
 
-  const company = await findOrThrow(Company, uuid, 404);
+  const { raw: [company], affected } = await dataSource
+    .createQueryBuilder()
+    .update(Company)
+    .set({ name, country })
+    .where("uuid = :uuid", { uuid })
+    .returning('uuid, name, country')
+    .execute();
 
-  update(company, { name, country });
+  if (affected === 0) throwError(404);
 
-  await company.save();
-
-  return { statusCode: 200, content: format(company) };
+  return { statusCode: 200, content: company };
 };

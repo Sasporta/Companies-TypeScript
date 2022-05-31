@@ -1,15 +1,19 @@
 import { Request } from 'express';
 
-import { format } from '../jsons/companies';
 import { Company } from '../../entities/Company';
+import { dataSource } from '../../config/typeorm';
 import { validateAllParamsExists } from '../helpers';
 
 export const createCompany = async ({ body: { name, country } }: Request) => {
   validateAllParamsExists(name, country);
 
-  const company = Company.create({ name, country });
+  const { raw: [company] } = await dataSource
+    .createQueryBuilder()
+    .insert()
+    .into(Company)
+    .values([{ name, country }])
+    .returning('uuid, name, country')
+    .execute();
 
-  await company.save();
-
-  return { statusCode: 201, content: format(company) };
+  return { statusCode: 201, content: company };
 };
