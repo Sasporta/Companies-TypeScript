@@ -1,5 +1,5 @@
 import { post, testError } from '../../helpers';
-import { employeesPath, postedEmployee } from '../__mocks__/employee';
+import { employeesPath, postedEmployee, postedManager } from '../__mocks__/employees/mockData';
 
 export const postRequestTest = () => {
   describe('post employee request', () => {
@@ -12,6 +12,19 @@ export const postRequestTest = () => {
           uuid: expect.any(String),
           name: postedEmployee.name,
           age: postedEmployee.age,
+        }
+      );
+    });
+
+    it('should return 201 status with new manager', async () => {
+      const { statusCode, headers, body } = await post(employeesPath).send(postedManager);
+
+      expect(statusCode).toBe(201);
+      expect(headers['content-type']).toMatch('application/json');
+      expect(body).toStrictEqual({
+          uuid: expect.any(String),
+          name: postedManager.name,
+          age: postedManager.age,
         }
       );
     });

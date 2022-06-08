@@ -7,7 +7,7 @@
     "start": "node server.ts",
     "dev": "nodemon server.ts",
     "test": "export MOCK=true && jest --maxWorkers=50%",
-    "test:db": "jest --maxWorkers=1",
+    "test:db": "npx ts-node tests/scripts/initAndSeedDb.ts && jest --maxWorkers=50% ; npx ts-node tests/scripts/flushAndCloseDb.ts",
     "full-coverage": "export MOCK=true && jest --maxWorkers=50% --coverage-reporters=html"
   },
   "keywords": [],
