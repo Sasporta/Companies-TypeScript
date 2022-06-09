@@ -1,7 +1,6 @@
 import { Request } from 'express';
 
 import { findOrThrow } from '../helpers';
-import { format } from '../jsons/employees';
 import { Company } from '../../entities/Company';
 import { Employee } from '../../entities/Employee';
 import { validateAllParamsExists } from '../helpers';
@@ -17,5 +16,5 @@ export const createEmployee = async ({ body: { name, age, companyUuid, managerUu
 
   await employee.save();
 
-  return { statusCode: 201, content: format(employee) };
+  return { statusCode: 201, content: { uuid: employee.uuid, name: employee.name, age: employee.age } };
 };

@@ -1,5 +1,6 @@
 import { mockFindOneBy } from '.';
 import { Company } from '../../../entities/Company';
+import { dataSource } from '../../../config/typeorm';
 
 export const companiesPath = '/companies';
 
@@ -48,5 +49,5 @@ export const mockCompany = () => {
 
   Company.find = jest.fn().mockReturnValue([...existingCompanies]);
 
-  Company.findOneBy = jest.fn().mockImplementation(({ uuid }) => mockFindOneBy(uuid, existingCompanies));
+  Company.findOneBy = jest.fn().mockImplementation(({ uuid }: { uuid: string }) => mockFindOneBy(uuid, existingCompanies));
 };

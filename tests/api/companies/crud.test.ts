@@ -15,8 +15,8 @@ describe('companies CRUD requests', () => {
   afterAll(() => cleanupDb());
 
   getAllRequestTest();
-  getOneRequestTest();
-  updateRequestTest();
-  deleteRequestTest();
-  postRequestTest();
+  // getOneRequestTest();
+  // updateRequestTest();
+  // deleteRequestTest();
+  // postRequestTest();
 });

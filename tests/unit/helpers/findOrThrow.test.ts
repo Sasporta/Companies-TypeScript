@@ -7,7 +7,7 @@ import { existingCompanies, mockCompany } from '../../api/__mocks__/company';
 
 describe('findOrThrow function', () => {
   beforeAll(() => setupMockOrDb([mockAllBasics, mockCompany]));
-
+  
   afterAll(() => cleanupDb());
 
   it('should return the found entity if the returned value is different then null or undefined', async () => {

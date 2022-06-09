@@ -7,7 +7,7 @@
     "start": "node server.ts",
     "dev": "nodemon server.ts",
     "test": "export MOCK=true && jest --maxWorkers=50%",
-    "test:db": "jest --maxWorkers=1",
+    "test:db": "export DB_NAME=company_hierarchy_service_ts_test && jest --maxWorkers=1",
     "full-coverage": "export MOCK=true && jest --maxWorkers=50% --coverage-reporters=html"
   },
   "keywords": [],

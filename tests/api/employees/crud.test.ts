@@ -14,9 +14,9 @@ describe('employees CRUD requests', () => {
 
   afterAll(() => cleanupDb());
 
-  getAllRequestTest();
-  getOneRequestTest();
-  updateRequestTest();
-  deleteRequestTest();
-  postRequestTest();
+  // getAllRequestTest();
+  // getOneRequestTest();
+  // updateRequestTest();
+  // deleteRequestTest();
+  // postRequestTest();
 });
