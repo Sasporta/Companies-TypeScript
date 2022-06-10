@@ -1,6 +1,7 @@
 import { existingCompanies } from "./company";
 import { existingEmployees } from "./employee";
 import { Company } from "../../../entities/Company";
+import { dataSource } from "../../../config/typeorm";
 import { Employee } from "../../../entities/Employee";
 
 export const mockAllBasics = () => {
@@ -16,80 +17,127 @@ export const mockAllBasics = () => {
     UpdateDateColumn: jest.fn(),
     PrimaryGeneratedColumn: jest.fn(),
   }));
+
+  dataSource.createQueryBuilder = jest.fn().mockReturnValue(mockCreateQueryBuilder);
 };
 
 export const mockFindOneBy = (uuid: string, list: { uuid: string }[]) =>
   list.reduce((a, c) => c.uuid === uuid ? { ...c, remove: jest.fn(), save: jest.fn() } : a, null);
 
-const query = {
-  delete: undefined,
-  update: undefined,
-  set: undefined,
-  from: undefined,
-  innerJoin: undefined,
-  select: undefined,
-  where: undefined,
-  andWhere: undefined,
+const queryData = {
+  isDelete: undefined,
+  selectedColumns: undefined,
+  collection: undefined,
+  updateData: undefined,
+  conditions: undefined,
   limit: undefined,
-  getMany: undefined,
-  returning: undefined,
-  execute: undefined,
 };
 
-const createQueryBuilder: any = {
-  delete: jest.fn(),
+const sliceAfter = (text: string, slicePoint: string) => text.slice(text.indexOf(slicePoint) + 1);
 
-  update: jest.fn(),
+const chooseTable = jest.fn().mockImplementation((model: any) => {
+  switch (model) {
+    case Company:
+      queryData.collection = existingCompanies;
+      break;
+    case Employee:
+      queryData.collection = existingEmployees;
+      break;
+  }
 
-  set: jest.fn(),
+  return mockCreateQueryBuilder;
+});
 
-  from: jest.fn().mockImplementation((model: any) => {
-    query.from = model;
+const getConditions = jest.fn().mockImplementation((stringCondition: string, uuidObj: object) => {
+  const uuidType = sliceAfter(stringCondition, ':');
 
-    return createQueryBuilder;
+  queryData.conditions = { [uuidType]: uuidObj[uuidType] };
+
+  return mockCreateQueryBuilder;
+})
+
+const mockCreateQueryBuilder: any = {
+  delete: jest.fn().mockImplementation(() => {
+    queryData.isDelete = true;
+
+    return mockCreateQueryBuilder;
   }),
-
-  innerJoin: jest.fn(),
 
   select: jest.fn().mockImplementation((traits: string[]) => {
-    query.select = traits.map(t => t.slice(t.indexOf('.') + 1));
+    queryData.selectedColumns = traits.map(t => sliceAfter(t, '.'));
 
-    return createQueryBuilder;
+    return mockCreateQueryBuilder;
   }),
 
-  // where: jest.fn().mockImplementation((condition: string, param: any) => {
-  //   query.where = traits;
+  from: chooseTable,
 
-  //   return createQueryBuilder;
-  // }),
+  update: chooseTable,
 
-  andWhere: jest.fn(),
+  set: jest.fn().mockImplementation(({ ...params }: { params: any[] }) => {
+    queryData.updateData = { ...params };
+
+    return mockCreateQueryBuilder;
+  }),
+
+  innerJoin: jest.fn().mockImplementation(() => mockCreateQueryBuilder),
+
+  where: getConditions,
+
+  andWhere: getConditions,
+
+  returning: jest.fn().mockImplementation(() => mockCreateQueryBuilder),
 
   limit: jest.fn().mockImplementation((limit: number) => {
-    query.limit = limit;
+    queryData.limit = limit || 10;
 
-    return createQueryBuilder;
+    return mockCreateQueryBuilder;
   }),
+
   getMany: jest.fn().mockImplementation(() => {
-    let table: object[];
-    if (query.from === Company) table = existingCompanies;
-    else if (query.from === Employee) table = existingEmployees;
+    const { collection, conditions, limit, selectedColumns } = queryData;
 
+    let newCollection = collection;
 
+    if(conditions?.companyUuid) {
+      const company =  existingCompanies.find(c => c.uuid === conditions.companyUuid);
 
-    return table.map(e => ({ e[query.select[1]],   }));
+      newCollection = newCollection.filter(e => e.company_id === company?.id);
+    }
+
+    if(conditions?.managerUuid !== undefined) {
+      if(conditions?.managerUuid === null) {
+        newCollection = newCollection.filter(e => e.manager_id === null);
+      } else {
+        const manager = existingEmployees.find(e => e.uuid === conditions.managerUuid);
+
+        newCollection = newCollection.filter(e => e.manager_id === manager?.id);
+      }
+    }
+
+    return newCollection
+      .reduce((a, r, i) => i < limit ?
+        [ ...a, Object.fromEntries(
+          Object.entries(r).filter(entry => selectedColumns.includes(entry[0]))
+        )] : a
+      , [])
   }),
 
-  returning: jest.fn(),
 
-  execute: jest.fn(),
+  execute: jest.fn().mockImplementation(() => {
+    const { collection, conditions: { uuid }, isDelete, updateData } = queryData;
+
+    const item = collection.reduce((a, r) => {
+      if(r.uuid === uuid) {
+        Object.keys(updateData).forEach(key => { if(updateData[key] !== undefined) r[key] = updateData[key] })
+
+        a = r;
+      }
+
+      return a;
+    }, null);
+
+    const affected = item ? 1 : 0;
+
+    return isDelete ? { affected } : { affected, raw: [item] };
+    }),
 };
-
-// await dataSource.createQueryBuilder().delete().from(table).where('uuid = :uuid', { uuid }).execute()
-
-const companies = await dataSource
-  .createQueryBuilder()
-  .from(Company, 'company')
-  .select(['company.uuid', 'company.name', 'company.country'])
-  .limit(getLimit(+limit))
-  .getMany();
