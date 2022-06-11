@@ -9,7 +9,7 @@ describe('findOrThrow function', () => {
   afterAll(async () => await disconnectDb());
 
   it('should return the found entity if the returned value is different then null or undefined', async () => {
-    expect(await findOrThrow(Company, existingCompanies[0].uuid, 404)).toHaveProperty('uuid', existingCompanies[0].uuid);
+    expect(await findOrThrow(Company, existingCompanies[3].uuid, 404)).toHaveProperty('uuid', existingCompanies[3].uuid);
   });
 
   it('should throw an error if the returned value is null or undefined', async () => {
