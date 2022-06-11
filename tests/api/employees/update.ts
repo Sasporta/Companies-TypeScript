@@ -1,5 +1,5 @@
 import { patch, testError } from '../../helpers';
-import { employeesPath, existingEmployees, updatedEmployee } from '../__mocks__/employee';
+import { employeesPath, existingEmployees, updatedEmployee, updatedEmployeeToManager } from '../__mocks__/employees/mockData';
 
 export const updateRequestTest = () => {
   describe('update employee request', () => {
@@ -12,6 +12,18 @@ export const updateRequestTest = () => {
         uuid: existingEmployees[0].uuid,
         name: existingEmployees[0].name,
         age: updatedEmployee.age,
+      });
+    });
+
+    it('should return 200 status with updated manager', async () => {
+      const { statusCode, headers, body } = await patch(employeesPath + '/' + existingEmployees[2].uuid).send(updatedEmployeeToManager);
+
+      expect(statusCode).toBe(200);
+      expect(headers['content-type']).toMatch('application/json');
+      expect(body).toStrictEqual({
+        uuid: existingEmployees[2].uuid,
+        name: existingEmployees[2].name,
+        age: existingEmployees[2].age,
       });
     });
 
