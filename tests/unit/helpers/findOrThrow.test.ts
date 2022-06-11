@@ -1,17 +1,15 @@
 import { Company } from '../../../entities/Company';
-import { mockAllBasics } from '../../api/__mocks__';
-import { cleanupDb, setupMockOrDb } from '../../helpers';
+import { connectDb, disconnectDb } from '../../helpers';
 import { findOrThrow } from '../../../controllers/helpers';
-import { existingCompanies, mockCompany } from '../../api/__mocks__/company';
+import { existingCompanies } from '../../api/__mocks__/companies/mockData';
 
 
 describe('findOrThrow function', () => {
-  beforeAll(() => setupMockOrDb([mockAllBasics, mockCompany]));
-  
-  afterAll(() => cleanupDb());
+  beforeAll(async () => await connectDb());
+  afterAll(async () => await disconnectDb());
 
   it('should return the found entity if the returned value is different then null or undefined', async () => {
-    expect(await findOrThrow(Company, existingCompanies[0].uuid, 404)).toMatchObject({ ...existingCompanies[0] });
+    expect(await findOrThrow(Company, existingCompanies[3].uuid, 404)).toHaveProperty('uuid', existingCompanies[3].uuid);
   });
 
   it('should throw an error if the returned value is null or undefined', async () => {

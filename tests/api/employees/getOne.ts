@@ -1,5 +1,5 @@
 import { get, testError } from '../../helpers';
-import { employeesPath, existingEmployees } from '../__mocks__/employee';
+import { employeesPath, existingEmployees } from '../__mocks__/employees/mockData';
 
 export const getOneRequestTest = () => {
   describe('get employee request', () => {
