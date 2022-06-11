@@ -1,8 +1,8 @@
-import { existingCompanies } from "./company";
-import { existingEmployees } from "./employee";
 import { Company } from "../../../entities/Company";
 import { dataSource } from "../../../config/typeorm";
 import { Employee } from "../../../entities/Employee";
+import { existingCompanies } from "./companies/mockData";
+import { existingEmployees } from "./employees/mockData";
 
 export const mockAllBasics = () => {
   jest.mock('typeorm', () => ({
@@ -51,10 +51,12 @@ const chooseTable = jest.fn().mockImplementation((model: any) => {
 const getConditions = jest.fn().mockImplementation((stringCondition: string, uuidObj: object) => {
   const uuidType = sliceAfter(stringCondition, ':');
 
-  queryData.conditions = { [uuidType]: uuidObj[uuidType] };
+  queryData.conditions = { ...queryData.conditions, [uuidType]: uuidObj[uuidType] };
 
   return mockCreateQueryBuilder;
 })
+
+const resetQueryData = () => Object.keys(queryData).forEach(k => queryData[k] = undefined);
 
 const mockCreateQueryBuilder: any = {
   delete: jest.fn().mockImplementation(() => {
@@ -114,6 +116,8 @@ const mockCreateQueryBuilder: any = {
       }
     }
 
+    resetQueryData();
+
     return newCollection
       .reduce((a, r, i) => i < limit ?
         [ ...a, Object.fromEntries(
@@ -125,10 +129,12 @@ const mockCreateQueryBuilder: any = {
 
   execute: jest.fn().mockImplementation(() => {
     const { collection, conditions: { uuid }, isDelete, updateData } = queryData;
-
+    
     const item = collection.reduce((a, r) => {
       if(r.uuid === uuid) {
-        Object.keys(updateData).forEach(key => { if(updateData[key] !== undefined) r[key] = updateData[key] })
+        if(updateData) {
+          Object.keys(updateData).forEach(key => { if(updateData[key] !== undefined) r[key] = updateData[key] })
+        }
 
         a = r;
       }
@@ -137,6 +143,8 @@ const mockCreateQueryBuilder: any = {
     }, null);
 
     const affected = item ? 1 : 0;
+
+    resetQueryData();
 
     return isDelete ? { affected } : { affected, raw: [item] };
     }),

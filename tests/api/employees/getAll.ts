@@ -48,5 +48,21 @@ export const getAllRequestTest = () => {
         ]);
       });
     });
+
+    describe('when companyUuid and managerUuid params are given', () => {
+      it('should return 200 status with employees of the given company and manager only', async () => {
+        const { statusCode, headers, body } = await get(employeesPath + '?companyUuid=' + existingCompanies[3].uuid + '&managerUuid=' + existingEmployees[0].uuid);
+
+        expect(statusCode).toBe(200);
+        expect(headers['content-type']).toMatch('application/json');
+        expect(body).toStrictEqual([
+          {
+            uuid: existingEmployees[1].uuid,
+            name: existingEmployees[1].name,
+            age: existingEmployees[1].age,
+          },
+        ]);
+      });
+    });
   });
 };

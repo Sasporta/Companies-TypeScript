@@ -3,7 +3,7 @@ import { dataSource } from '../config/typeorm';
 
 import resDoc from '../swagger/docs/components/responses';
 
-export const getLimit = (limit: number) => limit >= 1 && limit <= 10 ? limit : 10;
+export const getLimit = (limit: number) => +limit >= 1 && limit <= 10 ? limit : 10;
 
 export const throwError = (status: number) => { throw { status, message: resDoc.responses[status] }; };
 
