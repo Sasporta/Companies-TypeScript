@@ -46,7 +46,7 @@ export const existingEmployees = [
   {
     id: 3,
     company_id: 5,
-    manager_id: 2,
+    manager_id: null,
     uuid: '5a7848e1-5e4c-4cad-8859-2a782a32b924',
     name: 'TestEmployeeForEmployeesTest3',
     age: 30,

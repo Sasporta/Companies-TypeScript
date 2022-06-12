@@ -1,6 +1,6 @@
 import { get } from '../../helpers';
-import { existingCompanies } from '../__mocks__/companies/mockData';
-import { employeesPath, existingEmployees } from '../__mocks__/employees/mockData';
+import { existingCompanies } from '../__mocks__/entities/CompaniesData';
+import { employeesPath, existingEmployees } from '../__mocks__/entities/EmployeesData';
 
 export const getAllRequestTest = () => {
   describe('get employees request', () => {
@@ -36,6 +36,22 @@ export const getAllRequestTest = () => {
     describe('when managerUuid param is given', () => {
       it('should return 200 status with employees of the given manager only', async () => {
         const { statusCode, headers, body } = await get(employeesPath + '?managerUuid=' + existingEmployees[0].uuid);
+
+        expect(statusCode).toBe(200);
+        expect(headers['content-type']).toMatch('application/json');
+        expect(body).toStrictEqual([
+          {
+            uuid: existingEmployees[1].uuid,
+            name: existingEmployees[1].name,
+            age: existingEmployees[1].age,
+          },
+        ]);
+      });
+    });
+
+    describe('when companyUuid and managerUuid params are given', () => {
+      it('should return 200 status with employees of the given company and manager only', async () => {
+        const { statusCode, headers, body } = await get(employeesPath + '?companyUuid=' + existingCompanies[3].uuid + '&managerUuid=' + existingEmployees[0].uuid);
 
         expect(statusCode).toBe(200);
         expect(headers['content-type']).toMatch('application/json');

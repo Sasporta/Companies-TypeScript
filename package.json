@@ -8,7 +8,7 @@
     "dev": "nodemon server.ts",
     "db:seed": "npx ts-node tests/scripts/initAndSeedDb",
     "db:flush": "npx ts-node tests/scripts/flushAndCloseDb.ts",
-    "test": "export MOCK=true && jest --maxWorkers=50%",
+    "test": "export MOCK=true && jest --maxWorkers=50% -- ${filePath}",
     "test:db": "npm run db:seed && jest --maxWorkers=50% ; npm run db:flush",
     "test:coverage": "export MOCK=true && jest --maxWorkers=50% --coverage-reporters=html"
   },
