@@ -1,5 +1,5 @@
 import { post, testError } from '../../helpers';
-import { employeesPath, postedEmployee, postedManager } from '../__mocks__/employees/mockData';
+import { employeesPath, postedEmployee, postedManager } from '../__mocks__/entities/EmployeesData';
 
 export const postRequestTest = () => {
   describe('post employee request', () => {

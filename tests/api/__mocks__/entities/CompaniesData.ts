@@ -57,5 +57,21 @@ export const existingCompanies = [
     country: 'Country6',
     updated_at: '2022-04-11T05:50:07.828Z',
     created_at: '2022-04-11T05:50:07.828Z',
+  },
+  {
+    id: 7,
+    uuid: 'd0f1b894-12d2-41cc-9a8b-857e995ac3c1',
+    name: 'TestCompanyForDeleteOrThrow404Test',
+    country: 'Country7',
+    updated_at: '2022-04-11T05:50:07.828Z',
+    created_at: '2022-04-11T05:50:07.828Z',
+  },
+  {
+    id: 8,
+    uuid: '4c1287e3-8493-47e6-9ab7-7d8dd1889c42',
+    name: 'TestCompanyForUpdateOrThrow404Test',
+    country: 'Country8',
+    updated_at: '2022-04-11T05:50:07.828Z',
+    created_at: '2022-04-11T05:50:07.828Z',
   }
 ];

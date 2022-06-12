@@ -1,7 +1,7 @@
 import { Company } from '../../../entities/Company';
 import { connectDb, disconnectDb } from '../../helpers';
 import { updateOrThrow404 } from '../../../controllers/helpers';
-import { existingCompanies } from '../../api/__mocks__/companies/mockData';
+import { existingCompanies } from '../../api/__mocks__/entities/CompaniesData';
 
 
 describe('updateOrThrow404 function', () => {
@@ -11,10 +11,10 @@ describe('updateOrThrow404 function', () => {
   it('should return the updated entity if the returned affected value is different then 0', async () => {
     expect(await updateOrThrow404(
       Company, {
-        uuid: existingCompanies[2].uuid,
+        uuid: existingCompanies[7].uuid,
         name: 'UpdatedName'
       })).toMatchObject({
-        uuid: existingCompanies[2].uuid,
+        uuid: existingCompanies[7].uuid,
         name: 'UpdatedName'
       });
   });

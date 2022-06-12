@@ -4,9 +4,9 @@ import { dataSource } from '../config/typeorm';
 import app from '../app';
 import resDoc from '../swagger/docs/components/responses';
 
-import { mockAllBasics } from './api/__mocks__';
-import { mockCompany } from './api/__mocks__/companies/mockFunctions';
-import { mockEmployee } from './api/__mocks__/employees/mockFunctions';
+import { mockTypeOrmMethods } from './api/__mocks__/typeOrmMethods';
+import { mockCreateQueryBuilder } from './api/__mocks__/queryBuilder';
+import { mockEntitiesMethods } from './api/__mocks__/entities/entitiesMethods';
 
 export const { get, post, patch, delete: destroy } = request(app);
 
@@ -14,9 +14,9 @@ export const connectDb = async () => {
   if (process.env.MOCK !== 'true') {
     await dataSource.initialize();
   } else {
-    mockAllBasics();
-    mockEmployee();
-    mockCompany();
+    mockTypeOrmMethods();
+    mockEntitiesMethods();
+    mockCreateQueryBuilder();
   }
 }
 
