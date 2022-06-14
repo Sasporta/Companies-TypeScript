@@ -8,6 +8,10 @@ const { db: { host, port, username, password, database } } = config;
 
 export const dataSource = new DataSource({
   type: 'postgres',
+  url: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
   host,
   port,
   username,
