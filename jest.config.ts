@@ -7,6 +7,6 @@ export default async (): Promise<Config.InitialOptions> => {
     collectCoverage: true,
     testEnvironment: 'node',
     coverageReporters: ['text-summary'],
-    collectCoverageFrom: ['./controllers/**'],
+    collectCoverageFrom: ['src/controllers/**'],
   }
 }

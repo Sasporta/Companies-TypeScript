@@ -4,11 +4,12 @@
   "description": "ts project",
   "main": "app.ts",
   "scripts": {
-    "start": "node server.ts",
-    "dev": "nodemon server.ts",
-    "test": "zsh scripts/test:mock.sh",
-    "test:db": "zsh scripts/test:db.sh",
-    "test:coverage": "zsh scripts/test:coverage.sh"
+    "postinstall": "tsc",
+    "start": "node dist/server.js",
+    "dev": "nodemon src/server.ts",
+    "test": "zsh src/scripts/test:mock.sh",
+    "test:db": "zsh src/scripts/test:db.sh",
+    "test:coverage": "zsh src/scripts/test:coverage.sh"
   },
   "keywords": [],
   "author": "Yahav Sasporta",
@@ -32,5 +33,8 @@
     "ts-jest": "^27.1.4",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.3"
+  },
+  "engines": {
+    "node": "18.x"
   }
 }
