@@ -5,13 +5,11 @@
   "main": "app.ts",
   "scripts": {
     "postinstall": "tsc",
-    "dev": "nodemon src/server.ts",
     "start": "node dist/server.js",
-    "db:seed": "ts-node src/tests/scripts/initAndSeedDb",
-    "db:flush": "ts-node src/tests/scripts/flushAndCloseDb.ts",
-    "test": "export MOCK=true && jest --maxWorkers=50% -- ${filePath}",
-    "test:db": "npm run db:seed && jest --maxWorkers=50% ; npm run db:flush",
-    "test:coverage": "export MOCK=true && jest --maxWorkers=50% --coverage-reporters=html"
+    "dev": "nodemon src/server.ts",
+    "test": "zsh src/scripts/test:mock.sh",
+    "test:db": "zsh src/scripts/test:db.sh",
+    "test:coverage": "zsh src/scripts/test:coverage.sh"
   },
   "keywords": [],
   "author": "Yahav Sasporta",
