@@ -4,10 +4,11 @@
   "description": "ts project",
   "main": "app.ts",
   "scripts": {
-    "start": "node server.ts",
-    "dev": "nodemon server.ts",
-    "db:seed": "npx ts-node tests/scripts/initAndSeedDb",
-    "db:flush": "npx ts-node tests/scripts/flushAndCloseDb.ts",
+    "postinstall": "tsc",
+    "dev": "nodemon src/server.ts",
+    "start": "node dist/server.js",
+    "db:seed": "ts-node src/tests/scripts/initAndSeedDb",
+    "db:flush": "ts-node src/tests/scripts/flushAndCloseDb.ts",
     "test": "export MOCK=true && jest --maxWorkers=50% -- ${filePath}",
     "test:db": "npm run db:seed && jest --maxWorkers=50% ; npm run db:flush",
     "test:coverage": "export MOCK=true && jest --maxWorkers=50% --coverage-reporters=html"
@@ -34,5 +35,8 @@
     "ts-jest": "^27.1.4",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.3"
+  },
+  "engines": {
+    "node": "18.x"
   }
 }

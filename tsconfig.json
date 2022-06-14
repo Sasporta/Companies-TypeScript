@@ -1,10 +1,20 @@
 {
   "compilerOptions": {
     "target": "es6",
-    "rootDir": "./",
+    "outDir": "dist",
     "module": "commonjs",
     "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-  }
+  },
+  "include": [
+    "./src/**/*.ts"
+  ],
+  "exclude": [
+    "src/seeds",
+    "src/tests",
+    "coverage",
+    "node_modules",
+    "jest.config.ts"
+  ],
 }
