@@ -13,7 +13,7 @@
     "test:coverage": "export MOCK=true && jest --maxWorkers=50% --coverage-reporters=html"
   },
   "keywords": [],
-  "author": "",
+  "author": "Yahav Sasporta",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.0.0",
