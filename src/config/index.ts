@@ -2,6 +2,13 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+console.log(process.env.dbname,
+  process.env.port,
+  process.env.user,
+  process.env.password,
+  process.env.sslmode);
+
+
 export default {
   env: {
     port: process.env.PORT || 3000,
