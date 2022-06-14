@@ -1,7 +1,7 @@
 import { Company } from '../../../entities/Company';
 import { connectDb, disconnectDb } from '../../helpers';
 import { findOrThrow } from '../../../controllers/helpers';
-import { existingCompanies } from '../../api/__mocks__/entities/CompaniesData';
+import { existingCompanies } from '../../api/__mocks__/entities/companiesData';
 
 
 describe('findOrThrow function', () => {

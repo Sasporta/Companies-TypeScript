@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  database:
+    image: 'postgres:latest'
+    container_name: postgres
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "company_hierarchy_service_ts_test", "-U", "me" ]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    restart: always
+    ports:
+      - 5432:5432
+    env_file:
+      - .env
+    volumes:
+      - ./seeds/seed_companies.sql:/docker-entrypoint-initdb.d/seed_companies.sql
+      - ./seeds/seed_employees.sql:/docker-entrypoint-initdb.d/seed_employees.sql

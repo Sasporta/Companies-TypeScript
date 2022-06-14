@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "es6",
     "rootDir": "./",
+    "lib": ["es2021"],
     "module": "commonjs",
     "esModuleInterop": true,
     "emitDecoratorMetadata": true,

@@ -1,5 +1,5 @@
 import { destroy, testError } from '../../helpers';
-import { employeesPath, existingEmployees } from '../__mocks__/entities/EmployeesData';
+import { employeesPath, existingEmployees } from '../__mocks__/entities/employeesData';
 
 export const deleteRequestTest = () => {
   describe('delete employee request', () => {

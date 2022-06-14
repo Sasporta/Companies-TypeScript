@@ -1,16 +1,46 @@
+import fs from 'fs';
+
+import { existingCompanies } from './companiesData';
+
+export const existingEmployees = fs
+  .readFileSync('./seeds/seed_employees.sql')
+  .toString()
+  .split('VALUES\n')[1]
+  .split('\n')
+  .reduce((a, c, i) => {
+    const data =  c
+      .slice(c.indexOf('(') + 1, c.indexOf(')'))
+      .replaceAll(/[\s']/g, '')
+      .split(',');
+
+    return [
+      ...a,
+      {
+        id: i + 1,
+        uuid: data[0],
+        name: data[1],
+        age: +data[2],
+        company_id: +data[3],
+        manager_id: +data[4] || null,
+        updated_at: new Date().toISOString(),
+        created_at: new Date().toISOString(),
+      }
+    ];
+  }, []);
+
 export const employeesPath = '/employees';
 
 export const postedEmployee = {
   name: 'PostedEmployee',
   age: 40,
-  companyUuid: 'aa7e4bd8-a649-4141-8383-beacd85a4e24',
-  managerUuid: '5a7848e1-5e4c-4cad-8859-2a782a32b924',
+  companyUuid: existingCompanies[3].uuid,
+  managerUuid: existingEmployees[2].uuid,
 }
 
 export const postedManager = {
   name: 'PostedManager',
   age: 50,
-  companyUuid: 'aa7e4bd8-a649-4141-8383-beacd85a4e24',
+  companyUuid: existingCompanies[3].uuid,
   managerUuid: null,
 }
 
@@ -21,36 +51,3 @@ export const updatedEmployee = {
 export const updatedEmployeeToManager = {
   managerUuid: null,
 }
-
-export const existingEmployees = [
-  {
-    id: 1,
-    company_id: 4,
-    manager_id: null,
-    uuid: '5c685c36-cad4-44c6-b9cd-cc5eb153fdfe',
-    name: 'TestEmployeeForEmployeesTest1',
-    age: 10,
-    updated_at: '2022-04-11T04:31:27.798Z',
-    created_at: '2022-04-11T04:31:27.798Z',
-  },
-  {
-    id: 2,
-    company_id: 4,
-    manager_id: 1,
-    uuid: '6727011b-f665-469f-888a-9f4c40995d48',
-    name: 'TestEmployeeForEmployeesTest2',
-    age: 20,
-    updated_at: '2022-04-11T04:37:07.828Z',
-    created_at: '2022-04-11T04:37:07.828Z',
-  },
-  {
-    id: 3,
-    company_id: 5,
-    manager_id: null,
-    uuid: '5a7848e1-5e4c-4cad-8859-2a782a32b924',
-    name: 'TestEmployeeForEmployeesTest3',
-    age: 30,
-    updated_at: '2022-04-11T05:50:07.828Z',
-    created_at: '2022-04-11T05:50:07.828Z',
-  }
-];
