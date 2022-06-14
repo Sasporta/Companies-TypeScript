@@ -1,5 +1,5 @@
 import { patch, testError } from '../../helpers';
-import { employeesPath, existingEmployees, updatedEmployee, updatedEmployeeToManager } from '../__mocks__/entities/EmployeesData';
+import { employeesPath, existingEmployees, updatedEmployee, updatedEmployeeToManager } from '../__mocks__/entities/employeesData';
 
 export const updateRequestTest = () => {
   describe('update employee request', () => {

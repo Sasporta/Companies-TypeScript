@@ -1,5 +1,5 @@
 import { post, testError } from '../../helpers';
-import { companiesPath, postedCompany } from '../__mocks__/entities/CompaniesData';
+import { companiesPath, postedCompany } from '../__mocks__/entities/companiesData';
 
 export const postRequestTest = () => {
   describe('post company request', () => {

@@ -1,5 +1,5 @@
 import { get, testError } from '../../helpers';
-import { companiesPath, existingCompanies } from '../__mocks__/entities/CompaniesData';
+import { companiesPath, existingCompanies } from '../__mocks__/entities/companiesData';
 
 export const getOneRequestTest = () => {
   describe('get company request', () => {

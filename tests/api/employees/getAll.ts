@@ -1,6 +1,6 @@
 import { get } from '../../helpers';
-import { existingCompanies } from '../__mocks__/entities/CompaniesData';
-import { employeesPath, existingEmployees } from '../__mocks__/entities/EmployeesData';
+import { existingCompanies } from '../__mocks__/entities/companiesData';
+import { employeesPath, existingEmployees } from '../__mocks__/entities/employeesData';
 
 export const getAllRequestTest = () => {
   describe('get employees request', () => {
@@ -9,7 +9,8 @@ export const getAllRequestTest = () => {
 
       expect(statusCode).toBe(200);
       expect(headers['content-type']).toMatch('application/json');
-      expect(body).toStrictEqual(existingEmployees.map(({ uuid, name, age }) => ({ uuid, name, age })));
+      expect(body).toStrictEqual(
+        existingEmployees.map(({ uuid, name, age }) => ({ uuid, name, age })));
     });
 
     describe('when companyUuid param is given', () => {

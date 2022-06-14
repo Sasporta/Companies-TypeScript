@@ -1,6 +1,6 @@
 import { resetQueryData } from ".";
-import { existingCompanies } from "../entities/CompaniesData";
-import { existingEmployees } from "../entities/EmployeesData";
+import { existingCompanies } from "../entities/companiesData";
+import { existingEmployees } from "../entities/employeesData";
 
 export const executeStatement = (
   queryData: {

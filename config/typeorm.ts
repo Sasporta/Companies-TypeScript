@@ -14,5 +14,4 @@ export const dataSource = new DataSource({
   password,
   database,
   entities: [Company, Employee],
-  synchronize: true,
 });
