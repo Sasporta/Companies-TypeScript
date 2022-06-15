@@ -1,9 +1,12 @@
 {
   "environments": {
     "test": {
-      "addons":[
-        "heroku-postgresql:in-dyno"
-      ]
+      "scripts": {
+        "test": "jest --maxWorkers=50% -- $1"
+      },
+      "env": {
+        "MOCK": "true"
+      }
     }
   }
 }
