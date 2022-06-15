@@ -2,7 +2,6 @@
   "environments": {
     "test": {
       "scripts": {
-        "test-setup": "npm i",
         "test": "jest --maxWorkers=50% -- $1"
       },
       "env": {
