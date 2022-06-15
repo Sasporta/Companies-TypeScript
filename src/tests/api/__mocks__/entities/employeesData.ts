@@ -32,20 +32,20 @@ export const employeesPath = '/employees';
 
 export const postedEmployee = {
   name: 'PostedEmployee',
-  age: 40,
+  age: 100,
   companyUuid: existingCompanies[3].uuid,
   managerUuid: existingEmployees[2].uuid,
 }
 
 export const postedManager = {
   name: 'PostedManager',
-  age: 50,
+  age: 200,
   companyUuid: existingCompanies[3].uuid,
   managerUuid: null,
 }
 
 export const updatedEmployee = {
-  age: 100,
+  age: 300,
 }
 
 export const updatedEmployeeToManager = {
