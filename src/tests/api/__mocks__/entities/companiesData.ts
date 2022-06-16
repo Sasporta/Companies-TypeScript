@@ -1,7 +1,7 @@
 import fs from 'fs';
 
 export const existingCompanies = fs
-  .readFileSync('./seeds/seed_companies.sql')
+  .readFileSync('./src/seeds/seed_companies.sql')
   .toString()
   .split('VALUES\n')[1]
   .split('\n')

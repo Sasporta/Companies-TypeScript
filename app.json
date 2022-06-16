@@ -1,0 +1,12 @@
+{
+  "environments": {
+    "test": {
+      "scripts": {
+        "test": "jest --maxWorkers=1"
+      },
+      "env": {
+        "MOCK": "true"
+      }
+    }
+  }
+}

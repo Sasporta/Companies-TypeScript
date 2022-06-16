@@ -1,4 +1,4 @@
-import request from 'superTest';
+import request from 'supertest';
 import { dataSource } from '../config/typeorm';
 
 import app from '../app';
