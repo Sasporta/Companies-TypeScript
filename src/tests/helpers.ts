@@ -1,4 +1,5 @@
-import request from 'superTest';
+const request = require('superTest');
+
 import { dataSource } from '../config/typeorm';
 
 import app from '../app';
