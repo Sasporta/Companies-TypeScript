@@ -5,6 +5,7 @@ import EmployeeSeeder from "./employees";
 
 (async function seed() {
   await dataSource.initialize();
+  await dataSource.synchronize();
   await runSeeders(dataSource, { seeds: [CompanySeeder, EmployeeSeeder] });
   await dataSource.destroy();
 })();
