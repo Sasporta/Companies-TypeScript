@@ -7,9 +7,9 @@
     "postinstall": "tsc",
     "start": "node dist/server.js",
     "dev": "nodemon src/server.ts",
-    "test": "zsh src/scripts/test:mock.sh",
-    "test:db": "zsh src/scripts/test:db.sh",
-    "test:coverage": "zsh src/scripts/test:coverage.sh"
+    "test": "bash src/scripts/test:mock.sh",
+    "test:db": "bash src/scripts/test:db.sh",
+    "test:coverage": "bash src/scripts/test:coverage.sh"
   },
   "keywords": [],
   "author": "Yahav Sasporta",
