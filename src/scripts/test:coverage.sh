@@ -1,3 +1,3 @@
-#!/bin/zsh
+#!/bin/bash
 export MOCK=true
-npx jest --maxWorkers=50% --coverage-reporters=html
+jest --maxWorkers=50% --coverage-reporters=html
