@@ -1,5 +1,5 @@
 import { destroy, testError } from '../../helpers';
-import { companiesPath, existingCompanies } from '../__mocks__/entities/companiesData';
+import { companiesPath, existingCompanies } from '../companiesData';
 
 export const deleteRequestTest = () => {
   describe('delete company request', () => {

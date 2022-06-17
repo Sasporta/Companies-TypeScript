@@ -1,5 +1,5 @@
 import { patch, testError } from '../../helpers';
-import { companiesPath, existingCompanies, updatedCompany } from '../__mocks__/entities/companiesData';
+import { companiesPath, existingCompanies, updatedCompany } from '../companiesData';
 
 export const updateRequestTest = () => {
   describe('update company request', () => {

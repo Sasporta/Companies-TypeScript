@@ -7,8 +7,7 @@
     "postinstall": "tsc",
     "start": "node dist/server.js",
     "dev": "nodemon src/server.ts",
-    "test": "bash src/scripts/test:mock.sh",
-    "test:db": "bash src/scripts/test:db.sh",
+    "test": "bash src/scripts/test:db.sh",
     "test:coverage": "bash src/scripts/test:coverage.sh"
   },
   "keywords": [],

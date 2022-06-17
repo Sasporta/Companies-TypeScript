@@ -1,6 +1,6 @@
 import { get } from '../../helpers';
-import { existingCompanies } from '../__mocks__/entities/companiesData';
-import { employeesPath, existingEmployees } from '../__mocks__/entities/employeesData';
+import { existingCompanies } from '../companiesData';
+import { employeesPath, existingEmployees } from '../employeesData';
 
 export const getAllRequestTest = () => {
   describe('get employees request', () => {

@@ -1,12 +1,12 @@
 import { Company } from '../../../entities/Company';
-import { connectDb, disconnectDb } from '../../helpers';
+import { dataSource } from '../../../config/typeorm';
 import { findOrThrow } from '../../../controllers/helpers';
-import { existingCompanies } from '../../api/__mocks__/entities/companiesData';
+import { existingCompanies } from '../../api/companiesData';
 
 
 describe('findOrThrow function', () => {
-  beforeAll(async () => await connectDb());
-  afterAll(async () => await disconnectDb());
+  beforeAll(async () => await dataSource.initialize());
+  afterAll(async () => await dataSource.destroy());
 
   it('should return the found entity if the returned value is different then null or undefined', async () => {
     expect(await findOrThrow(Company, existingCompanies[3].uuid, 404)).toHaveProperty('uuid', existingCompanies[3].uuid);

@@ -6,21 +6,23 @@ import { Employee } from '../entities/Employee';
 
 const { db: { database, host, password, port, url, username } } = config;
 
-export const dataSource = url
-? new DataSource({
-  type: 'postgres',
+const dbCredentials = url
+? {
   url,
   ssl: {
     rejectUnauthorized: false,
   },
-  entities: [Company, Employee],
-})
-: new DataSource({
-  type: 'postgres',
+}
+: {
   host,
   port,
   username,
   password,
   database,
+};
+
+export const dataSource = new DataSource({
+  type: 'postgres',
+  ...dbCredentials,
   entities: [Company, Employee],
 });
