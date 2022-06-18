@@ -1,3 +1,4 @@
 #!/bin/bash
-export MOCK=true
+docker-compose up -d
 jest --maxWorkers=50% --coverage-reporters=html
+docker-compose down

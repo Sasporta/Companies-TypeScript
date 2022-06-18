@@ -1,5 +1,5 @@
 import { get } from '../../helpers';
-import { companiesPath } from '../../api/__mocks__/entities/companiesData';
+import { companiesPath } from '../../api/companiesData';
 
 describe('controllerWrapper function', () => {
   it('should throw an error if something wrong and unexpected happend', async () => {
