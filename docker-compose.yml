@@ -15,5 +15,5 @@ services:
     env_file:
       - .env
     volumes:
-      - ./seeds/seed_companies.sql:/docker-entrypoint-initdb.d/seed_companies.sql
-      - ./seeds/seed_employees.sql:/docker-entrypoint-initdb.d/seed_employees.sql
+      - ./src/seeds/seed_companies.sql:/docker-entrypoint-initdb.d/seed_companies.sql
+      - ./src/seeds/seed_employees.sql:/docker-entrypoint-initdb.d/seed_employees.sql

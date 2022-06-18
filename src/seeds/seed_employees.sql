@@ -1,17 +1,21 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE TABLE employees (
-  id serial,
-  uuid uuid DEFAULT uuid_generate_v4 (),
-  name VARCHAR(50) NOT NULL,
-  age INTEGER NOT NULL,
-  company_id INTEGER NOT NULL,
-  manager_id INTEGER,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (id),
-  FOREIGN KEY (company_id) REFERENCES companies (id)
+CREATE TABLE "employees" (
+  "id" SERIAL NOT NULL,
+  "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
+  "created_at" TIMESTAMP NOT NULL DEFAULT now(),
+  "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
+  "name" character varying NOT NULL,
+  "age" integer NOT NULL,
+  "company_id" integer NOT NULL,
+  "manager_id" integer,
+  CONSTRAINT "UQ_2da4989a8f0476d231e4c4419aa" UNIQUE ("uuid"),
+  CONSTRAINT "PK_b9535a98350d5b26e7eb0c26af4" PRIMARY KEY ("id")
 );
+
+ALTER TABLE "employees"
+ADD CONSTRAINT "FK_7f3eeef59eece4147effe7bfa6a" FOREIGN KEY ("company_id")
+REFERENCES "companies"("id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
 INSERT INTO employees (uuid, name, age, company_id, manager_id)
 VALUES

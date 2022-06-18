@@ -3,12 +3,12 @@ import { getAllRequestTest } from './getAll';
 import { getOneRequestTest } from './getOne';
 import { updateRequestTest } from './update';
 import { deleteRequestTest } from './delete';
-import { connectDb, disconnectDb } from '../../helpers';
+import { dataSource } from '../../../config/typeorm';
 import { getAllCousinsRequestTest } from './getAllCousins';
 
 describe('employees CRUD requests', () => {
-  beforeAll(async () => await connectDb());
-  afterAll(async () => await disconnectDb());
+  beforeAll(async () => await dataSource.initialize());
+  afterAll(async () => await dataSource.destroy());
 
   getAllCousinsRequestTest();
   getAllRequestTest();

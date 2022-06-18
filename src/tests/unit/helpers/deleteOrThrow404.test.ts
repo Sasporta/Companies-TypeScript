@@ -1,12 +1,12 @@
 import { Company } from '../../../entities/Company';
-import { connectDb, disconnectDb } from '../../helpers';
+import { dataSource } from '../../../config/typeorm';
 import { deleteOrThrow404 } from '../../../controllers/helpers';
-import { existingCompanies } from '../../api/__mocks__/entities/companiesData';
+import { existingCompanies } from '../../api/companiesData';
 
 
 describe('deleteOrThrow404 function', () => {
-  beforeAll(async () => await connectDb());
-  afterAll(async () => await disconnectDb());
+  beforeAll(async () => await dataSource.initialize());
+  afterAll(async () => await dataSource.destroy());
 
   it('should not return anything is the call was successful', async () => {
     expect(await deleteOrThrow404(Company, existingCompanies[6].uuid)).toBe(undefined);

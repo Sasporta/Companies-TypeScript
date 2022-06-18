@@ -1,3 +1,4 @@
-#!/bin/zsh
-export MOCK=true
-npx jest --maxWorkers=50% --coverage-reporters=html
+#!/bin/bash
+docker-compose up -d
+jest --maxWorkers=50% --coverage-reporters=html
+docker-compose down

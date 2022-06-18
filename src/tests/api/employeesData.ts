@@ -3,7 +3,7 @@ import fs from 'fs';
 import { existingCompanies } from './companiesData';
 
 export const existingEmployees = fs
-  .readFileSync('./seeds/seed_employees.sql')
+  .readFileSync('./src/seeds/seed_employees.sql')
   .toString()
   .split('VALUES\n')[1]
   .split('\n')
