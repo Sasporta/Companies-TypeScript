@@ -1,13 +1,15 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE TABLE companies (
-  id serial,
-  uuid uuid DEFAULT uuid_generate_v4 (),
-  name VARCHAR(50) NOT NULL UNIQUE,
-  country VARCHAR(50) NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (id)
+CREATE TABLE "companies" (
+  "id" SERIAL NOT NULL,
+  "uuid" uuid NOT NULL DEFAULT uuid_generate_v4(),
+  "created_at" TIMESTAMP NOT NULL DEFAULT now(),
+  "updated_at" TIMESTAMP NOT NULL DEFAULT now(),
+  "name" character varying NOT NULL,
+  "country" character varying NOT NULL,
+  CONSTRAINT "UQ_535ddf773996ede3697d07ef710" UNIQUE ("uuid"),
+  CONSTRAINT "UQ_3dacbb3eb4f095e29372ff8e131" UNIQUE ("name"),
+  CONSTRAINT "PK_d4bc3e82a314fa9e29f652c2c22" PRIMARY KEY ("id")
 );
 
 INSERT INTO companies (uuid, name, country)

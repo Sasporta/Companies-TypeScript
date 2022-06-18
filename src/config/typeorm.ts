@@ -1,14 +1,17 @@
-import { DataSource } from 'typeorm';
+import { DataSource, DataSourceOptions } from 'typeorm';
+import { SeederOptions } from 'typeorm-extension';
 
 import config from '.';
 import { Company } from '../entities/Company';
+import CompanySeeder from '../seeds/companies';
 import { Employee } from '../entities/Employee';
+import EmployeeSeeder from '../seeds/employees';
 
 const { db: { database, host, password, port, url, username } } = config;
 
 const ssl = process.env.NODE_ENV !== 'production' ? false : { rejectUnauthorized: false };
 
-export const dataSource = new DataSource({
+const options: DataSourceOptions & SeederOptions = {
   type: 'postgres',
   url,
   ssl,
@@ -18,4 +21,9 @@ export const dataSource = new DataSource({
   password,
   database,
   entities: [Company, Employee],
-});
+  seeds: [CompanySeeder, EmployeeSeeder],
+}
+
+export const dataSource = new DataSource(options);
+
+export default options;

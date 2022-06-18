@@ -2,7 +2,7 @@
   "environments": {
     "test": {
       "scripts": {
-        "test-setup": "ts-node src/seeds/seed",
+        "test-setup": "bash src/scripts/syncAndSeed.sh",
         "test": "jest --maxWorkers=1"
       },
       "addons": ["heroku-postgresql:in-dyno"]
