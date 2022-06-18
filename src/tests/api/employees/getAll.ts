@@ -20,17 +20,14 @@ export const getAllRequestTest = () => {
         expect(statusCode).toBe(200);
         expect(headers['content-type']).toMatch('application/json');
         expect(body).toStrictEqual([
-          {
-            uuid: existingEmployees[0].uuid,
-            name: existingEmployees[0].name,
-            age: existingEmployees[0].age,
-          },
-          {
-            uuid: existingEmployees[1].uuid,
-            name: existingEmployees[1].name,
-            age: existingEmployees[1].age,
-          },
-        ]);
+          existingEmployees[0],
+          existingEmployees[1],
+          existingEmployees[2],
+          existingEmployees[3],
+          existingEmployees[4],
+          existingEmployees[5],
+          existingEmployees[6],
+        ].map(({ uuid, name, age }) => ({ uuid, name, age })));
       });
     });
 
@@ -45,6 +42,11 @@ export const getAllRequestTest = () => {
             uuid: existingEmployees[1].uuid,
             name: existingEmployees[1].name,
             age: existingEmployees[1].age,
+          },
+          {
+            uuid: existingEmployees[2].uuid,
+            name: existingEmployees[2].name,
+            age: existingEmployees[2].age,
           },
         ]);
       });
@@ -61,6 +63,11 @@ export const getAllRequestTest = () => {
             uuid: existingEmployees[1].uuid,
             name: existingEmployees[1].name,
             age: existingEmployees[1].age,
+          },
+          {
+            uuid: existingEmployees[2].uuid,
+            name: existingEmployees[2].name,
+            age: existingEmployees[2].age,
           },
         ]);
       });

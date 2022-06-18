@@ -1,4 +1,4 @@
-import { getLimit } from "../../../controllers/helpers";
+import { getLimit } from '../../../controllers/helpers';
 
 describe('getLimit function', () => {
   it('should return the limit is its a valid value (between 1 to 10)', async () => {
