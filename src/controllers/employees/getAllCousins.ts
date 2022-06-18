@@ -1,37 +1,61 @@
 import { Request } from 'express';
+import { NotBrackets } from 'typeorm';
 
 import { dataSource } from '../../config/typeorm';
-import { findOrThrow, getLimit } from '../helpers';
+import { getLimit } from '../helpers';
 import { Employee } from '../../entities/Employee';
 
 export const getCousins = async ({params: { id: uuid }, query: { limit } }: Request) => {
-  const child = await findOrThrow(Employee, uuid.toString(), 404);
+  const cousins = await dataSource
+  .createQueryBuilder()
+  .select(['cousin.uuid', 'cousin.name', 'cousin.age'])
+  .from(Employee, 'cousin')
+  .innerJoin(Employee, 'parent', 'cousin.manager_id = parent.id')
+  .where(qb => {
+    const subQuery = qb
+      .subQuery()
+      .select(['parent.id'])
+      .from(Employee, 'parent')
+      .innerJoin(Employee, 'grandparent', 'parent.manager_id = grandparent.id')
+      .where(qb => {
+        const subQuery = qb
+          .subQuery()
+          .select(['parent.manager_id'])
+          .from(Employee, 'parent')
+          .where(qb => {
+            const subQuery = qb
+              .subQuery()
+              .select(['child.manager_id'])
+              .from(Employee, 'child')
+              .where('child.uuid = :uuid', { uuid })
+              .getQuery()
 
-  const parent = await Employee.findOneBy({id: child.manager_id});
-  console.log(parent);
+            return 'parent.id = ' + subQuery
+          })
+          .getQuery()
 
-  const grandParent = await Employee.findOneBy({id: parent.manager_id});
+        return 'grandparent.id = ' + subQuery
+      })
+      .getQuery()
 
-  let allParents = await dataSource
-    .createQueryBuilder()
-    .select(['employee.id'])
-    .from(Employee, 'employee')
-    .innerJoin(Employee, 'manager', 'employee.manager_id = manager.id')
-    .where('manager.id = :id', { id: grandParent.id })
-    .limit(getLimit(+limit))
-    .getMany();
+    return 'parent.id IN ' + subQuery
+  })
+  .andWhere(
+    new NotBrackets(qb => {
+        qb.where(qb => {
+          const subQuery = qb
+            .subQuery()
+            .select(['child.manager_id'])
+            .from(Employee, 'child')
+            .where('child.uuid = :uuid', { uuid })
+            .getQuery()
 
-
-    const unclesIds = allParents.reduce((a, { id }) => id !== parent.id ? [...a, id] : a, []);
-
-  let cousins = await dataSource
-    .createQueryBuilder()
-    .select(['employee.uuid', 'employee.name', 'employee.age'])
-    .from(Employee, 'employee')
-    .innerJoin(Employee, 'manager', 'employee.manager_id = manager.id')
-    .where('manager.id IN (:...ids)', { ids: [...unclesIds] })
-    .limit(getLimit(+limit))
-    .getMany();
+          return 'cousin.manager_id = ' + subQuery
+        })
+    }),
+  )
+  .limit(getLimit(+limit))
+  .getMany();
 
   return { statusCode: 200, content: cousins };
 };

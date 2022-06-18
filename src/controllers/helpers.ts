@@ -22,7 +22,7 @@ export const updateOrThrow404 = async (table: any, { uuid, ...params }: any) => 
     .createQueryBuilder()
     .update(table)
     .set({ ...params })
-    .where("uuid = :uuid", { uuid })
+    .where('uuid = :uuid', { uuid })
     .returning('*')
     .execute();
 

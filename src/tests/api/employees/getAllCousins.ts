@@ -1,5 +1,5 @@
 import { get } from '../../helpers';
-import { employeesPath, existingEmployees } from '../__mocks__/entities/employeesData';
+import { employeesPath, existingEmployees } from '../employeesData';
 
 export const getAllCousinsRequestTest = () => {
   describe("get employee's cousins request", () => {
