@@ -7,13 +7,13 @@ import { dataSource } from '../../../config/typeorm';
 import { getAllCousinsRequestTest } from './getAllCousins';
 
 describe('employees CRUD requests', () => {
-  beforeAll(async () => await dataSource.initialize());
-  afterAll(async () => await dataSource.destroy());
+	beforeAll(async () => await dataSource.initialize());
+	afterAll(async () => await dataSource.destroy());
 
-  getAllCousinsRequestTest();
-  getAllRequestTest();
-  getOneRequestTest();
-  updateRequestTest();
-  deleteRequestTest();
-  postRequestTest();
+	getAllCousinsRequestTest();
+	getAllRequestTest();
+	getOneRequestTest();
+	updateRequestTest();
+	deleteRequestTest();
+	postRequestTest();
 });

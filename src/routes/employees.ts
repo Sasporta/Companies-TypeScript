@@ -17,5 +17,4 @@ router.patch('/employees/:id', controllerWrapper(updateEmployee));
 router.delete('/employees/:id', controllerWrapper(deleteEmployee));
 router.get('/employees/cousins/:id', controllerWrapper(getCousins));
 
-
 export default router;

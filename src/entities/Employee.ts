@@ -5,30 +5,25 @@ import { PrimaryEntity } from './PrimaryEntity';
 
 @Entity('employees')
 export class Employee extends PrimaryEntity {
-  @Column()
-  name: string
+	@Column()
+		name: string;
 
-  @Column()
-  age: number
+	@Column()
+		age: number;
 
-  @Column()
-  company_id: number
+	@Column()
+		company_id: number;
 
-  @Column({
-    nullable: true
-  })
-  manager_id: number
+	@Column({
+		nullable: true,
+	})
+		manager_id: number;
 
-  @ManyToOne(
-    () => Company,
-    company => company.employees,
-    {
-      onDelete: 'CASCADE',
-    }
-  )
-
-  @JoinColumn({
-    name: 'company_id'
-  })
-  company: Company;
+	@ManyToOne(() => Company, company => company.employees, {
+		onDelete: 'CASCADE',
+	})
+	@JoinColumn({
+		name: 'company_id',
+	})
+		company: Company;
 }
