@@ -7,6 +7,7 @@ export const existingEmployees = fs
 	.toString()
 	.split('VALUES\n')[1]
 	.split('\n')
+	.slice(0, -1)
 	.reduce((a, c, i) => {
 		const data = c
 			.slice(c.indexOf('(') + 1, c.indexOf(')'))
