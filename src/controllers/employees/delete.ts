@@ -4,7 +4,7 @@ import { deleteOrThrow404 } from '../helpers';
 import { Employee } from '../../entities/Employee';
 
 export const deleteEmployee = async ({ params: { id: uuid } }: Request) => {
-  await deleteOrThrow404(Employee, uuid);
+	await deleteOrThrow404(Employee, uuid);
 
-  return { statusCode: 204 };
+	return { statusCode: 204 };
 };

@@ -5,7 +5,16 @@ services:
     image: 'postgres:latest'
     container_name: postgres
     healthcheck:
-      test: [ "CMD", "pg_isready", "-q", "-d", "company_hierarchy_service_ts_test", "-U", "me" ]
+      test:
+        [
+          'CMD',
+          'pg_isready',
+          '-q',
+          '-d',
+          'company_hierarchy_service_ts_test',
+          '-U',
+          'me',
+        ]
       timeout: 45s
       interval: 10s
       retries: 10

@@ -6,12 +6,12 @@ import { deleteRequestTest } from './delete';
 import { dataSource } from '../../../config/typeorm';
 
 describe('companies CRUD requests', () => {
-  beforeAll(async () => await dataSource.initialize());
-  afterAll(async () => await dataSource.destroy());
+	beforeAll(async () => await dataSource.initialize());
+	afterAll(async () => await dataSource.destroy());
 
-  getAllRequestTest();
-  getOneRequestTest();
-  updateRequestTest();
-  deleteRequestTest();
-  postRequestTest();
+	getAllRequestTest();
+	getOneRequestTest();
+	updateRequestTest();
+	deleteRequestTest();
+	postRequestTest();
 });

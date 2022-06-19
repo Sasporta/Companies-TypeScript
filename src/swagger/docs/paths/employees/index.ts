@@ -5,13 +5,13 @@ import updateEmployee from './crud/update';
 import deleteEmployee from './crud/delete';
 
 export default {
-  '/employees':{
-    ...getEmployees,
-    ...createEmployee
-  },
-  '/employees/{id}':{
-    ...getEmployee,
-    ...updateEmployee,
-    ...deleteEmployee
-  }
-}
+	'/employees': {
+		...getEmployees,
+		...createEmployee,
+	},
+	'/employees/{id}': {
+		...getEmployee,
+		...updateEmployee,
+		...deleteEmployee,
+	},
+};
