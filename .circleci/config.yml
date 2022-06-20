@@ -11,7 +11,7 @@ jobs:
       - checkout
       - run: npm i
       - run: echo 
-              DB_HOST=127.0.0.1$'\n'
+              DB_HOST=localhost$'\n'
               DB_PORT=5432$'\n'
               POSTGRES_DB=company_hierarchy_service_ts_test$'\n'
               POSTGRES_USER=me$'\n'
@@ -20,7 +20,8 @@ jobs:
       - setup_remote_docker:
           version: 20.10.14
           docker_layer_caching: true
-      - run: npm test
+      - run: docker-compose up
+      # - run: npm test
 
 workflows:
   test_and_deploy:
