@@ -1,5 +1,5 @@
-import { DataSource, DataSourceOptions } from 'typeorm';
 import { SeederOptions } from 'typeorm-extension';
+import { DataSource, DataSourceOptions } from 'typeorm';
 
 import config from '.';
 import { Company } from '../entities/Company';
