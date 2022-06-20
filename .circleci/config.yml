@@ -7,13 +7,14 @@ jobs:
   test:
     docker:
       - image: cimg/node:18.4.0
-    environment:
-      POSTGRES_DB: company_hierarchy_service_ts_test
-      POSTGRES_USER: me
-      POSTGRES_PASSWORD: password
     steps:
       - checkout
       - run: npm i
+      - run: echo 
+             'POSTGRES_DB=company_hierarchy_service_ts_test\n
+              POSTGRES_USER=me\n
+              POSTGRES_PASSWORD=passwaord' 
+            > .env
       - run: docker-compose up -d
       - run: npm test
 
