@@ -11,11 +11,11 @@ jobs:
       - checkout
       - run: npm i
       - run: echo 
-             'DB_HOST=127.0.0.1\n
-              DB_PORT=5432\n
-              POSTGRES_DB=company_hierarchy_service_ts_test\n
-              POSTGRES_USER=me\n
-              POSTGRES_PASSWORD=password' 
+             'DB_HOST=127.0.0.1
+              DB_PORT=5432
+              POSTGRES_DB=company_hierarchy_service_ts_test
+              POSTGRES_USER=me
+              POSTGRES_PASSWORD=password'
             > .env
       - setup_remote_docker:
           version: 20.10.14
