@@ -14,7 +14,7 @@ jobs:
     steps:
       - checkout
       - run: npm i
-      - run: npm docker-compose up
+      - run: docker-compose up -d
       - run: npm test
 
 workflows:
