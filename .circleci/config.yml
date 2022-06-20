@@ -15,6 +15,9 @@ jobs:
               POSTGRES_USER=me\n
               POSTGRES_PASSWORD=passwaord' 
             > .env
+      - setup_remote_docker:
+          version: 20.10.14
+          docker_layer_caching: true
       - run: docker-compose up -d
       - run: npm test
 
