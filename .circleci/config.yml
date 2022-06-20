@@ -3,21 +3,29 @@ orbs:
   node: circleci/node@5.0.2
   heroku: circleci/heroku@1.2.6
 
+jobs:
+  test:
+    docker:
+      - image: cimg/node:18.4.0
+    environment:
+      POSTGRES_DB: company_hierarchy_service_ts_test
+      POSTGRES_USER: me
+      POSTGRES_PASSWORD: password
+    steps:
+      - checkout
+      - run: npm test
+
 workflows:
   test_and_deploy:
     jobs:
-      - node/test
+      - test
 
       - heroku/deploy-via-git:
-          environment:
-            POSTGRES_DB: company_hierarchy_service_ts_test
-            POSTGRES_USER: me
-            POSTGRES_PASSWORD: password
           filters:
             branches:
               only: main
           requires:
-            - node/test
+            - test
           # post-steps:
           #   - run: your-database-migration-command
           pre-steps:
