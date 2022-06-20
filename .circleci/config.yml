@@ -13,6 +13,7 @@ jobs:
       POSTGRES_PASSWORD: password
     steps:
       - checkout
+      - run: npm i
       - run: npm test
 
 workflows:
