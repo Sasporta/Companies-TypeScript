@@ -50,4 +50,3 @@ workflows:
   #         url: http://demo.affogata.net
   #         ignore_tests: ",ignoreTestFiles=*.only_local.spec.js"
   #         context: staging
-
