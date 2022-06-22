@@ -15,3 +15,5 @@ export default {
 		password: process.env.POSTGRES_PASSWORD,
 	},
 };
+
+console.log(process.env.DB_HOST);

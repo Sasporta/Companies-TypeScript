@@ -11,7 +11,7 @@ jobs:
       - checkout
       - run: npm i
       - run: echo
-              DB_HOST=postgres$'\n'
+              DB_HOST=localhost$'\n'
               DB_PORT=5432$'\n'
               POSTGRES_DB=company_hierarchy_service_ts_test$'\n'
               POSTGRES_USER=me$'\n'
