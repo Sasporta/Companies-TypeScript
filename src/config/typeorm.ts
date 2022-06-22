@@ -3,9 +3,10 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 
 import config from '.';
 import { Company } from '../entities/Company';
-import CompanySeeder from '../seeds/companies';
 import { Employee } from '../entities/Employee';
-import EmployeeSeeder from '../seeds/employees';
+import CompanyFactory from '../seeds/companies/factory';
+import EmployeeFactory from '../seeds/employees/factory';
+import LoadTestSeeder from '../seeds/companies/seedingWithFactory';
 
 const {
 	db: { database, host, password, port, url, username },
@@ -24,7 +25,8 @@ const options: DataSourceOptions & SeederOptions = {
 	password,
 	database,
 	entities: [Company, Employee],
-	seeds: [CompanySeeder, EmployeeSeeder],
+	seeds: [LoadTestSeeder],
+	factories: [CompanyFactory, EmployeeFactory],
 };
 
 export const dataSource = new DataSource(options);
