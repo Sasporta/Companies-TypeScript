@@ -20,7 +20,7 @@ jobs:
       - setup_remote_docker:
           version: 20.10.14
           docker_layer_caching: true
-      - run: docker-compose up
+      - run: docker-compose up -d
       - run: npm test
 
 workflows:
