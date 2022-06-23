@@ -30,6 +30,7 @@ jobs:
           root: .
           paths:
             - dist
+      - run: ls
 
   deploy:
     executor: heroku/default
@@ -37,8 +38,9 @@ jobs:
       - checkout
       - attach_workspace:
           at: .
-      - heroku/install
-      - heroku/deploy-via-git
+      - run: pwd
+      # - heroku/install
+      # - heroku/deploy-via-git
 
 workflows:
   test_and_deploy:
