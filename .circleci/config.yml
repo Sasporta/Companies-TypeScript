@@ -9,7 +9,6 @@ jobs:
       image: ubuntu-2004:202010-01
     steps:
       - checkout
-      - run: nvm install node
       - run: npm i
       - run:  echo
                 DB_HOST=localhost$'\n'
@@ -19,7 +18,7 @@ jobs:
                 POSTGRES_PASSWORD=password$'\n'
               > .env
       - run: docker-compose up -d
-      - run: nvm use v18.4.0 && npx jest --maxWorkers=50%
+      - run: nvm install node && npx jest --maxWorkers=50%
 
 workflows:
   test_and_deploy:
