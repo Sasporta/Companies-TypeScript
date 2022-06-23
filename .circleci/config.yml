@@ -20,21 +20,26 @@ jobs:
       - run: docker-compose up -d
       - run: nvm install node && npx jest --maxWorkers=50%
 
+  deploy:
+    executor: heroku/default
+    steps:
+      - checkout
+      - heroku/install
+      - run: npm i
+      - run: npx tsc
+      - heroku/deploy-via-git
+
 workflows:
   test_and_deploy:
     jobs:
       - test
 
-      - heroku/deploy-via-git:
+      - deploy:
           filters:
             branches:
               only: main
           requires:
             - test
-          pre-steps:
-            - checkout
-            - run: npm i
-            - run: npx tsc
           # post-steps:
           #   - run: your-database-migration-command
 
