@@ -17,7 +17,8 @@ jobs:
                 POSTGRES_USER=me$'\n'
                 POSTGRES_PASSWORD=password$'\n'
               > .env
-      - run: npm test
+      - run: docker-compose up -d
+      - run: jest --maxWorkers=50%
 
 workflows:
   test_and_deploy:
