@@ -26,6 +26,19 @@ jobs:
       - checkout
       - run: npm i
       - run: npx tsc
+      - persist_to_workspace:
+          root: .
+          paths:
+            - dist
+
+  deploy:
+  executor: heroku/default
+    steps:
+      - checkout
+      - attach_workspace:
+        at: .
+      - heroku/install
+      - heroku/deploy-via-git
 
 workflows:
   test_and_deploy:
@@ -39,7 +52,7 @@ workflows:
           requires:
             - test
 
-      - heroku/deploy-via-git:
+      - deploy:
           filters:
             branches:
               only: main
