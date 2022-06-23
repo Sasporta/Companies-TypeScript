@@ -5,21 +5,18 @@ orbs:
 
 jobs:
   test:
-    docker:
-      - image: cimg/node:18.4.0
+    macos:
+      xcode: 13.4.1
     steps:
       - checkout
       - run: npm i
-      - run: echo
-              DB_HOST=localhost$'\n'
-              DB_PORT=5432$'\n'
-              POSTGRES_DB=company_hierarchy_service_ts_test$'\n'
-              POSTGRES_USER=me$'\n'
-              POSTGRES_PASSWORD=password$'\n'
-            > .env
-      - setup_remote_docker:
-          version: 20.10.14
-          docker_layer_caching: true
+      - run:  echo
+                DB_HOST=localhost$'\n'
+                DB_PORT=5432$'\n'
+                POSTGRES_DB=company_hierarchy_service_ts_test$'\n'
+                POSTGRES_USER=me$'\n'
+                POSTGRES_PASSWORD=password$'\n'
+              > .env
       - run: npm test
 
 workflows:
