@@ -32,13 +32,13 @@ jobs:
             - dist
 
   deploy:
-  executor: heroku/default
-    steps:
-      - checkout
-      - attach_workspace:
-        at: .
-      - heroku/install
-      - heroku/deploy-via-git
+    executor: heroku/default
+      steps:
+        - checkout
+        - attach_workspace:
+          at: .
+        - heroku/install
+        - heroku/deploy-via-git
 
 workflows:
   test_and_deploy:
