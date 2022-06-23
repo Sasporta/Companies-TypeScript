@@ -5,8 +5,8 @@ orbs:
 
 jobs:
   test:
-    macos:
-      xcode: 13.4.1
+    machine:
+      image: ubuntu-2004:202010-01
     steps:
       - checkout
       - run: npm i
