@@ -1,0 +1,47 @@
+version: 2.1
+orbs:
+  heroku: circleci/heroku@1.2.6
+
+jobs:
+  test:
+    machine:
+      image: ubuntu-2004:202010-01
+    steps:
+      - checkout
+      - run: npm i
+      - run:  echo
+                DB_HOST=${LOCAL_DB_HOST}$'\n'
+                DB_PORT=${LOCAL_DB_PORT}$'\n'
+                POSTGRES_DB=${LOCAL_DB_NAME}$'\n'
+                POSTGRES_USER=${LOCAL_DB_USER}$'\n'
+                POSTGRES_PASSWORD=${LOCAL_DB_PASSWORD}$'\n'
+              > .env
+      - run: npx eslint ./
+      - run: docker-compose up -d
+      - run: nvm install node && npx jest --maxWorkers=50%
+
+workflows:
+  test_and_deploy:
+    jobs:
+      - test
+
+      - heroku/deploy-via-git:
+          filters:
+            branches:
+              only: main
+          requires:
+            - test
+          # post-steps:
+          #   - run: your-database-migration-command
+
+  # scheduled-automation:
+  #   triggers:
+  #     - schedule:
+  #         cron: "0 20 * * *"
+  #         filters: *staging_filters
+  #   jobs:
+  #     - run_cypress:
+  #         env: demo
+  #         url: http://demo.affogata.net
+  #         ignore_tests: ",ignoreTestFiles=*.only_local.spec.js"
+  #         context: staging
