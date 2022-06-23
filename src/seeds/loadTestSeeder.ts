@@ -1,7 +1,7 @@
 import { Seeder, SeederFactoryManager } from 'typeorm-extension';
 
-import { Company } from '../../entities/Company';
-import { Employee } from '../../entities/Employee';
+import { Company } from '../entities/Company';
+import { Employee } from '../entities/Employee';
 
 export default class LoadTestSeeder implements Seeder {
 	public async run(DS, factoryManager: SeederFactoryManager): Promise<any> {

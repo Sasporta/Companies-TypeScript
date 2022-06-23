@@ -19,7 +19,8 @@ services:
       interval: 10s
       retries: 10
     restart: always
-    ports: 5432:5432
+    ports:
+      - 5432:5432
     env_file: .env
     volumes:
       - ./src/seeds/seed_companies.sql:/docker-entrypoint-initdb.d/seed_companies.sql
