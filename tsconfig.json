@@ -15,6 +15,6 @@
 		"src/scripts",
 		"coverage",
 		"node_modules",
-		"jest.config.ts"
+		"jest.config.cjs"
 	]
 }

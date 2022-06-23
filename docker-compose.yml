@@ -22,6 +22,6 @@ services:
     ports:
       - 5432:5432
     env_file: .env
-    # volumes:
-    #   - ./src/seeds/seed_companies.sql:/docker-entrypoint-initdb.d/seed_companies.sql
-    #   - ./src/seeds/seed_employees.sql:/docker-entrypoint-initdb.d/seed_employees.sql
+    volumes:
+      - ./src/seeds/seed_companies.sql:/docker-entrypoint-initdb.d/seed_companies.sql
+      - ./src/seeds/seed_employees.sql:/docker-entrypoint-initdb.d/seed_employees.sql

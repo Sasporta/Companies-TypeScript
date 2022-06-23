@@ -9,7 +9,6 @@ jobs:
       image: ubuntu-2004:202010-01
     steps:
       - checkout
-      - run: npm i
       - run:  echo
                 DB_HOST=localhost$'\n'
                 DB_PORT=5432$'\n'
@@ -17,6 +16,7 @@ jobs:
                 POSTGRES_USER=me$'\n'
                 POSTGRES_PASSWORD=password$'\n'
               > .env
+      - run: npm i
       - run: docker-compose up -d
       - run: jest --maxWorkers=50%
 
