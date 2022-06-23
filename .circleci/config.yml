@@ -19,8 +19,7 @@ jobs:
                 POSTGRES_PASSWORD=password$'\n'
               > .env
       - run: docker-compose up -d
-      - run: nvm use v18.4.0
-      - run: npx jest --maxWorkers=50%
+      - run: nvm use v18.4.0 && npx jest --maxWorkers=50%
 
 workflows:
   test_and_deploy:
