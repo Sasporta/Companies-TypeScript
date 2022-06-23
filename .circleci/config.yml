@@ -25,19 +25,12 @@ workflows:
     jobs:
       - test
 
-      - build:
-          filters:
-            branches:
-              only: main
-          requires:
-            - test
-
       - heroku/deploy-via-git:
           filters:
             branches:
               only: main
           requires:
-            - build
+            - test
           # post-steps:
           #   - run: your-database-migration-command
 
