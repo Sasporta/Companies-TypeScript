@@ -10,7 +10,6 @@ jobs:
     steps:
       - checkout
       - run: nvm install node
-      - run: nvm use v18.4.0
       - run: npm i
       - run:  echo
                 DB_HOST=localhost$'\n'
@@ -20,6 +19,7 @@ jobs:
                 POSTGRES_PASSWORD=password$'\n'
               > .env
       - run: docker-compose up -d
+      - run: nvm use v18.4.0
       - run: npx jest --maxWorkers=50%
 
 workflows:
