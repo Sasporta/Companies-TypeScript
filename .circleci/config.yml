@@ -16,7 +16,7 @@ jobs:
                 POSTGRES_USER=me$'\n'
                 POSTGRES_PASSWORD=password$'\n'
               > .env
-      - run: eslint ./
+      - run: npx eslint ./
       - run: docker-compose up -d
       - run: nvm install node && npx jest --maxWorkers=50%
 
