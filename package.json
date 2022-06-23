@@ -5,6 +5,7 @@
 	"main": "app.ts",
 	"scripts": {
 		"lint": "eslint ./",
+		"postinstall": "npx tsc",
 		"start": "node dist/server.js",
 		"dev": "nodemon src/server.ts",
 		"test": "bash src/scripts/test.sh",

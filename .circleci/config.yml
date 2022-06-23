@@ -16,29 +16,9 @@ jobs:
                 POSTGRES_USER=me$'\n'
                 POSTGRES_PASSWORD=password$'\n'
               > .env
+      - run: eslint ./
       - run: docker-compose up -d
       - run: nvm install node && npx jest --maxWorkers=50%
-
-  build:
-    docker:
-      - image: cimg/node:18.4.0
-    steps:
-      - checkout
-      - run: npm i
-      - run: npx tsc
-      - persist_to_workspace:
-          root: .
-          paths:
-            - dist
-
-  deploy:
-    executor: heroku/default
-      steps:
-        - checkout
-        - attach_workspace:
-          at: .
-        - heroku/install
-        - heroku/deploy-via-git
 
 workflows:
   test_and_deploy:
@@ -52,7 +32,7 @@ workflows:
           requires:
             - test
 
-      - deploy:
+      - heroku/deploy-via-git:
           filters:
             branches:
               only: main
