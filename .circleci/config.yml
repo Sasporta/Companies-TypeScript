@@ -31,10 +31,11 @@ workflows:
               only: main
           requires:
             - test
-          # post-steps:
-          #   - run: your-database-migration-command
           pre-steps:
             - run: npm i
+            - run: npx tsc
+          # post-steps:
+          #   - run: your-database-migration-command
 
   # scheduled-automation:
   #   triggers:
