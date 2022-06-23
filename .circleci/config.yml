@@ -8,7 +8,6 @@ jobs:
     machine:
       image: ubuntu-2004:202010-01
     steps:
-      - checkout
       - run: npm i
       - run:  echo
                 DB_HOST=localhost$'\n'
@@ -20,13 +19,26 @@ jobs:
       - run: docker-compose up -d
       - run: nvm install node && npx jest --maxWorkers=50%
 
-  deploy:
-    executor: heroku/default
+  build:
+    docker:
+      - image: cimg/node:latest
+    working_directory: ~/project
     steps:
-      - checkout
-      - heroku/install
       - run: npm i
       - run: npx tsc
+      - persist_to_workspace:
+        root: ~/project
+        paths: .
+
+  deploy:
+    executor: heroku/default
+    working_directory: ~/project
+    steps:
+      - attach_workspace:
+        at: ~/project
+      - run: npm i
+      - run: npx tsc
+      - heroku/install
       - heroku/deploy-via-git
 
 workflows:
@@ -34,12 +46,19 @@ workflows:
     jobs:
       - test
 
+      - build:
+        filters:
+          branches:
+            only: main
+          requires:
+            - test
+
       - deploy:
           filters:
             branches:
               only: main
           requires:
-            - test
+            - build
           # post-steps:
           #   - run: your-database-migration-command
 
