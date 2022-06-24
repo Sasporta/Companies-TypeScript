@@ -3,16 +3,16 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 
 import config from '.';
 import { Company } from '../entities/Company';
-import CompanySeeder from '../seeds/companies';
 import { Employee } from '../entities/Employee';
-import EmployeeSeeder from '../seeds/employees';
+import CompanySeeder from '../seeds/company_seeder';
+import LoadTestSeeder from '../seeds/loadTestSeeder';
+import EmployeeSeeder from '../seeds/employee_seeder';
+import CompanyFactory from '../seeds/factories/company_factory';
+import EmployeeFactory from '../seeds/factories/employee_factory';
 
 const {
-	db: { database, host, password, port, url, username },
+	db: { database, host, loadTest, password, port, ssl, url, username },
 } = config;
-
-const ssl =
-	process.env.NODE_ENV !== 'production' ? false : { rejectUnauthorized: false };
 
 const options: DataSourceOptions & SeederOptions = {
 	type: 'postgres',
@@ -24,7 +24,8 @@ const options: DataSourceOptions & SeederOptions = {
 	password,
 	database,
 	entities: [Company, Employee],
-	seeds: [CompanySeeder, EmployeeSeeder],
+	factories: [CompanyFactory, EmployeeFactory],
+	seeds: loadTest ? [LoadTestSeeder] : [CompanySeeder, EmployeeSeeder],
 };
 
 export const dataSource = new DataSource(options);

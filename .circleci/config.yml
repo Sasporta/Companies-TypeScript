@@ -20,6 +20,13 @@ jobs:
       - run: docker-compose up -d
       - run: nvm install node && npx jest --maxWorkers=50%
 
+  load_test:
+    docker:
+      - image: cimg/node:18.4.0
+    steps:
+      - checkout
+      - run: echo "this is the load_test job :)"
+
 workflows:
   test_and_deploy:
     jobs:
@@ -34,14 +41,21 @@ workflows:
           # post-steps:
           #   - run: your-database-migration-command
 
-  # scheduled-automation:
-  #   triggers:
-  #     - schedule:
-  #         cron: "0 20 * * *"
-  #         filters: *staging_filters
-  #   jobs:
-  #     - run_cypress:
-  #         env: demo
-  #         url: http://demo.affogata.net
-  #         ignore_tests: ",ignoreTestFiles=*.only_local.spec.js"
-  #         context: staging
+      - heroku/deploy-via-git:
+          app-name: 'company-hierarchy-service-load'
+          filters:
+            branches:
+              only: main
+          requires:
+            - test
+
+  scheduled-load-test:
+    triggers:
+      - schedule:
+          cron: "0 13 * * 5"
+          filters:
+            branches:
+              only: main 
+
+    jobs:
+      - load_test
