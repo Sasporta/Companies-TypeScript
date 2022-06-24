@@ -5,9 +5,9 @@ import { Employee } from '../entities/Employee';
 
 export default class LoadTestSeeder implements Seeder {
 	public async run(DS, factoryManager: SeederFactoryManager): Promise<any> {
-		const companiesAmount = 2;
-		const employeesLevels = 3;
-		const employeesForEachManager = 3;
+		const companiesAmount = 1;
+		const employeesLevels = 5;
+		const employeesPerManager = 6;
 
 		let CEOId = 1;
 
@@ -20,17 +20,17 @@ export default class LoadTestSeeder implements Seeder {
 			let manager_id = CEOId;
 
 			for (let level = 0; level < employeesLevels; level++) {
-				const seedsCount = employeesForEachManager ** level;
+				const seedsCount = employeesPerManager ** level;
 
 				for (let seed = 0; seed < seedsCount; seed++) {
-					await factoryManager.get(Employee).saveMany(employeesForEachManager, {
+					await factoryManager.get(Employee).saveMany(employeesPerManager, {
 						company_id,
 						manager_id,
 					});
 
 					manager_id++;
 
-					CEOId += employeesForEachManager;
+					CEOId += employeesPerManager;
 				}
 			}
 
