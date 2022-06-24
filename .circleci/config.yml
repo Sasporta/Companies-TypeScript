@@ -53,6 +53,9 @@ workflows:
     triggers:
       - schedule:
           cron: "0 13 * * 5"
+          filters:
+            branches:
+              only: main 
 
     jobs:
       - load_test
