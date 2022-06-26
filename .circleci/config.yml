@@ -42,7 +42,7 @@ workflows:
           #   - run: your-database-migration-command
 
       - heroku/deploy-via-git:
-          app-name: ${HEROKU_LAOD_APP_NAME}
+          app-name: ${HEROKU_LOAD_APP_NAME}
           filters:
             branches:
               only: main

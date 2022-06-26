@@ -1,5 +1,5 @@
 {
-	"name": "company-hierarchy-service-ts",
+	"name": "hierarchy-service-backend",
 	"version": "1.0.0",
 	"description": "ts project",
 	"main": "app.ts",
