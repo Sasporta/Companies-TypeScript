@@ -1,6 +1,6 @@
-# company-hierarchy-service-ts
+# Hierarchy Service Backend
 
-A service that manages company hierarch
+A service that manages company hierarchy
 
 ## Technologies
 
@@ -9,10 +9,14 @@ A service that manages company hierarch
 3. ORM - TypeORM
 4. Documentation - Swagger
 5. Tests Library - Jest with SuperTest
+6. CI/CD - CircleCI
+7. Dockerize
+8. Deploy - Heroku
 
 ## Noticeable Libraries
 
 - Express
+- ESLint & Prettier
 
 ### Installation:
 
