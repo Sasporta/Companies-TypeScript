@@ -6,7 +6,8 @@ describe('getLimit function', () => {
 	});
 
 	it('should return the defult limit value (10) if param is invalid', async () => {
+		expect(getLimit(0)).toBe(10);
 		expect(getLimit(NaN)).toBe(10);
-		expect(getLimit(11)).toBe(10);
+		expect(getLimit(1001)).toBe(1000);
 	});
 });

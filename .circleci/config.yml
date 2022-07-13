@@ -25,7 +25,12 @@ jobs:
       - image: cimg/node:18.4.0
     steps:
       - checkout
-      - run: echo "this is the load_test job :)"
+      - run: npm i
+      - run:  echo
+                LOAD_TEST=true$'\n'
+                DATABASE_URL={LOAD_TEST_DB_URL}$'\n'
+              > .env
+      - run: nvm install node && npm run load-test
 
 workflows:
   test_and_deploy:
@@ -52,10 +57,10 @@ workflows:
   scheduled-load-test:
     triggers:
       - schedule:
-          cron: "0 13 * * 5"
+          cron: "10 13 * * 3"
           filters:
             branches:
-              only: main 
+              only: performance-tests
 
     jobs:
       - load_test
