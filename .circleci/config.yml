@@ -28,7 +28,7 @@ jobs:
       - run: npm i
       - run:  echo
                 LOAD_TEST=true$'\n'
-                DATABASE_URL={LOAD_TEST_DB_URL}$'\n'
+                DATABASE_URL=${LOAD_TEST_DB_URL}$'\n'
               > .env
       - run: nvm install node && npm run load-test
 
@@ -57,7 +57,7 @@ workflows:
   scheduled-load-test:
     triggers:
       - schedule:
-          cron: "13 13 * * 3"
+          cron: "18 13 * * 3"
           filters:
             branches:
               only: performance-tests
