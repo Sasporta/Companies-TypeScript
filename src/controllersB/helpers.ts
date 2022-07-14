@@ -25,35 +25,27 @@ export const findOrThrow = async (
 ) => (await model.findOneBy({ uuid })) ?? throwError(statusCode);
 
 export const deleteOrThrow404 = async (table: any, uuid: string) => {
-	if (
-		(
-			await dataSource
-				.createQueryBuilder()
-				.delete()
-				.from(table)
-				.where('uuid = :uuid', { uuid })
-				.execute()
-		).affected === 0
-	)
+	const item = await table.findOneBy(uuid);
+	if (item.affected === 0) {
 		throwError(404);
+	} else {
+		item.delete(item.id);
+	}
 };
 
 export const updateOrThrow404 = async (
 	table: any,
 	{ uuid, ...params }: any,
 ) => {
-	const {
-		raw: [entity],
-		affected,
-	} = await dataSource
-		.createQueryBuilder()
-		.update(table)
-		.set({ ...params })
-		.where('uuid = :uuid', { uuid })
-		.returning('*')
-		.execute();
+	const item = await table.findOneBy(uuid);
 
-	return affected === 0 ? throwError(404) : entity;
+	if (item.affected === 0) {
+		throwError(404);
+	}
+
+	const {raw: [entity] } = await item.update(...params);
+
+	return entity;
 };
 
 export const controllerWrapper =

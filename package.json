@@ -9,6 +9,7 @@
 		"start": "node dist/server.js",
 		"dev": "nodemon src/server.ts",
 		"test": "bash src/scripts/test.sh",
+		"load-test": "bash src/scripts/loadTests.sh",
 		"test:coverage": "bash src/scripts/test:coverage.sh"
 	},
 	"keywords": [],
