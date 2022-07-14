@@ -11,7 +11,7 @@ import CompanyFactory from '../seeds/factories/company_factory';
 import EmployeeFactory from '../seeds/factories/employee_factory';
 
 const {
-	db: { database, host, loadTest, password, port, ssl, url, username },
+	db: { database, host, loadTestSeeding, password, port, ssl, url, username },
 } = config;
 
 const options: DataSourceOptions & SeederOptions = {
@@ -25,7 +25,7 @@ const options: DataSourceOptions & SeederOptions = {
 	database,
 	entities: [Company, Employee],
 	factories: [CompanyFactory, EmployeeFactory],
-	seeds: loadTest ? [LoadTestSeeder] : [CompanySeeder, EmployeeSeeder],
+	seeds: loadTestSeeding ? [LoadTestSeeder] : [CompanySeeder, EmployeeSeeder],
 };
 
 export const dataSource = new DataSource(options);

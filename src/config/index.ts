@@ -13,10 +13,10 @@ export default {
 		database: process.env.POSTGRES_DB,
 		username: process.env.POSTGRES_USER,
 		password: process.env.POSTGRES_PASSWORD,
-		loadTest: process.env.LOAD_TEST === 'true',
+		loadTestSeeding: process.env.LOAD_TEST_SEEDING === 'true',
 		ssl:
-			process.env.NODE_ENV !== 'production'
-				? false
-				: { rejectUnauthorized: false },
+			process.env.NODE_ENV === 'production' || process.env.LOAD_TEST === 'true'
+				? { rejectUnauthorized: false }
+				: false,
 	},
 };
