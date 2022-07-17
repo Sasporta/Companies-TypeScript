@@ -2,9 +2,9 @@ export default {
 	openapi: '3.0.0',
 	info: {
 		version: '1.0.0',
-		title: 'Company Hierarchy Service API',
+		title: 'Hierarchy Service API',
 		description:
-			'This is a documentation for the company hierarchy service API',
+			'This is a documentation for the hierarchy service API',
 	},
 	servers: [
 		{
