@@ -1,16 +1,16 @@
-import { throwError } from '../../../controllers/helpers';
+import ErrorHandling from '../../../models/ErrorHandling';
 
-describe('throwError function', () => {
+describe('throwError method', () => {
 	const getError = (status: number) => {
 		try {
-			throwError(status);
+			ErrorHandling.throwError(status);
 		} catch (error) {
 			return error;
 		}
 	};
 
 	it('should throw an error', () => {
-		expect(() => throwError(404)).toThrow();
+		expect(() => ErrorHandling.throwError(404)).toThrow();
 	});
 
 	it('should return an error with status 404 and proper error message', () => {
