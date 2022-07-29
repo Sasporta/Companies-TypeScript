@@ -1,16 +1,22 @@
 import { Request } from 'express';
 
-import { getLimit } from '../helpers';
+import CompanyModel from '../../models/Company';
 import { Company } from '../../entities/Company';
-import { dataSource } from '../../config/typeorm';
+import Validation from '../../models/Validation';
+import { getAllCompaniesQuery } from '../../pgQueries/companies/getAll';
 
 export const getCompanies = async ({ query: { limit } }: Request) => {
-	const companies = await dataSource
-		.createQueryBuilder()
-		.from(Company, 'company')
-		.select(['company.uuid', 'company.name', 'company.country'])
-		.limit(getLimit(+limit))
-		.getMany();
+	let companies: Company[];
+
+	const resultsLimit = Validation.limit(+limit);
+
+	companies = await CompanyModel.getListFromCache(resultsLimit);
+
+	if (!companies) {
+		companies = await getAllCompaniesQuery(resultsLimit);
+
+		await CompanyModel.setListInCache(resultsLimit, companies);
+	}
 
 	return { statusCode: 200, content: companies };
 };

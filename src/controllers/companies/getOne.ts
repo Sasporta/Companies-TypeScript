@@ -1,10 +1,18 @@
 import { Request } from 'express';
 
-import { findOrThrow } from '../helpers';
+import CompanyModel from '../../models/Company';
 import { Company } from '../../entities/Company';
 
 export const getCompany = async ({ params: { id: uuid } }: Request) => {
-	const company = await findOrThrow(Company, uuid, 404);
+	let company: Company;
+
+	company = await CompanyModel.getItemFromCache(uuid);
+
+	if (!company) {
+		company = await CompanyModel.getOne(uuid, 404);
+
+		await CompanyModel.setItemInCache(uuid, company);
+	}
 
 	return {
 		statusCode: 200,
