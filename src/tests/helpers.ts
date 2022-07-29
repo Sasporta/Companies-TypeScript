@@ -21,28 +21,24 @@ export const testError = (
 };
 
 export const testPerformance =
-	(benchmark: number, iterations: number, crudMethod: (a: string) => any) =>
-		(path: string) => {
-			it(`should have an average time of less than ${benchmark} ms`,
-				async () => {
+	(benchmark: number, iterations: number) =>
+		(someProcess: any) =>
+			(...params: any) => {
+				it(`should have an average time of less than ${benchmark} ms`, async () => {
 					let performanceSum = 0;
 
 					for (let i = 0; i < iterations; i++) {
 						const start = performance.now();
 
-						const { statusCode, headers } = await crudMethod(path);
+						await someProcess(...params);
 
 						const duration = performance.now() - start;
 
 						performanceSum += duration;
-
-						expect(statusCode).toBe(200);
-						expect(headers['content-type']).toMatch('application/json');
 					}
 
 					console.log('average time: ', performanceSum / iterations);
 
 					expect(performanceSum / iterations).toBeLessThan(benchmark);
-				}
-			);
-		};
+				});
+			};
