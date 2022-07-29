@@ -1,9 +1,8 @@
 import { Request, Response } from 'express';
-import { dataSource } from '../config/typeorm';
 
 import resDoc from '../swagger/docs/components/responses';
 
-export const getLimit = (limit: number) =>
+export const validateLimit = (limit: number) =>
 	limit >= 1 && limit < 1000 ? limit : 10;
 
 export const throwError = (status: number) => {
@@ -43,7 +42,9 @@ export const updateOrThrow404 = async (
 		throwError(404);
 	}
 
-	const {raw: [entity] } = await item.update(...params);
+	const {
+		raw: [entity],
+	} = await item.update(...params);
 
 	return entity;
 };
