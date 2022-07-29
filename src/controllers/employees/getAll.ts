@@ -1,35 +1,37 @@
 import { Request } from 'express';
 
-import { getLimit } from '../helpers';
-import { Company } from '../../entities/Company';
-import { dataSource } from '../../config/typeorm';
+import Validation from '../../models/Validation';
+import EmployeeModel from '../../models/Employee';
 import { Employee } from '../../entities/Employee';
+import { getAllEmployeesQuery } from '../../pgQueries/employees/getAll';
 
 export const getEmployees = async ({
 	query: { companyUuid, managerUuid, limit },
 }: Request) => {
-	let getAllQuery = dataSource
-		.createQueryBuilder()
-		.select(['employee.uuid', 'employee.name', 'employee.age'])
-		.from(Employee, 'employee');
+	companyUuid = companyUuid as string;
+	managerUuid = managerUuid as string;
 
-	if (companyUuid && managerUuid) {
-		getAllQuery = getAllQuery
-			.innerJoin(Employee, 'manager', 'employee.manager_id = manager.id')
-			.innerJoin(Company, 'company', 'employee.company_id = company.id')
-			.where('manager.uuid = :managerUuid', { managerUuid })
-			.andWhere('company.uuid = :companyUuid', { companyUuid });
-	} else if (companyUuid) {
-		getAllQuery = getAllQuery
-			.innerJoin(Company, 'company', 'employee.company_id = company.id')
-			.where('company.uuid = :companyUuid', { companyUuid });
-	} else if (managerUuid) {
-		getAllQuery = getAllQuery
-			.innerJoin(Employee, 'manager', 'employee.manager_id = manager.id')
-			.where('manager.uuid = :managerUuid', { managerUuid });
+	let employees: Employee[];
+
+	const resultsLimit = Validation.limit(+limit);
+
+	const stringifyParams = EmployeeModel.stringifyParams({
+		companyUuid,
+		managerUuid,
+		limit: resultsLimit,
+	});
+
+	employees = await EmployeeModel.getListFromCache(stringifyParams);
+
+	if (!employees) {
+		employees = await getAllEmployeesQuery(
+			companyUuid,
+			managerUuid,
+			resultsLimit,
+		);
+
+		await EmployeeModel.setListInCache(stringifyParams, employees);
 	}
-
-	const employees = await getAllQuery.limit(getLimit(+limit)).getMany();
 
 	return { statusCode: 200, content: employees };
 };

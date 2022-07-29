@@ -1,38 +1,39 @@
 import { Request } from 'express';
 
-import { Company } from '../../entities/Company';
-import { Employee } from '../../entities/Employee';
-import {
-	findOrThrow,
-	updateOrThrow404,
-	validateAtLeastOneParamExists,
-} from '../helpers';
+import CompanyModel from '../../models/Company';
+import Validation from '../../models/Validation';
+import EmployeeModel from '../../models/Employee';
 
 export const updateEmployee = async ({
 	params: { id: uuid },
 	body: { companyUuid, managerUuid, name, age },
 }: Request) => {
-	validateAtLeastOneParamExists(name, age, companyUuid, managerUuid);
+	Validation.atLeastOneParamExists(name, age, companyUuid, managerUuid);
 
 	const { id: company_id } =
 		typeof companyUuid === 'string'
-			? await findOrThrow(Company, companyUuid, 422)
+			? await CompanyModel.getOne(companyUuid, 422)
 			: { id: undefined };
 
 	const { id: manager_id } =
 		typeof managerUuid === 'string'
-			? await findOrThrow(Employee, managerUuid, 422)
+			? await EmployeeModel.getOne(managerUuid, 422)
 			: managerUuid === null
 				? { id: null }
 				: { id: undefined };
 
-	const employee = await updateOrThrow404(Employee, {
+	const employee = await EmployeeModel.edit({
 		uuid,
 		name,
 		age,
 		company_id,
 		manager_id,
 	});
+
+	await Promise.all([
+		EmployeeModel.removeItemFromCache(uuid),
+		EmployeeModel.removeAllListsFromCache(),
+	]);
 
 	return {
 		statusCode: 200,

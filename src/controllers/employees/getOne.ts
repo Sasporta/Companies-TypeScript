@@ -1,10 +1,18 @@
 import { Request } from 'express';
 
-import { findOrThrow } from '../helpers';
+import EmployeeModel from '../../models/Employee';
 import { Employee } from '../../entities/Employee';
 
 export const getEmployee = async ({ params: { id: uuid } }: Request) => {
-	const employee = await findOrThrow(Employee, uuid, 404);
+	let employee: Employee;
+
+	employee = await EmployeeModel.getItemFromCache(uuid);
+
+	if (!employee) {
+		employee = await EmployeeModel.getOne(uuid, 404);
+
+		await EmployeeModel.setItemInCache(uuid, employee);
+	}
 
 	return {
 		statusCode: 200,
