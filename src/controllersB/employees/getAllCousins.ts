@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import { In } from 'typeorm';
 
-import { findOrThrow, getLimit, throwError } from '../helpers';
+import { findOrThrow, validateLimit, throwError } from '../helpers';
 import { Employee } from '../../entities/Employee';
 
 export const getCousinsB = async ({
@@ -31,7 +31,7 @@ export const getCousinsB = async ({
 		where: {
 			manager_id: In([...unclesId]),
 		},
-		take: getLimit(+limit),
+		take: validateLimit(+limit),
 	});
 
 	return { statusCode: 200, content: cousins };

@@ -1,6 +1,6 @@
 import { Request } from 'express';
 
-import { getLimit } from '../helpers';
+import { validateLimit } from '../helpers';
 import { Company } from '../../entities/Company';
 
 export const getCompaniesB = async ({ query: { limit } }: Request) => {
@@ -10,7 +10,7 @@ export const getCompaniesB = async ({ query: { limit } }: Request) => {
 			name: true,
 			country: true,
 		},
-		take: getLimit(+limit),
+		take: validateLimit(+limit),
 	});
 
 	return { statusCode: 200, content: companies };
