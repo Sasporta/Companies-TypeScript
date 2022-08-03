@@ -1,4 +1,5 @@
 .env
 dist
+dump.rdb
 coverage
 node_modules
