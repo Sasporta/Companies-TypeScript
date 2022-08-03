@@ -1,7 +1,7 @@
 import { get } from '../../helpers';
 import { companiesPath } from '../../api/companiesData';
 
-describe('controllerWrapper function', () => {
+describe('controllerWrapper method', () => {
 	it('should throw an error if something wrong and unexpected happened', async () => {
 		const { status, body } = await get(companiesPath);
 
