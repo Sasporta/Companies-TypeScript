@@ -4,7 +4,7 @@ import { Company } from '../entities/Company';
 import { Employee } from '../entities/Employee';
 
 export default class LoadTestSeeder implements Seeder {
-	public async run(DS, factoryManager: SeederFactoryManager): Promise<any> {
+	public async run(DS, factoryManager: SeederFactoryManager): Promise<void> {
 		const companiesAmount = 1;
 		const employeesLevels = 5;
 		const employeesPerManager = 6;
