@@ -5,7 +5,7 @@ orbs:
 jobs:
   test:
     machine:
-      image: ubuntu-2004:202010-01
+      image: ubuntu-2204:current
     steps:
       - checkout
       - run: npm i
@@ -58,7 +58,7 @@ workflows:
   scheduled-load-test:
     triggers:
       - schedule:
-          cron: "41 15 * * 2"
+          cron: "18 18 * * 2"
           filters:
             branches:
               only:
