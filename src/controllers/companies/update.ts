@@ -1,15 +1,20 @@
 import { Request } from 'express';
 
-import { Company } from '../../entities/Company';
-import { updateOrThrow404, validateAtLeastOneParamExists } from '../helpers';
+import CompanyModel from '../../models/Company';
+import Validation from '../../models/Validation';
 
 export const updateCompany = async ({
 	params: { id: uuid },
 	body: { name, country },
 }: Request) => {
-	validateAtLeastOneParamExists(name, country);
+	Validation.atLeastOneParamExists(name, country);
 
-	const company = await updateOrThrow404(Company, { uuid, name, country });
+	const company = await CompanyModel.edit({ uuid, name, country });
+
+	await Promise.all([
+		CompanyModel.removeItemFromCache(uuid),
+		CompanyModel.removeAllListsFromCache(),
+	]);
 
 	return {
 		statusCode: 200,

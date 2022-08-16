@@ -3,11 +3,15 @@ import { getAllRequestTest } from './getAll';
 import { getOneRequestTest } from './getOne';
 import { updateRequestTest } from './update';
 import { deleteRequestTest } from './delete';
+import { redis } from '../../../config/redis';
 import { dataSource } from '../../../config/typeorm';
 
 describe('companies CRUD requests', () => {
 	beforeAll(async () => await dataSource.initialize());
-	afterAll(async () => await dataSource.destroy());
+	afterAll(async () => {
+		await redis.disconnect();
+		await dataSource.destroy();
+	});
 
 	getAllRequestTest();
 	getOneRequestTest();

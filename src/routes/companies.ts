@@ -1,18 +1,16 @@
 import express from 'express';
 
-import { controllerWrapper } from '../controllers/helpers';
-import { getCompany } from '../controllers/companies/getOne';
-import { createCompany } from '../controllers/companies/post';
-import { getCompanies } from '../controllers/companies/getAll';
-import { updateCompany } from '../controllers/companies/update';
-import { deleteCompany } from '../controllers/companies/delete';
+import CompanyModel from '../models/Company';
+
+const [createCompany, deleteCompany, getCompany, getCompanies, updateCompany] =
+	CompanyModel.companiesEps();
 
 const router = express.Router();
 
-router.get('/companies', controllerWrapper(getCompanies));
-router.post('/companies', controllerWrapper(createCompany));
-router.get('/companies/:id', controllerWrapper(getCompany));
-router.patch('/companies/:id', controllerWrapper(updateCompany));
-router.delete('/companies/:id', controllerWrapper(deleteCompany));
+router.get('/companies', getCompanies);
+router.post('/companies', createCompany);
+router.get('/companies/:id', getCompany);
+router.patch('/companies/:id', updateCompany);
+router.delete('/companies/:id', deleteCompany);
 
 export default router;
