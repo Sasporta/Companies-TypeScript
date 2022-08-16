@@ -5,7 +5,7 @@ orbs:
 jobs:
   test:
     machine:
-      image: ubuntu-2004:202010-01
+      image: ubuntu-2204:current
     steps:
       - checkout
       - run: npm i
@@ -62,6 +62,5 @@ workflows:
           filters:
             branches:
               only: main
-
     jobs:
       - load_test

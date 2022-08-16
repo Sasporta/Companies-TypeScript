@@ -1,19 +1,20 @@
-import { get, testPerformance } from '../helpers';
+import request from 'supertest';
 
-const apiBenchmark = 100;
+import { testPerformance } from '../helpers';
 
-const queryBenchmark = 150;
+const iterations = 50;
 
-const iterations = 10;
+const apiBenchmark = 300;
 
-export const maxTestingTime = 30000;
+const queryBenchmark = 100;
+
+const loadTestEnvUrl = 'https://hierarchy-service-backend-load.herokuapp.com';
+
+export const { get } = request(loadTestEnvUrl);
 
 export const testGetReqPerformance = testPerformance(
 	apiBenchmark,
 	iterations,
 )(get);
 
-export const testQueryPerformance = testPerformance(
-	queryBenchmark,
-	iterations,
-);
+export const testQueryPerformance = testPerformance(queryBenchmark, iterations);

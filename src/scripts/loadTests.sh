@@ -1,2 +1,2 @@
 #!/bin/bash
-jest --maxWorkers=50% --testMatch **/*.loadTest.*
+jest --maxWorkers=50% --testMatch **/*.loadTests.*
