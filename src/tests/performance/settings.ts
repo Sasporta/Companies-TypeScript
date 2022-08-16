@@ -2,7 +2,7 @@ import request from 'supertest';
 
 import { testPerformance } from '../helpers';
 
-const loadTestEnvUrl = 'https://hierarchy-service-backend-load.herokuapp.com/';
+const loadTestEnvUrl = 'https://hierarchy-service-backend-load.herokuapp.com';
 
 const apiBenchmark = 100;
 
