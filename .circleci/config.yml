@@ -58,12 +58,10 @@ workflows:
   scheduled-load-test:
     triggers:
       - schedule:
-          cron: "18 20 * * 2"
+          cron: "0 13 * * 3"
           filters:
             branches:
               only:
                 - main
-                - scheduled-load-test
-
     jobs:
       - load_test
