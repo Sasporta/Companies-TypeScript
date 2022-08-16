@@ -1,10 +1,14 @@
 import { Request } from 'express';
 
-import { deleteOrThrow404 } from '../helpers';
-import { Employee } from '../../entities/Employee';
+import EmployeeModel from '../../models/Employee';
 
 export const deleteEmployee = async ({ params: { id: uuid } }: Request) => {
-	await deleteOrThrow404(Employee, uuid);
+	await EmployeeModel.destroy(uuid);
+
+	await Promise.all([
+		EmployeeModel.removeItemFromCache(uuid),
+		EmployeeModel.removeAllListsFromCache(),
+	]);
 
 	return { statusCode: 204 };
 };
