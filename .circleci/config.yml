@@ -10,9 +10,9 @@ jobs:
       - checkout
       - run: npm i
       - run:  echo
-                DB_HOST=${LOCAL_DB_HOST}$'\n'
-                DB_PORT=${LOCAL_DB_PORT}$'\n'
+                HOST=${LOCAL_DB_HOST}$'\n'
                 POSTGRES_DB=${LOCAL_DB_NAME}$'\n'
+                POSTGRES_PORT=${LOCAL_DB_PORT}$'\n'
                 POSTGRES_USER=${LOCAL_DB_USER}$'\n'
                 POSTGRES_PASSWORD=${LOCAL_DB_PASSWORD}$'\n'
               > .env
@@ -29,6 +29,7 @@ jobs:
       - run:  echo
                 LOAD_TEST=true$'\n'
                 DATABASE_URL=${LOAD_TEST_DB_URL}$'\n'
+                REDIS_TLS_URL=${LOAD_TEST_REDIS_TLS_URL}$'\n'
               > .env
       - run: nvm install node && npm run load-test
 
