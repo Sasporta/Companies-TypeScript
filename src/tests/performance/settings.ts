@@ -1,10 +1,16 @@
-import { get, testPerformance } from '../helpers';
+import request from 'supertest';
+
+import { testPerformance } from '../helpers';
+
+const loadTestEnvUrl = 'https://hierarchy-service-backend-load.herokuapp.com/';
 
 const apiBenchmark = 100;
 
-const queryBenchmark = 150;
+const queryBenchmark = 100;
 
 const iterations = 50;
+
+const { get } = request(loadTestEnvUrl);
 
 export const maxTestingTime = 30000;
 
