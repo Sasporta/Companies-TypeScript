@@ -58,7 +58,7 @@ workflows:
   scheduled-load-test:
     triggers:
       - schedule:
-          cron: "0 13 * * 2"
+          cron: "12 15 * * 2"
           filters:
             branches:
               only:
