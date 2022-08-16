@@ -4,7 +4,7 @@ const apiBenchmark = 100;
 
 const queryBenchmark = 150;
 
-const iterations = 10;
+const iterations = 50;
 
 export const maxTestingTime = 30000;
 
