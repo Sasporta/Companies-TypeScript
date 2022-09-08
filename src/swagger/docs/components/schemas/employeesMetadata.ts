@@ -1,12 +1,12 @@
 export default {
   EmployeeMetadataInRespond: {
     type: 'object',
-    required: ['uuid', 'subordinatesCount'],
+    required: ['uuid', 'subordinates'],
     properties: {
       uuid: {
         $ref: '#/components/schemas/UUID',
       },
-      subordinatesCount: {
+      subordinates: {
         type: 'integer',
         example: 1,
       },
