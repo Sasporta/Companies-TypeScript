@@ -3,12 +3,12 @@ import { Request } from 'express';
 import EmployeeModel from '../../models/Employee';
 
 export const deleteEmployee = async ({ params: { id: uuid } }: Request) => {
-	await EmployeeModel.destroy(uuid);
+  await EmployeeModel.destroy(uuid);
 
-	await Promise.all([
-		EmployeeModel.removeItemFromCache(uuid),
-		EmployeeModel.removeAllListsFromCache(),
-	]);
+  await Promise.all([
+    EmployeeModel.removeItemFromCache(uuid),
+    EmployeeModel.removeAllListsFromCache(),
+  ]);
 
-	return { statusCode: 204 };
+  return { statusCode: 204 };
 };

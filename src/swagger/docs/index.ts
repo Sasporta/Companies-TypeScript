@@ -3,7 +3,7 @@ import basicInfo from './basicInfo';
 import components from './components';
 
 export default {
-	...basicInfo,
-	...paths,
-	...components,
+  ...basicInfo,
+  ...paths,
+  ...components,
 };

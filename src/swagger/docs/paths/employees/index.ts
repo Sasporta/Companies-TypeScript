@@ -6,16 +6,16 @@ import deleteEmployee from './crud/delete';
 import getCousinsEmployees from './crud/getAllCousins';
 
 export default {
-	'/employees': {
-		...getEmployees,
-		...createEmployee,
-	},
-	'/employees/{id}': {
-		...getEmployee,
-		...updateEmployee,
-		...deleteEmployee,
-	},
-	'/employees/cousins/{id}': {
-		...getCousinsEmployees,
-	},
+  '/employees': {
+    ...getEmployees,
+    ...createEmployee,
+  },
+  '/employees/{id}': {
+    ...getEmployee,
+    ...updateEmployee,
+    ...deleteEmployee,
+  },
+  '/employees/cousins/{id}': {
+    ...getCousinsEmployees,
+  },
 };

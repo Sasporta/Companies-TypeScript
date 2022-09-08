@@ -3,9 +3,9 @@ import companies from './companies';
 import employeesMetadata from './employeesMetadata';
 
 export default {
-	paths: {
-		...employees,
-		...companies,
-		...employeesMetadata,
-	},
+  paths: {
+    ...employees,
+    ...companies,
+    ...employeesMetadata,
+  },
 };

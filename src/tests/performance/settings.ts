@@ -13,8 +13,8 @@ const loadTestEnvUrl = 'https://hierarchy-service-backend-load.herokuapp.com';
 export const { get } = request(loadTestEnvUrl);
 
 export const testGetReqPerformance = testPerformance(
-	apiBenchmark,
-	iterations,
+  apiBenchmark,
+  iterations,
 )(get);
 
 export const testQueryPerformance = testPerformance(queryBenchmark, iterations);

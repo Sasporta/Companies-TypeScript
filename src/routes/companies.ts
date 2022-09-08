@@ -3,7 +3,7 @@ import express from 'express';
 import CompanyModel from '../models/Company';
 
 const [createCompany, deleteCompany, getCompany, getCompanies, updateCompany] =
-	CompanyModel.companiesEps();
+  CompanyModel.companiesEps();
 
 const router = express.Router();
 

@@ -6,26 +6,26 @@ import { Employee } from '../../entities/Employee';
 import { getAllCousinsQuery } from '../../pgQueries/employees/getAllCousins';
 
 export const getCousins = async ({
-	params: { id: uuid },
-	query: { limit },
+  params: { id: uuid },
+  query: { limit },
 }: Request) => {
-	let cousins: Employee[];
+  let cousins: Employee[];
 
-	const resultsLimit = Validation.limit(+limit);
+  const resultsLimit = Validation.limit(+limit);
 
-	const stringifyParams = EmployeeModel.stringifyParams({
-		uuid,
-		path: 'cousins',
-		limit: resultsLimit,
-	});
+  const stringifyParams = EmployeeModel.stringifyParams({
+    uuid,
+    path: 'cousins',
+    limit: resultsLimit,
+  });
 
-	cousins = await EmployeeModel.getListFromCache(stringifyParams);
+  cousins = await EmployeeModel.getListFromCache(stringifyParams);
 
-	if (!cousins) {
-		cousins = await getAllCousinsQuery(uuid, resultsLimit);
+  if (!cousins) {
+    cousins = await getAllCousinsQuery(uuid, resultsLimit);
 
-		await EmployeeModel.setListInCache(stringifyParams, cousins);
-	}
+    await EmployeeModel.setListInCache(stringifyParams, cousins);
+  }
 
-	return { statusCode: 200, content: cousins };
+  return { statusCode: 200, content: cousins };
 };

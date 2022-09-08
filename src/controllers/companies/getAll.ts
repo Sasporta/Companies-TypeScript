@@ -6,17 +6,17 @@ import Validation from '../../models/Validation';
 import { getAllCompaniesQuery } from '../../pgQueries/companies/getAll';
 
 export const getCompanies = async ({ query: { limit } }: Request) => {
-	let companies: Company[];
+  let companies: Company[];
 
-	const resultsLimit = Validation.limit(+limit);
+  const resultsLimit = Validation.limit(+limit);
 
-	companies = await CompanyModel.getListFromCache(resultsLimit);
+  companies = await CompanyModel.getListFromCache(resultsLimit);
 
-	if (!companies) {
-		companies = await getAllCompaniesQuery(resultsLimit);
+  if (!companies) {
+    companies = await getAllCompaniesQuery(resultsLimit);
 
-		await CompanyModel.setListInCache(resultsLimit, companies);
-	}
+    await CompanyModel.setListInCache(resultsLimit, companies);
+  }
 
-	return { statusCode: 200, content: companies };
+  return { statusCode: 200, content: companies };
 };

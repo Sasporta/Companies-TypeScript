@@ -6,23 +6,23 @@ import { employeesLoadTest } from './api/employees';
 import { queriesLoadTest } from './PgQueries/getAllQueries';
 
 describe('performance tests', () => {
-	beforeAll(async () => await dataSource.initialize());
-	afterAll(async () => {
-		await redis.disconnect();
-		await dataSource.destroy();
-	});
+  beforeAll(async () => await dataSource.initialize());
+  afterAll(async () => {
+    await redis.disconnect();
+    await dataSource.destroy();
+  });
 
-	jest.setTimeout(30000);
+  jest.setTimeout(30000);
 
-	it('should wake the dyno from its idle state', async () => {
-		const { status } = await get('/api-docs');
+  it('should wake the dyno from its idle state', async () => {
+    const { status } = await get('/api-docs');
 
-		expect(status).toBe(301);
-	});
+    expect(status).toBe(301);
+  });
 
-	queriesLoadTest();
+  queriesLoadTest();
 
-	companiesLoadTest();
+  companiesLoadTest();
 
-	employeesLoadTest();
+  employeesLoadTest();
 });

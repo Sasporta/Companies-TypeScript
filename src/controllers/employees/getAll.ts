@@ -6,32 +6,32 @@ import { Employee } from '../../entities/Employee';
 import { getAllEmployeesQuery } from '../../pgQueries/employees/getAll';
 
 export const getEmployees = async ({
-	query: { companyUuid, managerUuid, limit },
+  query: { companyUuid, managerUuid, limit },
 }: Request) => {
-	companyUuid = companyUuid as string;
-	managerUuid = managerUuid as string;
+  companyUuid = companyUuid as string;
+  managerUuid = managerUuid as string;
 
-	let employees: Employee[];
+  let employees: Employee[];
 
-	const resultsLimit = Validation.limit(+limit);
+  const resultsLimit = Validation.limit(+limit);
 
-	const stringifyParams = EmployeeModel.stringifyParams({
-		companyUuid,
-		managerUuid,
-		limit: resultsLimit,
-	});
+  const stringifyParams = EmployeeModel.stringifyParams({
+    companyUuid,
+    managerUuid,
+    limit: resultsLimit,
+  });
 
-	employees = await EmployeeModel.getListFromCache(stringifyParams);
+  employees = await EmployeeModel.getListFromCache(stringifyParams);
 
-	if (!employees) {
-		employees = await getAllEmployeesQuery(
-			companyUuid,
-			managerUuid,
-			resultsLimit,
-		);
+  if (!employees) {
+    employees = await getAllEmployeesQuery(
+      companyUuid,
+      managerUuid,
+      resultsLimit,
+    );
 
-		await EmployeeModel.setListInCache(stringifyParams, employees);
-	}
+    await EmployeeModel.setListInCache(stringifyParams, employees);
+  }
 
-	return { statusCode: 200, content: employees };
+  return { statusCode: 200, content: employees };
 };

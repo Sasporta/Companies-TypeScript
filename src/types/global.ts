@@ -8,18 +8,18 @@ export type entities = Company | Employee | Company[] | Employee[];
 export type bodyParams = boolean | number | object | string | undefined;
 
 type CompanyUpdateProperties = {
-	uuid: string;
-	name?: string;
-	country?: string;
+  uuid: string;
+  name?: string;
+  country?: string;
 };
 type EmployeeUpdateProperties = {
-	uuid: string;
-	name?: string;
-	age?: number;
-	company_id?: number;
-	manager_id?: number;
+  uuid: string;
+  name?: string;
+  age?: number;
+  company_id?: number;
+  manager_id?: number;
 };
 
 export type entityUpdateProperties =
-	| CompanyUpdateProperties
-	| EmployeeUpdateProperties;
+  | CompanyUpdateProperties
+  | EmployeeUpdateProperties;
