@@ -20,11 +20,6 @@ export default {
 			type: 'string',
 			example: 'USA',
 		},
-		Timestamp: {
-			type: 'string',
-			format: 'date-time YYYY-MM-DDTHH:MM:SS.000Z',
-			example: '2018-10-10T12:41:17.000Z',
-		},
 		...employees,
 		...companies,
 	},

@@ -24,9 +24,9 @@ export default {
 	},
 	CompanyInRespond: {
 		type: 'object',
-		required: ['companyUuid', 'name', 'country', 'updatedAt', 'createdAt'],
+		required: ['uuid', 'name', 'country'],
 		properties: {
-			companyUuid: {
+			uuid: {
 				$ref: '#/components/schemas/UUID',
 			},
 			name: {
@@ -34,12 +34,6 @@ export default {
 			},
 			country: {
 				$ref: '#/components/schemas/Country',
-			},
-			updatedAt: {
-				$ref: '#/components/schemas/Timestamp',
-			},
-			createdAt: {
-				$ref: '#/components/schemas/Timestamp',
 			},
 		},
 	},
