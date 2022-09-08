@@ -27,4 +27,7 @@ export default {
     tls: secureConnection,
     redisUrl: env.REDIS_TLS_URL,
   },
+  mongo: {
+    mongoUrl: env.MONGO_URL,
+  },
 };
