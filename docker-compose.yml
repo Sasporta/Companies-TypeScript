@@ -1,7 +1,7 @@
-version: '3'
+version: '3.8'
 
 services:
-  database:
+  postgres:
     image: 'postgres:latest'
     container_name: postgres
     restart: always
@@ -11,9 +11,20 @@ services:
     volumes:
       - ./src/seeds/seed_companies.sql:/docker-entrypoint-initdb.d/seed_companies.sql
       - ./src/seeds/seed_employees.sql:/docker-entrypoint-initdb.d/seed_employees.sql
-  cache:
+  redis:
     image: 'redis:latest'
     container_name: redis
     restart: always
     ports:
       - 6379:6379
+  mongo:
+    image : 'mongo:latest'
+    container_name: mongo
+    restart: always
+    environment:
+      - PUID=1000
+      - PGID=1000
+    ports:
+      - 27017:27017
+    volumes:
+      - ./seed_mongo.js:/docker-entrypoint-initdb.d/seed_mongo.js
