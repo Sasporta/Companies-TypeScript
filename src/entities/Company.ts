@@ -5,14 +5,14 @@ import { PrimaryEntity } from './PrimaryEntity';
 
 @Entity('companies')
 export class Company extends PrimaryEntity {
-	@Column({
-		unique: true,
-	})
-		name: string;
+  @Column({
+    unique: true,
+  })
+  name: string;
 
-	@Column()
-		country: string;
+  @Column()
+  country: string;
 
-	@OneToMany(() => Employee, employees => employees.company_id)
-		employees: Employee[];
+  @OneToMany(() => Employee, employees => employees.company_id)
+  employees: Employee[];
 }

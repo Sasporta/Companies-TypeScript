@@ -4,18 +4,18 @@ import EmployeeModel from '../../models/Employee';
 import { Employee } from '../../entities/Employee';
 
 export const getEmployee = async ({ params: { id: uuid } }: Request) => {
-	let employee: Employee;
+  let employee: Employee;
 
-	employee = await EmployeeModel.getItemFromCache(uuid);
+  employee = await EmployeeModel.getItemFromCache(uuid);
 
-	if (!employee) {
-		employee = await EmployeeModel.getOne(uuid, 404);
+  if (!employee) {
+    employee = await EmployeeModel.getOne(uuid, 404);
 
-		await EmployeeModel.setItemInCache(uuid, employee);
-	}
+    await EmployeeModel.setItemInCache(uuid, employee);
+  }
 
-	return {
-		statusCode: 200,
-		content: { uuid: employee.uuid, name: employee.name, age: employee.age },
-	};
+  return {
+    statusCode: 200,
+    content: { uuid: employee.uuid, name: employee.name, age: employee.age },
+  };
 };

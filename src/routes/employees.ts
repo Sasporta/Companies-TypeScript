@@ -3,12 +3,12 @@ import express from 'express';
 import EmployeeModel from '../models/Employee';
 
 const [
-	createEmployee,
-	deleteEmployee,
-	getCousins,
-	getEmployee,
-	getEmployees,
-	updateEmployee,
+  createEmployee,
+  deleteEmployee,
+  getCousins,
+  getEmployee,
+  getEmployees,
+  updateEmployee,
 ] = EmployeeModel.employeesEps();
 
 const router = express.Router();

@@ -5,13 +5,13 @@ import updateCompany from './crud/update';
 import deleteCompany from './crud/delete';
 
 export default {
-	'/companies': {
-		...getCompanies,
-		...createCompany,
-	},
-	'/companies/{id}': {
-		...getCompany,
-		...updateCompany,
-		...deleteCompany,
-	},
+  '/companies': {
+    ...getCompanies,
+    ...createCompany,
+  },
+  '/companies/{id}': {
+    ...getCompany,
+    ...updateCompany,
+    ...deleteCompany,
+  },
 };
