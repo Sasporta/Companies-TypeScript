@@ -27,5 +27,15 @@ export default {
 				$ref: '#/components/schemas/UUID',
 			},
 		},
+		Query_OptionalLimit: {
+			in: 'query',
+			name: 'limit',
+			description: 'limit the items in the response',
+			required: false,
+			schema: {
+				type: 'integer',
+				example: 10,
+			},
+		},
 	},
 };

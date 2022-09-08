@@ -36,9 +36,9 @@ export default {
 	},
 	EmployeeInRespond: {
 		type: 'object',
-		required: ['employeeUuid', 'name', 'age', 'updatedAt', 'createdAt'],
+		required: ['uuid', 'name', 'age'],
 		properties: {
-			employeeUuid: {
+			uuid: {
 				$ref: '#/components/schemas/UUID',
 			},
 			name: {
@@ -46,12 +46,6 @@ export default {
 			},
 			age: {
 				$ref: '#/components/schemas/Age',
-			},
-			updatedAt: {
-				$ref: '#/components/schemas/Timestamp',
-			},
-			createdAt: {
-				$ref: '#/components/schemas/Timestamp',
 			},
 		},
 	},
