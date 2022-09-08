@@ -1,8 +1,8 @@
 export default {
   get: {
     tags: ['employeesMetadata'],
-    summary: "get employee's metadata",
-    description: "Get employee's metadata",
+    summary: 'get employee\'s metadata',
+    description: 'Get employee\'s metadata',
     parameters: [
       {
         $ref: '#/components/parameters/Path_Uuid',

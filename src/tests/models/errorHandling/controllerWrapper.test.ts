@@ -7,7 +7,7 @@ describe('controllerWrapper method', () => {
 
     expect(status).toBe(500);
     expect(body).toStrictEqual(
-      "Class constructor Company cannot be invoked without 'new'",
+      'Class constructor Company cannot be invoked without \'new\'',
     );
   });
 });

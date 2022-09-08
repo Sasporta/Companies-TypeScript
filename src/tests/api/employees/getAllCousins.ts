@@ -2,8 +2,8 @@ import { get } from '../../helpers';
 import { employeesPath, existingEmployees } from '../employeesData';
 
 export const getAllCousinsRequestTest = () => {
-  describe("get employee's cousins request", () => {
-    it("should return 200 status with employee's cousins", async () => {
+  describe('get employee\'s cousins request', () => {
+    it('should return 200 status with employee\'s cousins', async () => {
       const { statusCode, headers, body } = await get(
         employeesPath + '/cousins/' + existingEmployees[3].uuid,
       );

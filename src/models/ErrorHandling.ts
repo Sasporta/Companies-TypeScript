@@ -33,14 +33,14 @@ export default class ErrorHandling {
         req: Request,
       ) => Promise<{ statusCode: number; content?: object | object[] }>,
     ) =>
-    async (req: Request, res: Response) => {
-      try {
-        const { statusCode, content } = await crudMethod(req);
+      async (req: Request, res: Response) => {
+        try {
+          const { statusCode, content } = await crudMethod(req);
 
-        return res.status(statusCode).json(content);
-      } catch (error) {
-        console.log(error);
-        return res.status(error.status ?? 500).json(error.message);
-      }
-    };
+          return res.status(statusCode).json(content);
+        } catch (error) {
+          console.log(error);
+          return res.status(error.status ?? 500).json(error.message);
+        }
+      };
 }

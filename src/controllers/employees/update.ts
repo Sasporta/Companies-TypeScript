@@ -19,8 +19,8 @@ export const updateEmployee = async ({
     typeof managerUuid === 'string'
       ? await EmployeeModel.getOne(managerUuid, 422)
       : managerUuid === null
-      ? { id: null }
-      : { id: undefined };
+        ? { id: null }
+        : { id: undefined };
 
   const employee = await EmployeeModel.edit({
     uuid,

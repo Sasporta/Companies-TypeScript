@@ -22,23 +22,23 @@ export const testError = (
 
 export const testPerformance =
   (benchmark: number, iterations: number) =>
-  (someProcess: any) =>
-  (...params: any) => {
-    it(`should have an average time of less than ${benchmark} ms`, async () => {
-      let performanceSum = 0;
+    (someProcess: any) =>
+      (...params: any) => {
+        it(`should have an average time of less than ${benchmark} ms`, async () => {
+          let performanceSum = 0;
 
-      for (let i = 0; i < iterations; i++) {
-        const start = performance.now();
+          for (let i = 0; i < iterations; i++) {
+            const start = performance.now();
 
-        await someProcess(...params);
+            await someProcess(...params);
 
-        const duration = performance.now() - start;
+            const duration = performance.now() - start;
 
-        performanceSum += duration;
-      }
+            performanceSum += duration;
+          }
 
-      console.log('average time: ', performanceSum / iterations);
+          console.log('average time: ', performanceSum / iterations);
 
-      expect(performanceSum / iterations).toBeLessThan(benchmark);
-    });
-  };
+          expect(performanceSum / iterations).toBeLessThan(benchmark);
+        });
+      };

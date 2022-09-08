@@ -10,18 +10,18 @@ import {
 @Entity()
 export class PrimaryEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+    id: number;
 
   @Column({
     unique: true,
     type: 'uuid',
     generated: 'uuid',
   })
-  uuid: string;
+    uuid: string;
 
   @CreateDateColumn()
-  created_at: Date;
+    created_at: Date;
 
   @UpdateDateColumn()
-  updated_at: Date;
+    updated_at: Date;
 }

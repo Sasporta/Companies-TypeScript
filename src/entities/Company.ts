@@ -8,11 +8,11 @@ export class Company extends PrimaryEntity {
   @Column({
     unique: true,
   })
-  name: string;
+    name: string;
 
   @Column()
-  country: string;
+    country: string;
 
   @OneToMany(() => Employee, employees => employees.company_id)
-  employees: Employee[];
+    employees: Employee[];
 }

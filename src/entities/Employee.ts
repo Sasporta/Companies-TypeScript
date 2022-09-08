@@ -6,18 +6,18 @@ import { PrimaryEntity } from './PrimaryEntity';
 @Entity('employees')
 export class Employee extends PrimaryEntity {
   @Column()
-  name: string;
+    name: string;
 
   @Column()
-  age: number;
+    age: number;
 
   @Column()
-  company_id: number;
+    company_id: number;
 
   @Column({
     nullable: true,
   })
-  manager_id: number;
+    manager_id: number;
 
   @ManyToOne(() => Company, company => company.employees, {
     onDelete: 'CASCADE',
@@ -25,5 +25,5 @@ export class Employee extends PrimaryEntity {
   @JoinColumn({
     name: 'company_id',
   })
-  company: Company;
+    company: Company;
 }
