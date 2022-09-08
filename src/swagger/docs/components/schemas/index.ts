@@ -1,5 +1,6 @@
 import employees from './employees';
 import companies from './companies';
+import employeesMetadata from './employeesMetadata';
 
 export default {
 	schemas: {
@@ -20,7 +21,8 @@ export default {
 			type: 'string',
 			example: 'USA',
 		},
-		...employees,
 		...companies,
+		...employees,
+		...employeesMetadata,
 	},
 };

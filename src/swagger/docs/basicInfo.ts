@@ -3,8 +3,7 @@ export default {
 	info: {
 		version: '1.0.0',
 		title: 'Hierarchy Service API',
-		description:
-			'This is a documentation for the hierarchy service API',
+		description: 'This is a documentation for the hierarchy service API',
 	},
 	servers: [
 		{
@@ -14,10 +13,13 @@ export default {
 	],
 	tags: [
 		{
+			name: 'companies',
+		},
+		{
 			name: 'employees',
 		},
 		{
-			name: 'companies',
+			name: 'employeesMetadata',
 		},
 	],
 };
