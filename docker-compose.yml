@@ -27,4 +27,4 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - ./seed_mongo.js:/docker-entrypoint-initdb.d/seed_mongo.js
+      - ./src/seeds/seed_employeesMetadata.js:/docker-entrypoint-initdb.d/seed_employeesMetadata.js
