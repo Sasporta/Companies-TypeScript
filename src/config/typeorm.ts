@@ -39,4 +39,14 @@ const options: DataSourceOptions & SeederOptions = {
 
 export const dataSource = new DataSource(options);
 
+export const connectTypeormWithPostgres = async () => {
+  try {
+    await dataSource.initialize();
+
+    console.log('TypeORM with Postgres has been connected!');
+  } catch (error) {
+    console.error('Error during TypeORM with Postgres connection ', error);
+  }
+};
+
 export default options;
