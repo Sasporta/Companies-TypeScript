@@ -1,6 +1,6 @@
 import express from 'express';
 
-import EmployeeMetadataModule from '../modules/employeeMetadata';
+import EmployeeMetadataModule from '../modules/EmployeeMetadata';
 
 const [getEmployeeMetadata, getEmployeesMetadata] =
   EmployeeMetadataModule.employeesMetadataEps();

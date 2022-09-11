@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import EmployeeMetadataModule from '../../modules/employeeMetadata';
+import EmployeeMetadataModule from '../../modules/EmployeeMetadata';
 
 export const getEmployeeMetadata = async ({
   params: { id: uuid },

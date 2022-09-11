@@ -22,4 +22,3 @@ export default class EmployeeMetadataModule {
 
   // static destroy = ErrorHandling.deleteOrThrow404(Employee);
 }
-
