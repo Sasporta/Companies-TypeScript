@@ -1,7 +1,7 @@
+import { EXISTING } from '../../api/testsData';
 import { Company } from '../../../entities/Company';
 import { dataSource } from '../../../config/typeorm';
 import ErrorHandling from '../../../models/ErrorHandling';
-import { existingCompanies } from '../../api/companiesData';
 
 describe('deleteOrThrow404 method', () => {
   beforeAll(async () => await dataSource.initialize());
@@ -9,7 +9,7 @@ describe('deleteOrThrow404 method', () => {
 
   it('should not return anything is the call was successful', async () => {
     expect(
-      await ErrorHandling.deleteOrThrow404(Company)(existingCompanies[6].uuid),
+      await ErrorHandling.deleteOrThrow404(Company)(EXISTING.companies[6].uuid),
     ).toBe(undefined);
   });
 

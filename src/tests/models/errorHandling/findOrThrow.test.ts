@@ -1,7 +1,7 @@
+import { EXISTING } from '../../api/testsData';
 import { Company } from '../../../entities/Company';
 import { dataSource } from '../../../config/typeorm';
 import ErrorHandling from '../../../models/ErrorHandling';
-import { existingCompanies } from '../../api/companiesData';
 
 describe('findOrThrow method', () => {
   beforeAll(async () => await dataSource.initialize());
@@ -9,8 +9,8 @@ describe('findOrThrow method', () => {
 
   it('should return the found entity if the returned value is different then null or undefined', async () => {
     expect(
-      await ErrorHandling.findOrThrow(Company)(existingCompanies[3].uuid, 404),
-    ).toHaveProperty('uuid', existingCompanies[3].uuid);
+      await ErrorHandling.findOrThrow(Company)(EXISTING.companies[3].uuid, 404),
+    ).toHaveProperty('uuid', EXISTING.companies[3].uuid);
   });
 
   it('should throw an error if the returned value is null or undefined', async () => {

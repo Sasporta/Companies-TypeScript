@@ -1,48 +1,48 @@
+import { PATH, POSTED } from '../testsData';
 import { post, testError } from '../../helpers';
-import { employeesPath, postedEmployee, postedManager } from '../employeesData';
 
 export const postRequestTest = () => {
   describe('post employee request', () => {
     it('should return 201 status with new employee', async () => {
-      const { statusCode, headers, body } = await post(employeesPath).send(
-        postedEmployee,
+      const { statusCode, headers, body } = await post(PATH.EMPLOYEES).send(
+        POSTED.employee,
       );
 
       expect(statusCode).toBe(201);
       expect(headers['content-type']).toMatch('application/json');
       expect(body).toStrictEqual({
         uuid: expect.any(String),
-        name: postedEmployee.name,
-        age: postedEmployee.age,
+        name: POSTED.employee.name,
+        age: POSTED.employee.age,
       });
     });
 
     it('should return 201 status with new manager', async () => {
-      const { statusCode, headers, body } = await post(employeesPath).send(
-        postedManager,
+      const { statusCode, headers, body } = await post(PATH.EMPLOYEES).send(
+        POSTED.manager,
       );
 
       expect(statusCode).toBe(201);
       expect(headers['content-type']).toMatch('application/json');
       expect(body).toStrictEqual({
         uuid: expect.any(String),
-        name: postedManager.name,
-        age: postedManager.age,
+        name: POSTED.manager.name,
+        age: POSTED.manager.age,
       });
     });
 
-    describe('when params missing', () => testError(post, employeesPath, 422));
+    describe('when params missing', () => testError(post, PATH.EMPLOYEES, 422));
 
     describe('when company uuid invalid', () => {
-      testError(post, employeesPath, 422, {
-        ...postedEmployee,
+      testError(post, PATH.EMPLOYEES, 422, {
+        ...POSTED.employee,
         companyUuid: 'a1111111-b222-c333-d444-e55555555555',
       });
     });
 
     describe('when manager uuid invalid', () => {
-      testError(post, employeesPath, 422, {
-        ...postedEmployee,
+      testError(post, PATH.EMPLOYEES, 422, {
+        ...POSTED.employee,
         managerUuid: 'a1111111-b222-c333-d444-e55555555555',
       });
     });
