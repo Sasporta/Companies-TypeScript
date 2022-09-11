@@ -10,6 +10,11 @@ export interface EmployeeMetadataDocument extends mongoose.Document {
 
 const EmployeeMetadataSchema = new mongoose.Schema(
   {
+    _id: {
+      required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      select: false,
+    },
     companyUuid: {
       required: true,
       type: String,
@@ -37,6 +42,6 @@ const EmployeeMetadataSchema = new mongoose.Schema(
 );
 
 export default mongoose.model<EmployeeMetadataDocument>(
-  'EmployeeMetadata',
+  'employee_metadata',
   EmployeeMetadataSchema,
 );

@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-db.employeesMetadata.insertMany([
+db.employee_metadatas.insertMany([
   {
     _id: ObjectId('62ffbaedbb1fc0d37638465c'),
     companyUuid: 'aa7e4bd8-a649-4141-8383-beacd85a4e24',
