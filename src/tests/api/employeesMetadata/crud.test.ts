@@ -1,10 +1,16 @@
+import mongoose from 'mongoose';
+
 import { getAllRequestTest } from './getAll';
 import { getOneRequestTest } from './getOne';
-import { dataSource } from '../../../config/typeorm';
+import { redis } from '../../../config/redis';
+import { connectMongoDB } from '../../../config/mongo';
 
-describe('employees CRUD requests', () => {
-  beforeAll(async () => await dataSource.initialize());
-  afterAll(async () => await dataSource.destroy());
+describe('employeesMetadata CRUD requests', () => {
+  beforeAll(async () => await connectMongoDB());
+  afterAll(async () => {
+    redis.disconnect();
+    await mongoose.connection.close();
+  });
 
   getAllRequestTest();
   getOneRequestTest();
