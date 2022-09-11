@@ -1,7 +1,7 @@
 import { Request } from 'express';
 
-import Validation from '../../models/Validation';
-import EmployeeModel from '../../models/Employee';
+import Validation from '../../modules/Validation';
+import EmployeeModule from '../../modules/Employee';
 import { Employee } from '../../entities/Employee';
 import { getAllEmployeesQuery } from '../../pgQueries/employees/getAll';
 
@@ -15,13 +15,13 @@ export const getEmployees = async ({
 
   const resultsLimit = Validation.limit(+limit);
 
-  const stringifyParams = EmployeeModel.stringifyParams({
+  const stringifyParams = EmployeeModule.stringifyParams({
     companyUuid,
     managerUuid,
     limit: resultsLimit,
   });
 
-  employees = await EmployeeModel.getListFromCache(stringifyParams);
+  employees = await EmployeeModule.getListFromCache(stringifyParams);
 
   if (!employees) {
     employees = await getAllEmployeesQuery(
@@ -30,7 +30,7 @@ export const getEmployees = async ({
       resultsLimit,
     );
 
-    await EmployeeModel.setListInCache(stringifyParams, employees);
+    await EmployeeModule.setListInCache(stringifyParams, employees);
   }
 
   return { statusCode: 200, content: employees };

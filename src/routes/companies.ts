@@ -1,9 +1,9 @@
 import express from 'express';
 
-import CompanyModel from '../models/Company';
+import CompanyModule from '../modules/Company';
 
 const [createCompany, deleteCompany, getCompany, getCompanies, updateCompany] =
-  CompanyModel.companiesEps();
+  CompanyModule.companiesEps();
 
 const router = express.Router();
 

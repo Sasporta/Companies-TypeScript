@@ -8,7 +8,7 @@ import { deleteEmployee } from '../controllers/employees/delete';
 import { updateEmployee } from '../controllers/employees/update';
 import { getCousins } from '../controllers/employees/getAllCousins';
 
-export default class EmployeeModel {
+export default class EmployeeModule {
   static endPoints = [
     createEmployee,
     deleteEmployee,
@@ -19,7 +19,7 @@ export default class EmployeeModel {
   ];
 
   static employeesEps = () =>
-    EmployeeModel.endPoints.map(ep => ErrorHandling.controllerWrapper(ep));
+    EmployeeModule.endPoints.map(ep => ErrorHandling.controllerWrapper(ep));
 
   static getOne = ErrorHandling.findOrThrow(Employee);
 

@@ -9,6 +9,9 @@ export default class ErrorHandling {
     throw { status, message: resDoc.responses[status] };
   };
 
+  static hitMongoOrThrow = (result: any, statusCode = 404) =>
+    result || this.throwError(statusCode);
+
   static findOrThrow =
     (entity: any) => async (uuid: string, statusCode: number) =>
       (await entity.findOneBy({ uuid })) ?? this.throwError(statusCode);

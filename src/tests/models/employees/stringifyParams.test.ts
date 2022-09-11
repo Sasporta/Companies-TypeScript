@@ -1,9 +1,9 @@
-import EmployeeModel from '../../../models/Employee';
+import EmployeeModule from '../../../models/Employee';
 
 describe('stringifyParams method', () => {
   it('should only string params that are not undefined', async () => {
     expect(
-      EmployeeModel.stringifyParams({
+      EmployeeModule.stringifyParams({
         limit: 10,
         companyUuid: undefined,
         managerUuid: undefined,
@@ -14,7 +14,7 @@ describe('stringifyParams method', () => {
   });
 
   expect(
-    EmployeeModel.stringifyParams({
+    EmployeeModule.stringifyParams({
       limit: 10,
       companyUuid: 'abc',
       managerUuid: 'abc',
