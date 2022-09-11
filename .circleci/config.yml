@@ -15,6 +15,7 @@ jobs:
                 POSTGRES_PORT=${LOCAL_DB_PORT}$'\n'
                 POSTGRES_USER=${LOCAL_DB_USER}$'\n'
                 POSTGRES_PASSWORD=${LOCAL_DB_PASSWORD}$'\n'
+                MONGO_URL=${LOCAL_MONGO_URL}$'\n'
               > .env
       - run: npx eslint ./
       - run: docker-compose up -d
