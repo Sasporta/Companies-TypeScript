@@ -1,8 +1,8 @@
 import { Request } from 'express';
 
-import CompanyModel from '../../models/Company';
+import CompanyModule from '../../modules/Company';
 import { Company } from '../../entities/Company';
-import Validation from '../../models/Validation';
+import Validation from '../../modules/Validation';
 
 export const createCompany = async ({ body: { name, country } }: Request) => {
   Validation.allParamsExists(name, country);
@@ -11,7 +11,7 @@ export const createCompany = async ({ body: { name, country } }: Request) => {
 
   await company.save();
 
-  await CompanyModel.removeAllListsFromCache();
+  await CompanyModule.removeAllListsFromCache();
 
   return {
     statusCode: 201,

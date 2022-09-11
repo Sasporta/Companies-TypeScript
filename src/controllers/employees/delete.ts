@@ -1,13 +1,13 @@
 import { Request } from 'express';
 
-import EmployeeModel from '../../models/Employee';
+import EmployeeModule from '../../modules/Employee';
 
 export const deleteEmployee = async ({ params: { id: uuid } }: Request) => {
-  await EmployeeModel.destroy(uuid);
+  await EmployeeModule.destroy(uuid);
 
   await Promise.all([
-    EmployeeModel.removeItemFromCache(uuid),
-    EmployeeModel.removeAllListsFromCache(),
+    EmployeeModule.removeItemFromCache(uuid),
+    EmployeeModule.removeAllListsFromCache(),
   ]);
 
   return { statusCode: 204 };

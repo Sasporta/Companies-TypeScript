@@ -1,8 +1,8 @@
 import { Request } from 'express';
 
-import CompanyModel from '../../models/Company';
-import Validation from '../../models/Validation';
-import EmployeeModel from '../../models/Employee';
+import CompanyModule from '../../modules/Company';
+import Validation from '../../modules/Validation';
+import EmployeeModule from '../../modules/Employee';
 
 export const updateEmployee = async ({
   params: { id: uuid },
@@ -12,17 +12,17 @@ export const updateEmployee = async ({
 
   const { id: company_id } =
     typeof companyUuid === 'string'
-      ? await CompanyModel.getOne(companyUuid, 422)
+      ? await CompanyModule.getOne(companyUuid, 422)
       : { id: undefined };
 
   const { id: manager_id } =
     typeof managerUuid === 'string'
-      ? await EmployeeModel.getOne(managerUuid, 422)
+      ? await EmployeeModule.getOne(managerUuid, 422)
       : managerUuid === null
         ? { id: null }
         : { id: undefined };
 
-  const employee = await EmployeeModel.edit({
+  const employee = await EmployeeModule.edit({
     uuid,
     name,
     age,
@@ -31,8 +31,8 @@ export const updateEmployee = async ({
   });
 
   await Promise.all([
-    EmployeeModel.removeItemFromCache(uuid),
-    EmployeeModel.removeAllListsFromCache(),
+    EmployeeModule.removeItemFromCache(uuid),
+    EmployeeModule.removeAllListsFromCache(),
   ]);
 
   return {

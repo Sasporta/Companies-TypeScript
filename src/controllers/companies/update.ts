@@ -1,7 +1,7 @@
 import { Request } from 'express';
 
-import CompanyModel from '../../models/Company';
-import Validation from '../../models/Validation';
+import CompanyModule from '../../modules/Company';
+import Validation from '../../modules/Validation';
 
 export const updateCompany = async ({
   params: { id: uuid },
@@ -9,11 +9,11 @@ export const updateCompany = async ({
 }: Request) => {
   Validation.atLeastOneParamExists(name, country);
 
-  const company = await CompanyModel.edit({ uuid, name, country });
+  const company = await CompanyModule.edit({ uuid, name, country });
 
   await Promise.all([
-    CompanyModel.removeItemFromCache(uuid),
-    CompanyModel.removeAllListsFromCache(),
+    CompanyModule.removeItemFromCache(uuid),
+    CompanyModule.removeAllListsFromCache(),
   ]);
 
   return {

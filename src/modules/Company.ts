@@ -7,7 +7,7 @@ import { getCompanies } from '../controllers/companies/getAll';
 import { deleteCompany } from '../controllers/companies/delete';
 import { updateCompany } from '../controllers/companies/update';
 
-export default class CompanyModel {
+export default class CompanyModule {
   static endPoints = [
     createCompany,
     deleteCompany,
@@ -17,7 +17,7 @@ export default class CompanyModel {
   ];
 
   static companiesEps = () =>
-    CompanyModel.endPoints.map(ep => ErrorHandling.controllerWrapper(ep));
+    CompanyModule.endPoints.map(ep => ErrorHandling.controllerWrapper(ep));
 
   static getOne = ErrorHandling.findOrThrow(Company);
 

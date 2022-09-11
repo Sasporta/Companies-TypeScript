@@ -1,17 +1,17 @@
 import { Request } from 'express';
 
-import CompanyModel from '../../models/Company';
+import CompanyModule from '../../modules/Company';
 import { Company } from '../../entities/Company';
 
 export const getCompany = async ({ params: { id: uuid } }: Request) => {
   let company: Company;
 
-  company = await CompanyModel.getItemFromCache(uuid);
+  company = await CompanyModule.getItemFromCache(uuid);
 
   if (!company) {
-    company = await CompanyModel.getOne(uuid, 404);
+    company = await CompanyModule.getOne(uuid, 404);
 
-    await CompanyModel.setItemInCache(uuid, company);
+    await CompanyModule.setItemInCache(uuid, company);
   }
 
   return {

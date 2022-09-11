@@ -1,4 +1,4 @@
-import Validation from '../../../models/Validation';
+import Validation from '../../../modules/Validation';
 
 describe('validateLimit method', () => {
   it('should return the limit is its a valid value (between 1 to 10)', async () => {

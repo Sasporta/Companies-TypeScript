@@ -1,6 +1,6 @@
 import { Company } from '../../../entities/Company';
 import { dataSource } from '../../../config/typeorm';
-import ErrorHandling from '../../../models/ErrorHandling';
+import ErrorHandling from '../../../modules/ErrorHandling';
 import { existingCompanies } from '../../api/companiesData';
 
 describe('updateOrThrow404 method', () => {

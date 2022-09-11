@@ -1,5 +1,5 @@
 import { bodyParams } from '../../../types/global';
-import Validation from '../../../models/Validation';
+import Validation from '../../../modules/Validation';
 
 describe('allParamsExists method', () => {
   const validate = async (

@@ -1,4 +1,4 @@
-import ErrorHandling from '../../../models/ErrorHandling';
+import ErrorHandling from '../../../modules/ErrorHandling';
 
 describe('throwError method', () => {
   const getError = (status: number) => {

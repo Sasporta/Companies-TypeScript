@@ -1,7 +1,7 @@
 import { Request } from 'express';
 
-import Validation from '../../models/Validation';
-import EmployeeModel from '../../models/Employee';
+import Validation from '../../modules/Validation';
+import EmployeeModule from '../../modules/Employee';
 import { Employee } from '../../entities/Employee';
 import { getAllCousinsQuery } from '../../pgQueries/employees/getAllCousins';
 
@@ -13,18 +13,18 @@ export const getCousins = async ({
 
   const resultsLimit = Validation.limit(+limit);
 
-  const stringifyParams = EmployeeModel.stringifyParams({
+  const stringifyParams = EmployeeModule.stringifyParams({
     uuid,
     path: 'cousins',
     limit: resultsLimit,
   });
 
-  cousins = await EmployeeModel.getListFromCache(stringifyParams);
+  cousins = await EmployeeModule.getListFromCache(stringifyParams);
 
   if (!cousins) {
     cousins = await getAllCousinsQuery(uuid, resultsLimit);
 
-    await EmployeeModel.setListInCache(stringifyParams, cousins);
+    await EmployeeModule.setListInCache(stringifyParams, cousins);
   }
 
   return { statusCode: 200, content: cousins };

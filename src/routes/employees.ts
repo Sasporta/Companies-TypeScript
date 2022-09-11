@@ -1,6 +1,6 @@
 import express from 'express';
 
-import EmployeeModel from '../models/Employee';
+import EmployeeModule from '../modules/Employee';
 
 const [
   createEmployee,
@@ -9,7 +9,7 @@ const [
   getEmployee,
   getEmployees,
   updateEmployee,
-] = EmployeeModel.employeesEps();
+] = EmployeeModule.employeesEps();
 
 const router = express.Router();
 
