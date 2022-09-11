@@ -1,7 +1,7 @@
+import { EXISTING } from '../../api/testsData';
 import { Company } from '../../../entities/Company';
 import { dataSource } from '../../../config/typeorm';
 import ErrorHandling from '../../../modules/ErrorHandling';
-import { existingCompanies } from '../../api/companiesData';
 
 describe('updateOrThrow404 method', () => {
   beforeAll(async () => await dataSource.initialize());
@@ -10,11 +10,11 @@ describe('updateOrThrow404 method', () => {
   it('should return the updated entity if the returned affected value is different then 0', async () => {
     expect(
       await ErrorHandling.updateOrThrow404(Company)({
-        uuid: existingCompanies[7].uuid,
+        uuid: EXISTING.companies[7].uuid,
         name: 'UpdatedName',
       }),
     ).toMatchObject({
-      uuid: existingCompanies[7].uuid,
+      uuid: EXISTING.companies[7].uuid,
       name: 'UpdatedName',
     });
   });

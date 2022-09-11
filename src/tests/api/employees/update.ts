@@ -1,62 +1,57 @@
 import { patch, testError } from '../../helpers';
-import {
-  employeesPath,
-  existingEmployees,
-  updatedEmployee,
-  updatedEmployeeToManager,
-} from '../employeesData';
+import { PATH, EXISTING, UPDATED } from '../testsData';
 
 export const updateRequestTest = () => {
   describe('update employee request', () => {
     it('should return 200 status with updated employee', async () => {
       const { statusCode, headers, body } = await patch(
-        employeesPath + '/' + existingEmployees[0].uuid,
-      ).send(updatedEmployee);
+        PATH.EMPLOYEES + '/' + EXISTING.employees[0].uuid,
+      ).send(UPDATED.employee);
 
       expect(statusCode).toBe(200);
       expect(headers['content-type']).toMatch('application/json');
       expect(body).toStrictEqual({
-        uuid: existingEmployees[0].uuid,
-        name: existingEmployees[0].name,
-        age: updatedEmployee.age,
+        uuid: EXISTING.employees[0].uuid,
+        name: EXISTING.employees[0].name,
+        age: UPDATED.employee.age,
       });
     });
 
     it('should return 200 status with updated manager', async () => {
       const { statusCode, headers, body } = await patch(
-        employeesPath + '/' + existingEmployees[2].uuid,
-      ).send(updatedEmployeeToManager);
+        PATH.EMPLOYEES + '/' + EXISTING.employees[2].uuid,
+      ).send(UPDATED.employeeToManager);
 
       expect(statusCode).toBe(200);
       expect(headers['content-type']).toMatch('application/json');
       expect(body).toStrictEqual({
-        uuid: existingEmployees[2].uuid,
-        name: existingEmployees[2].name,
-        age: existingEmployees[2].age,
+        uuid: EXISTING.employees[2].uuid,
+        name: EXISTING.employees[2].name,
+        age: EXISTING.employees[2].age,
       });
     });
 
     describe('when params missing', () =>
-      testError(patch, employeesPath + '/' + existingEmployees[0].uuid, 422));
+      testError(patch, PATH.EMPLOYEES + '/' + EXISTING.employees[0].uuid, 422));
 
     describe('when employee uuid invalid', () =>
       testError(
         patch,
-        employeesPath + '/a1111111-b222-c333-d444-e55555555555',
+        PATH.EMPLOYEES + '/a1111111-b222-c333-d444-e55555555555',
         404,
-        updatedEmployee,
+        UPDATED.employee,
       ));
 
     describe('when company uuid invalid', () => {
-      testError(patch, employeesPath + '/' + existingEmployees[0].uuid, 422, {
-        ...updatedEmployee,
+      testError(patch, PATH.EMPLOYEES + '/' + EXISTING.employees[0].uuid, 422, {
+        ...UPDATED.employee,
         companyUuid: 'a1111111-b222-c333-d444-e55555555555',
       });
     });
 
     describe('when manager uuid invalid', () => {
-      testError(patch, employeesPath + '/' + existingEmployees[0].uuid, 422, {
-        ...updatedEmployee,
+      testError(patch, PATH.EMPLOYEES + '/' + EXISTING.employees[0].uuid, 422, {
+        ...UPDATED.employee,
         managerUuid: 'a1111111-b222-c333-d444-e55555555555',
       });
     });
