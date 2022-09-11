@@ -1,4 +1,4 @@
-import EmployeeModule from '../../../models/Employee';
+import EmployeeModule from '../../../modules/Employee';
 
 describe('stringifyParams method', () => {
   it('should only string params that are not undefined', async () => {

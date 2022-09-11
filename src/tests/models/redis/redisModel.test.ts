@@ -1,4 +1,4 @@
-import Redis from '../../../models/Redis';
+import Redis from '../../../modules/Redis';
 import { redis } from '../../../config/redis';
 import { Company } from '../../../entities/Company';
 
