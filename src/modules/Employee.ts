@@ -1,26 +1,8 @@
 import Redis from './Redis';
 import ErrorHandling from './ErrorHandling';
 import { Employee } from '../entities/Employee';
-import { getEmployee } from '../controllers/employees/getOne';
-import { getEmployees } from '../controllers/employees/getAll';
-import { createEmployee } from '../controllers/employees/post';
-import { deleteEmployee } from '../controllers/employees/delete';
-import { updateEmployee } from '../controllers/employees/update';
-import { getCousins } from '../controllers/employees/getAllCousins';
 
 export default class EmployeeModule {
-  static endPoints = [
-    createEmployee,
-    deleteEmployee,
-    getCousins,
-    getEmployee,
-    getEmployees,
-    updateEmployee,
-  ];
-
-  static employeesEps = () =>
-    EmployeeModule.endPoints.map(ep => ErrorHandling.controllerWrapper(ep));
-
   static getOne = ErrorHandling.findOrThrow(Employee);
 
   static edit = ErrorHandling.updateOrThrow404(Employee);
