@@ -1,14 +1,13 @@
-import { NextFunction, Request, Response } from 'express';
-
+import { RouteHandler } from '../../types/global';
 import CompanyModule from '../../modules/Company';
 import Validation from '../../modules/Validation';
 import EmployeeModule from '../../modules/Employee';
 import { Employee } from '../../entities/Employee';
 
-export const createEmployee = async (
-  { body: { name, age, companyUuid, managerUuid } }: Request,
-  res: Response,
-  next: NextFunction,
+export const createEmployee: RouteHandler = async (
+  { body: { name, age, companyUuid, managerUuid } },
+  res,
+  next,
 ) => {
   try {
     Validation.allParamsExists(name, age, companyUuid);

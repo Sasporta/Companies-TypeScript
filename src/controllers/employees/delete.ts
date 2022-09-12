@@ -1,11 +1,10 @@
-import { NextFunction, Request, Response } from 'express';
-
+import { RouteHandler } from '../../types/global';
 import EmployeeModule from '../../modules/Employee';
 
-export const deleteEmployee = async (
-  { params: { id: uuid } }: Request,
-  res: Response,
-  next: NextFunction,
+export const deleteEmployee: RouteHandler = async (
+  { params: { id: uuid } },
+  res,
+  next,
 ) => {
   try {
     await EmployeeModule.destroy(uuid);

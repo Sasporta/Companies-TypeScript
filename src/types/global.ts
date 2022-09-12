@@ -1,3 +1,5 @@
+import { NextFunction, Request, Response } from 'express';
+
 import { Company } from '../entities/Company';
 import { Employee } from '../entities/Employee';
 
@@ -12,6 +14,7 @@ type CompanyUpdateProperties = {
   name?: string;
   country?: string;
 };
+
 type EmployeeUpdateProperties = {
   uuid: string;
   name?: string;
@@ -23,3 +26,9 @@ type EmployeeUpdateProperties = {
 export type entityUpdateProperties =
   | CompanyUpdateProperties
   | EmployeeUpdateProperties;
+
+export type RouteHandler = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => Promise<Response>;

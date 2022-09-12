@@ -1,14 +1,13 @@
-import { NextFunction, Request, Response } from 'express';
-
+import { RouteHandler } from '../../types/global';
 import Validation from '../../modules/Validation';
 import EmployeeModule from '../../modules/Employee';
 import { Employee } from '../../entities/Employee';
 import { getAllCousinsQuery } from '../../pgQueries/employees/getAllCousins';
 
-export const getCousins = async (
-  { params: { id: uuid }, query: { limit } }: Request,
-  res: Response,
-  next: NextFunction,
+export const getCousins: RouteHandler = async (
+  { params: { id: uuid }, query: { limit } },
+  res,
+  next,
 ) => {
   try {
     let cousins: Employee[];

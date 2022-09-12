@@ -1,14 +1,13 @@
-import { NextFunction, Request, Response } from 'express';
-
-import CompanyModule from '../../modules/Company';
 import { Company } from '../../entities/Company';
+import { RouteHandler } from '../../types/global';
+import CompanyModule from '../../modules/Company';
 import Validation from '../../modules/Validation';
 import { getAllCompaniesQuery } from '../../pgQueries/companies/getAll';
 
-export const getCompanies = async (
-  { query: { limit } }: Request,
-  res: Response,
-  next: NextFunction,
+export const getCompanies: RouteHandler = async (
+  { query: { limit } },
+  res,
+  next,
 ) => {
   try {
     let companies: Company[];

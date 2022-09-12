@@ -1,12 +1,11 @@
-import { NextFunction, Request, Response } from 'express';
-
-import CompanyModule from '../../modules/Company';
 import { Company } from '../../entities/Company';
+import { RouteHandler } from '../../types/global';
+import CompanyModule from '../../modules/Company';
 
-export const getCompany = async (
-  { params: { id: uuid } }: Request,
-  res: Response,
-  next: NextFunction,
+export const getCompany: RouteHandler = async (
+  { params: { id: uuid } },
+  res,
+  next,
 ) => {
   try {
     let company: Company;

@@ -1,12 +1,11 @@
-import { NextFunction, Request, Response } from 'express';
-
-import EmployeeModule from '../../modules/Employee';
+import { RouteHandler } from '../../types/global';
 import { Employee } from '../../entities/Employee';
+import EmployeeModule from '../../modules/Employee';
 
-export const getEmployee = async (
-  { params: { id: uuid } }: Request,
-  res: Response,
-  next: NextFunction,
+export const getEmployee: RouteHandler = async (
+  { params: { id: uuid } },
+  res,
+  next,
 ) => {
   try {
     let employee: Employee;

@@ -1,12 +1,11 @@
-import { NextFunction, Request, Response } from 'express';
-
+import { RouteHandler } from '../../types/global';
 import CompanyModule from '../../modules/Company';
 import Validation from '../../modules/Validation';
 
-export const updateCompany = async (
-  { params: { id: uuid }, body: { name, country } }: Request,
-  res: Response,
-  next: NextFunction,
+export const updateCompany: RouteHandler = async (
+  { params: { id: uuid }, body: { name, country } },
+  res,
+  next,
 ) => {
   try {
     Validation.atLeastOneParamExists(name, country);

@@ -1,12 +1,11 @@
-import { NextFunction, Request, Response } from 'express';
-
+import { RouteHandler } from '../../types/global';
 import Validation from '../../modules/Validation';
 import EmployeeMetadata from '../../models/EmployeeMetaData';
 
-export const getEmployeesMetadata = async (
-  { query: { companyUuid, limit } }: Request,
-  res: Response,
-  next: NextFunction,
+export const getEmployeesMetadata: RouteHandler = async (
+  { query: { companyUuid, limit } },
+  res,
+  next,
 ) => {
   try {
     const whereStatement = companyUuid ? { companyUuid } : {};
