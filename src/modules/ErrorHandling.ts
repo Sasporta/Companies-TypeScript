@@ -1,5 +1,3 @@
-import { Request, Response } from 'express';
-
 import resDoc from '../swagger/docs/components/responses';
 import { destroyQuery, updateQuery } from '../pgQueries/dynamic';
 import { entity, entityUpdateProperties } from '../types/global';
