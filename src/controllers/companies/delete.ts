@@ -1,3 +1,4 @@
+import Redis from '../../modules/Redis';
 import { RouteHandler } from '../../types/global';
 import CompanyModule from '../../modules/Company';
 
@@ -10,8 +11,8 @@ export const deleteCompany: RouteHandler = async (
     await CompanyModule.destroy(uuid);
 
     await Promise.all([
-      CompanyModule.removeItemFromCache(uuid),
-      CompanyModule.removeAllListsFromCache(),
+      Redis.remove(CompanyModule.REDIS_ITEM_KEY + uuid),
+      Redis.removeAll(CompanyModule.REDIS_LIST_PREFIX_KEY),
     ]);
 
     return res.status(204).json({});

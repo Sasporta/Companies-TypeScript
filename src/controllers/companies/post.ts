@@ -1,7 +1,7 @@
+import Redis from '../../modules/Redis';
 import { Company } from '../../entities/Company';
 import { RouteHandler } from '../../types/global';
 import CompanyModule from '../../modules/Company';
-import Validation from '../../modules/Validation';
 
 export const createCompany: RouteHandler = async (
   { body: { name, country } },
@@ -9,13 +9,13 @@ export const createCompany: RouteHandler = async (
   next,
 ) => {
   try {
-    Validation.allParamsExists(name, country);
+    CompanyModule.allParamsExists(name, country);
 
     const company = Company.create({ name, country });
 
     await company.save();
 
-    await CompanyModule.removeAllListsFromCache();
+    await Redis.removeAll(CompanyModule.REDIS_LIST_PREFIX_KEY);
 
     return res.status(201).json({
       uuid: company.uuid,

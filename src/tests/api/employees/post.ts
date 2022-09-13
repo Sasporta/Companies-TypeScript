@@ -1,5 +1,7 @@
+import Redis from '../../../modules/Redis';
 import { PATH, POSTED } from '../testsData';
 import { post, testError } from '../../helpers';
+import EmployeeModule from '../../../modules/Employee';
 
 export const postRequestTest = () => {
   describe('post employee request', () => {
@@ -29,6 +31,12 @@ export const postRequestTest = () => {
         name: POSTED.manager.name,
         age: POSTED.manager.age,
       });
+    });
+
+    it('should remove all cached employees lists', async () => {
+      const result = await Redis.get(EmployeeModule.REDIS_LIST_KEY);
+
+      expect(result).toStrictEqual(null);
     });
 
     describe('when params missing', () => testError(post, PATH.EMPLOYEES, 422));

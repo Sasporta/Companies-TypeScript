@@ -3,7 +3,12 @@ import { NotBrackets } from 'typeorm';
 import { dataSource } from '../../config/typeorm';
 import { Employee } from '../../entities/Employee';
 
-export const getAllCousinsQuery = (uuid: string, limit: number) =>
+type GetAllCousinsQueryFn = (
+  uuid: string,
+  limit: number,
+) => Promise<Employee[]>;
+
+export const getAllCousinsQuery: GetAllCousinsQueryFn = (uuid, limit) =>
   dataSource
     .createQueryBuilder()
     .select(['cousin.uuid', 'cousin.name', 'cousin.age'])

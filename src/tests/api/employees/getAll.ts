@@ -1,16 +1,30 @@
 import { get } from '../../helpers';
+import Redis from '../../../modules/Redis';
 import { PATH, EXISTING } from '../testsData';
+import EmployeeModule from '../../../modules/Employee';
 
 export const getAllRequestTest = () => {
   describe('get employees request', () => {
+    const fetchedEmployees = EXISTING.employees.map(({ uuid, name, age }) => ({
+      uuid,
+      name,
+      age,
+    }));
+
     it('should return 200 status with employees', async () => {
       const { statusCode, headers, body } = await get(PATH.EMPLOYEES);
 
       expect(statusCode).toBe(200);
       expect(headers['content-type']).toMatch('application/json');
-      expect(body).toStrictEqual(
-        EXISTING.employees.map(({ uuid, name, age }) => ({ uuid, name, age })),
+      expect(body).toStrictEqual(fetchedEmployees);
+    });
+
+    it('should return cached employees', async () => {
+      const result = await Redis.get(
+        EmployeeModule.REDIS_LIST_KEY + '?limit:10',
       );
+
+      expect(result).toStrictEqual(fetchedEmployees);
     });
 
     describe('when companyUuid param is given', () => {

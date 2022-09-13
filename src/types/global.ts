@@ -2,12 +2,15 @@ import { NextFunction, Request, Response } from 'express';
 
 import { Company } from '../entities/Company';
 import { Employee } from '../entities/Employee';
+import EmployeeMetadata from '../models/EmployeeMetadata';
 
-export type entity = typeof Company | typeof Employee;
+export type Model = typeof EmployeeMetadata;
 
-export type entities = Company | Employee | Company[] | Employee[];
+export type Entity = Company & Employee;
 
-export type bodyParams = boolean | number | object | string | undefined;
+export type EntityType = typeof Company | typeof Employee;
+
+export type ReqBodyParams = boolean | number | object | string | undefined;
 
 type CompanyUpdateProperties = {
   uuid: string;
@@ -23,7 +26,7 @@ type EmployeeUpdateProperties = {
   manager_id?: number;
 };
 
-export type entityUpdateProperties =
+export type EntityUpdateProperties =
   | CompanyUpdateProperties
   | EmployeeUpdateProperties;
 

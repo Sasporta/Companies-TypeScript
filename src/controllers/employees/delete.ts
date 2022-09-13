@@ -1,3 +1,4 @@
+import Redis from '../../modules/Redis';
 import { RouteHandler } from '../../types/global';
 import EmployeeModule from '../../modules/Employee';
 
@@ -10,8 +11,8 @@ export const deleteEmployee: RouteHandler = async (
     await EmployeeModule.destroy(uuid);
 
     await Promise.all([
-      EmployeeModule.removeItemFromCache(uuid),
-      EmployeeModule.removeAllListsFromCache(),
+      Redis.remove(EmployeeModule.REDIS_ITEM_KEY + uuid),
+      Redis.removeAll(EmployeeModule.REDIS_LIST_KEY),
     ]);
 
     return res.status(204).json({});

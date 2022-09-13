@@ -1,6 +1,6 @@
 import { RouteHandler } from '../../types/global';
-import Validation from '../../modules/Validation';
-import EmployeeMetadata from '../../models/EmployeeMetaData';
+import EmployeeMetadata from '../../models/EmployeeMetadata';
+import EmployeeMetadataModule from '../../modules/EmployeeMetadata';
 
 export const getEmployeesMetadata: RouteHandler = async (
   { query: { companyUuid, limit } },
@@ -10,7 +10,7 @@ export const getEmployeesMetadata: RouteHandler = async (
   try {
     const whereStatement = companyUuid ? { companyUuid } : {};
 
-    const resultsLimit = Validation.limit(+limit);
+    const resultsLimit = EmployeeMetadataModule.limit(+limit);
 
     const employees = await EmployeeMetadata.find(whereStatement).limit(
       resultsLimit,

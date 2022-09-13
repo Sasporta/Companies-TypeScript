@@ -1,6 +1,6 @@
+import Redis from '../../modules/Redis';
 import { RouteHandler } from '../../types/global';
 import CompanyModule from '../../modules/Company';
-import Validation from '../../modules/Validation';
 import EmployeeModule from '../../modules/Employee';
 
 export const updateEmployee: RouteHandler = async (
@@ -9,7 +9,7 @@ export const updateEmployee: RouteHandler = async (
   next,
 ) => {
   try {
-    Validation.atLeastOneParamExists(name, age, companyUuid, managerUuid);
+    EmployeeModule.atLeastOneParamExists(name, age, companyUuid, managerUuid);
 
     const { id: company_id } =
       typeof companyUuid === 'string'
@@ -32,8 +32,8 @@ export const updateEmployee: RouteHandler = async (
     });
 
     await Promise.all([
-      EmployeeModule.removeItemFromCache(uuid),
-      EmployeeModule.removeAllListsFromCache(),
+      Redis.remove(EmployeeModule.REDIS_ITEM_KEY + uuid),
+      Redis.removeAll(EmployeeModule.REDIS_LIST_KEY),
     ]);
 
     return res

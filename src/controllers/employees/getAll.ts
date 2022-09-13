@@ -1,5 +1,5 @@
+import Redis from '../../modules/Redis';
 import { RouteHandler } from '../../types/global';
-import Validation from '../../modules/Validation';
 import { Employee } from '../../entities/Employee';
 import EmployeeModule from '../../modules/Employee';
 import { getAllEmployeesQuery } from '../../pgQueries/employees/getAll';
@@ -15,7 +15,7 @@ export const getEmployees: RouteHandler = async (
 
     let employees: Employee[];
 
-    const resultsLimit = Validation.limit(+limit);
+    const resultsLimit = EmployeeModule.limit(+limit);
 
     const stringifyParams = EmployeeModule.stringifyParams({
       companyUuid,
@@ -23,7 +23,9 @@ export const getEmployees: RouteHandler = async (
       limit: resultsLimit,
     });
 
-    employees = await EmployeeModule.getListFromCache(stringifyParams);
+    employees = await Redis.get(
+      EmployeeModule.REDIS_LIST_KEY + stringifyParams,
+    );
 
     if (!employees) {
       employees = await getAllEmployeesQuery(
@@ -32,7 +34,10 @@ export const getEmployees: RouteHandler = async (
         resultsLimit,
       );
 
-      await EmployeeModule.setListInCache(stringifyParams, employees);
+      await Redis.set(
+        EmployeeModule.REDIS_LIST_KEY + stringifyParams,
+        employees,
+      );
     }
 
     return res.status(200).json(employees);

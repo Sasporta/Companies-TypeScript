@@ -1,7 +1,7 @@
+import Redis from '../../modules/Redis';
 import { Company } from '../../entities/Company';
 import { RouteHandler } from '../../types/global';
 import CompanyModule from '../../modules/Company';
-import Validation from '../../modules/Validation';
 import { getAllCompaniesQuery } from '../../pgQueries/companies/getAll';
 
 export const getCompanies: RouteHandler = async (
@@ -12,14 +12,14 @@ export const getCompanies: RouteHandler = async (
   try {
     let companies: Company[];
 
-    const resultsLimit = Validation.limit(+limit);
+    const resultsLimit = CompanyModule.limit(+limit);
 
-    companies = await CompanyModule.getListFromCache(resultsLimit);
+    companies = await Redis.get(CompanyModule.REDIS_LIST_KEY + resultsLimit);
 
     if (!companies) {
       companies = await getAllCompaniesQuery(resultsLimit);
 
-      await CompanyModule.setListInCache(resultsLimit, companies);
+      await Redis.set(CompanyModule.REDIS_LIST_KEY + resultsLimit, companies);
     }
 
     return res.status(200).json(companies);

@@ -1,13 +1,17 @@
-import { bodyParams } from '../../../types/global';
-import Validation from '../../../modules/Validation';
+import { ReqBodyParams } from '../../../types/global';
+import CompanyModule from '../../../modules/Company';
+
+type ValFn = (...params: ReqBodyParams[]) => void;
+
+type ValidateFn = (
+  val: ValFn,
+  ...params: ReqBodyParams[]
+) => 'success!' | Error;
 
 describe('atLeastOneParamExists method', () => {
-  const validate = async (
-    validateFunction: (...params: bodyParams[]) => void,
-    ...params: bodyParams[]
-  ) => {
+  const validate: ValidateFn = (val, ...params) => {
     try {
-      validateFunction(...params);
+      val(...params);
 
       return 'success!';
     } catch (error) {
@@ -17,8 +21,8 @@ describe('atLeastOneParamExists method', () => {
 
   it('should not throw an error if even one of the params is not undefined', async () => {
     expect(
-      await validate(
-        Validation.atLeastOneParamExists,
+      validate(
+        CompanyModule.atLeastOneParamExists,
         undefined,
         undefined,
         undefined,
@@ -29,8 +33,8 @@ describe('atLeastOneParamExists method', () => {
 
   it('should throw an error only if all the params are undefined', async () => {
     expect(
-      await validate(
-        Validation.atLeastOneParamExists,
+      validate(
+        CompanyModule.atLeastOneParamExists,
         undefined,
         undefined,
         undefined,

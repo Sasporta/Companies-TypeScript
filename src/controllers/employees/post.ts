@@ -1,8 +1,8 @@
+import Redis from '../../modules/Redis';
 import { RouteHandler } from '../../types/global';
 import CompanyModule from '../../modules/Company';
-import Validation from '../../modules/Validation';
-import EmployeeModule from '../../modules/Employee';
 import { Employee } from '../../entities/Employee';
+import EmployeeModule from '../../modules/Employee';
 
 export const createEmployee: RouteHandler = async (
   { body: { name, age, companyUuid, managerUuid } },
@@ -10,7 +10,7 @@ export const createEmployee: RouteHandler = async (
   next,
 ) => {
   try {
-    Validation.allParamsExists(name, age, companyUuid);
+    EmployeeModule.allParamsExists(name, age, companyUuid);
 
     const { id: company_id } = await CompanyModule.getOne(companyUuid, 422);
 
@@ -23,7 +23,7 @@ export const createEmployee: RouteHandler = async (
 
     await employee.save();
 
-    await EmployeeModule.removeAllListsFromCache();
+    await Redis.removeAll(EmployeeModule.REDIS_LIST_KEY);
 
     return res
       .status(201)

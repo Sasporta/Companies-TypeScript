@@ -1,5 +1,5 @@
+import Redis from '../../modules/Redis';
 import { RouteHandler } from '../../types/global';
-import Validation from '../../modules/Validation';
 import EmployeeModule from '../../modules/Employee';
 import { Employee } from '../../entities/Employee';
 import { getAllCousinsQuery } from '../../pgQueries/employees/getAllCousins';
@@ -12,7 +12,7 @@ export const getCousins: RouteHandler = async (
   try {
     let cousins: Employee[];
 
-    const resultsLimit = Validation.limit(+limit);
+    const resultsLimit = EmployeeModule.limit(+limit);
 
     const stringifyParams = EmployeeModule.stringifyParams({
       uuid,
@@ -20,12 +20,12 @@ export const getCousins: RouteHandler = async (
       limit: resultsLimit,
     });
 
-    cousins = await EmployeeModule.getListFromCache(stringifyParams);
+    cousins = await Redis.get(EmployeeModule.REDIS_LIST_KEY + stringifyParams);
 
     if (!cousins) {
       cousins = await getAllCousinsQuery(uuid, resultsLimit);
 
-      await EmployeeModule.setListInCache(stringifyParams, cousins);
+      await Redis.set(EmployeeModule.REDIS_LIST_KEY + stringifyParams, cousins);
     }
 
     return res.status(200).json(cousins);
