@@ -2,10 +2,16 @@ import { Company } from '../../entities/Company';
 import { dataSource } from '../../config/typeorm';
 import { Employee } from '../../entities/Employee';
 
-export const getAllEmployeesQuery = (
+type GetAllEmployeesQueryFn = (
   companyUuid: string,
   managerUuid: string,
   limit: number,
+) => Promise<Employee[]>;
+
+export const getAllEmployeesQuery: GetAllEmployeesQueryFn = (
+  companyUuid,
+  managerUuid,
+  limit,
 ) => {
   let getAllQuery = dataSource
     .createQueryBuilder()

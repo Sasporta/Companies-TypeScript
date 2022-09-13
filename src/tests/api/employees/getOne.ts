@@ -1,5 +1,7 @@
+import Redis from '../../../modules/Redis';
 import { PATH, EXISTING } from '../testsData';
 import { get, testError } from '../../helpers';
+import EmployeeModule from '../../../modules/Employee';
 
 export const getOneRequestTest = () => {
   describe('get employee request', () => {
@@ -14,6 +16,18 @@ export const getOneRequestTest = () => {
         uuid: EXISTING.employees[0].uuid,
         name: EXISTING.employees[0].name,
         age: EXISTING.employees[0].age,
+      });
+    });
+
+    it('should return cached employee', async () => {
+      const result = await Redis.get(
+        EmployeeModule.REDIS_ITEM_KEY + EXISTING.employees[0].uuid,
+      );
+
+      expect(result).toStrictEqual({
+        ...EXISTING.employees[0],
+        created_at: expect.any(String),
+        updated_at: expect.any(String),
       });
     });
 

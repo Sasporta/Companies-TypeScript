@@ -1,6 +1,6 @@
+import Redis from '../../modules/Redis';
 import { RouteHandler } from '../../types/global';
 import CompanyModule from '../../modules/Company';
-import Validation from '../../modules/Validation';
 
 export const updateCompany: RouteHandler = async (
   { params: { id: uuid }, body: { name, country } },
@@ -8,13 +8,13 @@ export const updateCompany: RouteHandler = async (
   next,
 ) => {
   try {
-    Validation.atLeastOneParamExists(name, country);
+    CompanyModule.atLeastOneParamExists(name, country);
 
     const company = await CompanyModule.edit({ uuid, name, country });
 
     await Promise.all([
-      CompanyModule.removeItemFromCache(uuid),
-      CompanyModule.removeAllListsFromCache(),
+      Redis.remove(CompanyModule.REDIS_ITEM_KEY + uuid),
+      Redis.removeAll(CompanyModule.REDIS_LIST_PREFIX_KEY),
     ]);
 
     return res.status(200).json({

@@ -4,13 +4,29 @@ import { performance } from 'perf_hooks';
 import app from '../app';
 import resDoc from '../swagger/docs/components/responses';
 
-export const { get, post, patch, delete: destroy } = request(app);
+type CrudMethodFn = (a: string) => request.Test;
 
-export const testError = (
-  crudMethod: (a: string) => any,
+type TestErrorFn = (
+  crudMethod: CrudMethodFn,
   path: string,
   errorCode: number,
-  reqBody: object = {},
+  reqBody?: object,
+) => void;
+
+type SomeProcessFn = (...params: unknown[]) => Promise<void>;
+
+type TestPerformanceFn = (
+  benchmark: number,
+  iterations: number,
+) => (someProcess: SomeProcessFn) => (...params: unknown[]) => void;
+
+export const { get, post, patch, delete: destroy } = request(app);
+
+export const testError: TestErrorFn = (
+  crudMethod,
+  path,
+  errorCode,
+  reqBody = {},
 ) => {
   it(`should return ${errorCode} status with proper error message`, async () => {
     const { status, body } = await crudMethod(path).send(reqBody);
@@ -20,10 +36,10 @@ export const testError = (
   });
 };
 
-export const testPerformance =
-  (benchmark: number, iterations: number) =>
-    (someProcess: any) =>
-      (...params: any) => {
+export const testPerformance: TestPerformanceFn =
+  (benchmark, iterations) =>
+    someProcess =>
+      (...params) => {
         it(`should have an average time of less than ${benchmark} ms`, async () => {
           let performanceSum = 0;
 

@@ -1,4 +1,6 @@
+import Redis from '../../../modules/Redis';
 import { patch, testError } from '../../helpers';
+import EmployeeModule from '../../../modules/Employee';
 import { PATH, EXISTING, UPDATED } from '../testsData';
 
 export const updateRequestTest = () => {
@@ -29,6 +31,20 @@ export const updateRequestTest = () => {
         name: EXISTING.employees[2].name,
         age: EXISTING.employees[2].age,
       });
+    });
+
+    it('should remove cached employee', async () => {
+      const result = await Redis.get(
+        EmployeeModule.REDIS_ITEM_KEY + EXISTING.employees[0].uuid,
+      );
+
+      expect(result).toStrictEqual(null);
+    });
+
+    it('should remove all cached employees lists', async () => {
+      const result = await Redis.get(EmployeeModule.REDIS_LIST_KEY);
+
+      expect(result).toStrictEqual(null);
     });
 
     describe('when params missing', () =>

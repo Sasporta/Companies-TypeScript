@@ -1,5 +1,7 @@
+import Redis from '../../../modules/Redis';
 import { PATH, POSTED } from '../testsData';
 import { post, testError } from '../../helpers';
+import CompanyModule from '../../../modules/Company';
 
 export const postRequestTest = () => {
   describe('post company request', () => {
@@ -15,6 +17,12 @@ export const postRequestTest = () => {
         name: POSTED.company.name,
         country: POSTED.company.country,
       });
+    });
+
+    it('should remove all cached companies lists', async () => {
+      const result = await Redis.get(CompanyModule.REDIS_LIST_KEY);
+
+      expect(result).toStrictEqual(null);
     });
 
     describe('when params invalid or missing', () =>
