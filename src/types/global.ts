@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 
 import { Company } from '../entities/Company';
 import { Employee } from '../entities/Employee';
-import EmployeeMetadata from '../models/EmployeeMetaData';
+import EmployeeMetadata from '../models/EmployeeMetadata';
 
 export type Model = typeof EmployeeMetadata;
 

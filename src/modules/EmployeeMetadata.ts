@@ -1,9 +1,9 @@
 import Mongo from './Mongo';
-import EmployeeMetaData from '../models/EmployeeMetaData';
+import EmployeeMetadata from '../models/EmployeeMetadata';
 
 class EmployeeMetadataModule extends Mongo {
   constructor() {
-    super(EmployeeMetaData);
+    super(EmployeeMetadata);
   }
 }
 
