@@ -10,13 +10,11 @@ type StringifyParamsFn = (stringifyParams: {
 }) => string;
 
 class EmployeeModule extends TypeOrmModule {
-  REDIS_ITEM_KEY: 'get_one_employee?uuid:';
-  REDIS_LIST_KEY: 'get_all_employees?limit:';
+  REDIS_ITEM_KEY = 'get_one_employee?uuid:';
+  REDIS_LIST_KEY = 'get_all_employees?limit:';
 
   constructor() {
     super(Employee);
-    this.REDIS_ITEM_KEY = 'get_one_employee?uuid:';
-    this.REDIS_LIST_KEY = 'get_all_employees?limit:';
   }
 
   stringifyParams: StringifyParamsFn = ({
