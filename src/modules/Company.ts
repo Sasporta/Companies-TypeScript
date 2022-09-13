@@ -1,24 +1,8 @@
 import Redis from './Redis';
 import ErrorHandling from './ErrorHandling';
 import { Company } from '../entities/Company';
-import { getCompany } from '../controllers/companies/getOne';
-import { createCompany } from '../controllers/companies/post';
-import { getCompanies } from '../controllers/companies/getAll';
-import { deleteCompany } from '../controllers/companies/delete';
-import { updateCompany } from '../controllers/companies/update';
 
 export default class CompanyModule {
-  static endPoints = [
-    createCompany,
-    deleteCompany,
-    getCompany,
-    getCompanies,
-    updateCompany,
-  ];
-
-  static companiesEps = () =>
-    CompanyModule.endPoints.map(ep => ErrorHandling.controllerWrapper(ep));
-
   static getOne = ErrorHandling.findOrThrow(Company);
 
   static edit = ErrorHandling.updateOrThrow404(Company);

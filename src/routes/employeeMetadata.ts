@@ -1,9 +1,6 @@
 import express from 'express';
-
-import EmployeeMetadataModule from '../modules/EmployeeMetadata';
-
-const [getEmployeeMetadata, getEmployeesMetadata] =
-  EmployeeMetadataModule.employeesMetadataEps();
+import { getEmployeeMetadata } from '../controllers/employeesMetadata/getOne';
+import { getEmployeesMetadata } from '../controllers/employeesMetadata/getAll';
 
 const router = express.Router();
 

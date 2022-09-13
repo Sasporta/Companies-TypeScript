@@ -1,15 +1,13 @@
 import express from 'express';
 
-import EmployeeModule from '../modules/Employee';
+import { getEmployee } from '../controllers/employees/getOne';
+import { createEmployee } from '../controllers/employees/post';
+import { getEmployees } from '../controllers/employees/getAll';
+import { updateEmployee } from '../controllers/employees/update';
+import { deleteEmployee } from '../controllers/employees/delete';
+import { getCousins } from '../controllers/employees/getAllCousins';
 
-const [
-  createEmployee,
-  deleteEmployee,
-  getCousins,
-  getEmployee,
-  getEmployees,
-  updateEmployee,
-] = EmployeeModule.employeesEps();
+
 
 const router = express.Router();
 

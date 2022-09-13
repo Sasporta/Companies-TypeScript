@@ -1,14 +1,21 @@
-import { Request } from 'express';
-
+import { RouteHandler } from '../../types/global';
 import EmployeeModule from '../../modules/Employee';
 
-export const deleteEmployee = async ({ params: { id: uuid } }: Request) => {
-  await EmployeeModule.destroy(uuid);
+export const deleteEmployee: RouteHandler = async (
+  { params: { id: uuid } },
+  res,
+  next,
+) => {
+  try {
+    await EmployeeModule.destroy(uuid);
 
-  await Promise.all([
-    EmployeeModule.removeItemFromCache(uuid),
-    EmployeeModule.removeAllListsFromCache(),
-  ]);
+    await Promise.all([
+      EmployeeModule.removeItemFromCache(uuid),
+      EmployeeModule.removeAllListsFromCache(),
+    ]);
 
-  return { statusCode: 204 };
+    return res.status(204).json({});
+  } catch (error) {
+    next(error);
+  }
 };
