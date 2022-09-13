@@ -12,33 +12,22 @@ const EmployeeMetadataSchema = new mongoose.Schema(
   {
     _id: {
       required: true,
-      type: mongoose.Schema.Types.ObjectId,
-      select: false,
+      type: 'object',
+      value: { type: 'Buffer' },
     },
     companyUuid: {
       required: true,
-      type: String,
+      type: 'object',
+      value: { type: 'Buffer' },
       select: false,
-    },
-    employeeUuid: {
-      required: true,
-      type: String,
     },
     subordinatesCount: {
       required: true,
       type: Number,
       default: 0,
     },
-    createdAt: {
-      type: Date,
-      select: false,
-    },
-    updatedAt: {
-      type: Date,
-      select: false,
-    },
   },
-  { timestamps: true, versionKey: false },
+  { versionKey: false },
 );
 
 export default mongoose.model<EmployeeMetadataDocument>(

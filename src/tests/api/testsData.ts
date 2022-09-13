@@ -53,12 +53,9 @@ export const EXISTING = {
     created_at: new Date().toISOString(),
   })),
   employeesMetadata: testEmployeesUuids.map((uuid, i) => ({
-    _id: i + 1,
+    _id: uuid,
     companyUuid: i === 7 ? testCompaniesUuids[5] : testCompaniesUuids[4],
-    employeeUuid: uuid,
     subordinatesCount: i < 3 ? 2 : 0,
-    updatedAt: new Date().toISOString(),
-    createdAt: new Date().toISOString(),
   })),
 };
 

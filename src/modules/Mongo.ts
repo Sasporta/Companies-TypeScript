@@ -12,7 +12,7 @@ export default class Mongo extends BaseModule {
   }
 
   getOne: GetOneFn = async uuid =>
-    (await this.model.findOne({ employeeUuid: uuid })) ?? this.throwError(404);
+    (await this.model.findOne({ _id: uuid })) ?? this.throwError(404);
 
   // will be dealt with in next pr:
 

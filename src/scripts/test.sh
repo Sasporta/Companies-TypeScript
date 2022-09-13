@@ -1,4 +1,5 @@
 #!/bin/bash
+npx tsc
 eslint ./
 docker-compose up -d
 jest --maxWorkers=50% $1

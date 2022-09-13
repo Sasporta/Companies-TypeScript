@@ -9,12 +9,10 @@ export const getAllRequestTest = () => {
       expect(statusCode).toBe(200);
       expect(headers['content-type']).toMatch('application/json');
       expect(body).toStrictEqual(
-        EXISTING.employeesMetadata.map(
-          ({ employeeUuid, subordinatesCount }) => ({
-            employeeUuid,
-            subordinatesCount,
-          }),
-        ),
+        EXISTING.employeesMetadata.map(({ _id, subordinatesCount }) => ({
+          _id,
+          subordinatesCount,
+        })),
       );
     });
 
@@ -37,8 +35,8 @@ export const getAllRequestTest = () => {
             EXISTING.employeesMetadata[4],
             EXISTING.employeesMetadata[5],
             EXISTING.employeesMetadata[6],
-          ].map(({ employeeUuid, subordinatesCount }) => ({
-            employeeUuid,
+          ].map(({ _id, subordinatesCount }) => ({
+            _id,
             subordinatesCount,
           })),
         );
