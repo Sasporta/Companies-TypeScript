@@ -12,13 +12,11 @@ import companiesB from './companiesB';
 
 const router = express.Router();
 
-router.use('/', companies);
-router.use('/', employees);
-router.use('/', employeesMetadata);
+router.use(companies, employees, employeesMetadata);
 router.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 
 // NOTE: implemented without query builder for comparison
-router.use('/', employeesB);
-router.use('/', companiesB);
+router.use(employeesB);
+router.use(companiesB);
 
 export default router;
