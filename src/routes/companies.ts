@@ -1,9 +1,10 @@
 import express from 'express';
 
-import CompanyModule from '../modules/Company';
-
-const [createCompany, deleteCompany, getCompany, getCompanies, updateCompany] =
-  CompanyModule.companiesEps();
+import { getCompany } from '../controllers/companies/getOne';
+import { createCompany } from '../controllers/companies/post';
+import { getCompanies } from '../controllers/companies/getAll';
+import { updateCompany } from '../controllers/companies/update';
+import { deleteCompany } from '../controllers/companies/delete';
 
 const router = express.Router();
 

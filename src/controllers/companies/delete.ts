@@ -1,14 +1,22 @@
-import { Request } from 'express';
-
+import Redis from '../../modules/Redis';
+import { RouteHandler } from '../../types/global';
 import CompanyModule from '../../modules/Company';
 
-export const deleteCompany = async ({ params: { id: uuid } }: Request) => {
-  await CompanyModule.destroy(uuid);
+export const deleteCompany: RouteHandler = async (
+  { params: { id: uuid } },
+  res,
+  next,
+) => {
+  try {
+    await CompanyModule.destroy(uuid);
 
-  await Promise.all([
-    CompanyModule.removeItemFromCache(uuid),
-    CompanyModule.removeAllListsFromCache(),
-  ]);
+    await Promise.all([
+      Redis.remove(CompanyModule.REDIS_ITEM_KEY + uuid),
+      Redis.removeAll(CompanyModule.REDIS_LIST_PREFIX_KEY),
+    ]);
 
-  return { statusCode: 204 };
+    return res.status(204).json({});
+  } catch (error) {
+    next(error);
+  }
 };

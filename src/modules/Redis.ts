@@ -1,22 +1,34 @@
 import { redis } from '../config/redis';
-import { entities } from '../types/global';
+import { Entity } from '../types/global';
+import { Company } from '../entities/Company';
+import { Employee } from '../entities/Employee';
 
-export default class Redis {
-  static get = async (key: string) => {
+type Entities = Company[] & Employee[];
+
+type GetFn = (key: string) => Promise<Entity & Entities>;
+
+type RemoveFn = (key: string) => Promise<void>;
+
+type RemoveAllFn = (pattern: string) => Promise<void>;
+
+type SetFn = <T>(key: string, value: T) => Promise<void>;
+
+class Redis {
+  get: GetFn = async key => {
     const result = await redis.get(key);
 
     return JSON.parse(result);
   };
 
-  static set = async (key: string, value: entities) => {
+  set: SetFn = async (key, value) => {
     await redis.set(key, JSON.stringify(value), 'ex', 691200000);
   };
 
-  static remove = async (key: string) => {
+  remove: RemoveFn = async key => {
     await redis.del(key);
   };
 
-  static removeAll = async (pattern: string) => {
+  removeAll: RemoveAllFn = async pattern => {
     const stream = redis.scanStream({ match: pattern + '*' });
 
     stream.on('data', (keys: string[]) => {
@@ -30,3 +42,5 @@ export default class Redis {
     });
   };
 }
+
+export default new Redis();

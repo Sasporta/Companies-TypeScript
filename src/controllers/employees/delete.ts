@@ -1,14 +1,22 @@
-import { Request } from 'express';
-
+import Redis from '../../modules/Redis';
+import { RouteHandler } from '../../types/global';
 import EmployeeModule from '../../modules/Employee';
 
-export const deleteEmployee = async ({ params: { id: uuid } }: Request) => {
-  await EmployeeModule.destroy(uuid);
+export const deleteEmployee: RouteHandler = async (
+  { params: { id: uuid } },
+  res,
+  next,
+) => {
+  try {
+    await EmployeeModule.destroy(uuid);
 
-  await Promise.all([
-    EmployeeModule.removeItemFromCache(uuid),
-    EmployeeModule.removeAllListsFromCache(),
-  ]);
+    await Promise.all([
+      Redis.remove(EmployeeModule.REDIS_ITEM_KEY + uuid),
+      Redis.removeAll(EmployeeModule.REDIS_LIST_KEY),
+    ]);
 
-  return { statusCode: 204 };
+    return res.status(204).json({});
+  } catch (error) {
+    next(error);
+  }
 };

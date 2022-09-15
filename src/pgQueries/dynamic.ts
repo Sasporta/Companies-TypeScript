@@ -1,7 +1,18 @@
-import { entity } from '../types/global';
 import { dataSource } from '../config/typeorm';
+import { DeleteResult, UpdateResult } from 'typeorm';
+import { EntityType, EntityUpdateProperties } from '../types/global';
 
-export const destroyQuery = (entity: entity, uuid: string) =>
+type UpdateQueryFn = (
+  entity: EntityType,
+  { uuid, ...params }: EntityUpdateProperties,
+) => Promise<UpdateResult>;
+
+type DestroyQueryFn = (
+  entity: EntityType,
+  uuid: string,
+) => Promise<DeleteResult>;
+
+export const destroyQuery: DestroyQueryFn = (entity, uuid) =>
   dataSource
     .createQueryBuilder()
     .delete()
@@ -9,7 +20,7 @@ export const destroyQuery = (entity: entity, uuid: string) =>
     .where('uuid = :uuid', { uuid })
     .execute();
 
-export const updateQuery = (entity: entity, { uuid, ...params }: any) =>
+export const updateQuery: UpdateQueryFn = (entity, { uuid, ...params }) =>
   dataSource
     .createQueryBuilder()
     .update(entity)

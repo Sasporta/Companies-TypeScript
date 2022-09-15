@@ -1,22 +1,29 @@
-import { Request } from 'express';
-
-import CompanyModule from '../../modules/Company';
+import Redis from '../../modules/Redis';
 import { Company } from '../../entities/Company';
-import Validation from '../../modules/Validation';
+import { RouteHandler } from '../../types/global';
+import CompanyModule from '../../modules/Company';
 import { getAllCompaniesQuery } from '../../pgQueries/companies/getAll';
 
-export const getCompanies = async ({ query: { limit } }: Request) => {
-  let companies: Company[];
+export const getCompanies: RouteHandler = async (
+  { query: { limit } },
+  res,
+  next,
+) => {
+  try {
+    let companies: Company[];
 
-  const resultsLimit = Validation.limit(+limit);
+    const resultsLimit = CompanyModule.limit(+limit);
 
-  companies = await CompanyModule.getListFromCache(resultsLimit);
+    companies = await Redis.get(CompanyModule.REDIS_LIST_KEY + resultsLimit);
 
-  if (!companies) {
-    companies = await getAllCompaniesQuery(resultsLimit);
+    if (!companies) {
+      companies = await getAllCompaniesQuery(resultsLimit);
 
-    await CompanyModule.setListInCache(resultsLimit, companies);
+      await Redis.set(CompanyModule.REDIS_LIST_KEY + resultsLimit, companies);
+    }
+
+    return res.status(200).json(companies);
+  } catch (error) {
+    next(error);
   }
-
-  return { statusCode: 200, content: companies };
 };

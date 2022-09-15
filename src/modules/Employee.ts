@@ -1,62 +1,28 @@
-import Redis from './Redis';
-import ErrorHandling from './ErrorHandling';
+import TypeOrmModule from './TypeORM';
 import { Employee } from '../entities/Employee';
-import { getEmployee } from '../controllers/employees/getOne';
-import { getEmployees } from '../controllers/employees/getAll';
-import { createEmployee } from '../controllers/employees/post';
-import { deleteEmployee } from '../controllers/employees/delete';
-import { updateEmployee } from '../controllers/employees/update';
-import { getCousins } from '../controllers/employees/getAllCousins';
 
-export default class EmployeeModule {
-  static endPoints = [
-    createEmployee,
-    deleteEmployee,
-    getCousins,
-    getEmployee,
-    getEmployees,
-    updateEmployee,
-  ];
+type StringifyParamsFn = (stringifyParams: {
+  limit: number;
+  companyUuid?: string;
+  managerUuid?: string;
+  path?: string;
+  uuid?: string;
+}) => string;
 
-  static employeesEps = () =>
-    EmployeeModule.endPoints.map(ep => ErrorHandling.controllerWrapper(ep));
+class EmployeeModule extends TypeOrmModule {
+  REDIS_ITEM_KEY = 'get_one_employee?uuid:';
+  REDIS_LIST_KEY = 'get_all_employees?limit:';
 
-  static getOne = ErrorHandling.findOrThrow(Employee);
+  constructor() {
+    super(Employee);
+  }
 
-  static edit = ErrorHandling.updateOrThrow404(Employee);
-
-  static destroy = ErrorHandling.deleteOrThrow404(Employee);
-
-  static getItemFromCache = async (uuid: string) =>
-    await Redis.get('get_one_employee?uuid:' + uuid);
-
-  static getListFromCache = async (stringifyParams: string) =>
-    await Redis.get('get_all_employees' + stringifyParams);
-
-  static setItemInCache = async (uuid: string, value: Employee) =>
-    await Redis.set('get_one_employee?uuid:' + uuid, value);
-
-  static setListInCache = async (stringifyParams: string, value: Employee[]) =>
-    await Redis.set('get_all_employees' + stringifyParams, value);
-
-  static removeItemFromCache = async (uuid: string) =>
-    await Redis.remove('get_one_employee?uuid:' + uuid);
-
-  static removeAllListsFromCache = async () =>
-    await Redis.removeAll('get_all_employees');
-
-  static stringifyParams = ({
+  stringifyParams: StringifyParamsFn = ({
     limit,
     companyUuid,
     managerUuid,
     path,
     uuid,
-  }: {
-    limit: number;
-    companyUuid?: string;
-    managerUuid?: string;
-    path?: string;
-    uuid?: string;
   }) => {
     let string = path ? `_${path}?uuid:${uuid}` : '';
 
@@ -67,3 +33,5 @@ export default class EmployeeModule {
     return string + `?limit:${limit}`;
   };
 }
+
+export default new EmployeeModule();

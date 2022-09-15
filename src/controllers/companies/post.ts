@@ -1,24 +1,28 @@
-import { Request } from 'express';
-
-import CompanyModule from '../../modules/Company';
+import Redis from '../../modules/Redis';
 import { Company } from '../../entities/Company';
-import Validation from '../../modules/Validation';
+import { RouteHandler } from '../../types/global';
+import CompanyModule from '../../modules/Company';
 
-export const createCompany = async ({ body: { name, country } }: Request) => {
-  Validation.allParamsExists(name, country);
+export const createCompany: RouteHandler = async (
+  { body: { name, country } },
+  res,
+  next,
+) => {
+  try {
+    CompanyModule.allParamsExists(name, country);
 
-  const company = Company.create({ name, country });
+    const company = Company.create({ name, country });
 
-  await company.save();
+    await company.save();
 
-  await CompanyModule.removeAllListsFromCache();
+    await Redis.removeAll(CompanyModule.REDIS_LIST_PREFIX_KEY);
 
-  return {
-    statusCode: 201,
-    content: {
+    return res.status(201).json({
       uuid: company.uuid,
       name: company.name,
       country: company.country,
-    },
-  };
+    });
+  } catch (error) {
+    next(error);
+  }
 };

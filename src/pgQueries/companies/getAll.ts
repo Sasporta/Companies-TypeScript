@@ -1,7 +1,9 @@
 import { Company } from '../../entities/Company';
 import { dataSource } from '../../config/typeorm';
 
-export const getAllCompaniesQuery = (limit: number) =>
+type GetAllCompaniesQueryFn = (limit: number) => Promise<Company[]>;
+
+export const getAllCompaniesQuery: GetAllCompaniesQueryFn = limit =>
   dataSource
     .createQueryBuilder()
     .from(Company, 'company')

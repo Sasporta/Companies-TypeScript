@@ -1,25 +1,30 @@
-import { Request } from 'express';
-
-import CompanyModule from '../../modules/Company';
+import Redis from '../../modules/Redis';
 import { Company } from '../../entities/Company';
+import { RouteHandler } from '../../types/global';
+import CompanyModule from '../../modules/Company';
 
-export const getCompany = async ({ params: { id: uuid } }: Request) => {
-  let company: Company;
+export const getCompany: RouteHandler = async (
+  { params: { id: uuid } },
+  res,
+  next,
+) => {
+  try {
+    let company: Company;
 
-  company = await CompanyModule.getItemFromCache(uuid);
+    company = await Redis.get(CompanyModule.REDIS_ITEM_KEY + uuid);
 
-  if (!company) {
-    company = await CompanyModule.getOne(uuid, 404);
+    if (!company) {
+      company = await CompanyModule.getOne(uuid, 404);
 
-    await CompanyModule.setItemInCache(uuid, company);
-  }
+      await Redis.set(CompanyModule.REDIS_ITEM_KEY + uuid, company);
+    }
 
-  return {
-    statusCode: 200,
-    content: {
+    return res.status(200).json({
       uuid: company.uuid,
       name: company.name,
       country: company.country,
-    },
-  };
+    });
+  } catch (error) {
+    next(error);
+  }
 };

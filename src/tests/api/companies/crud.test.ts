@@ -9,7 +9,7 @@ import { dataSource } from '../../../config/typeorm';
 describe('companies CRUD requests', () => {
   beforeAll(async () => await dataSource.initialize());
   afterAll(async () => {
-    await redis.disconnect();
+    redis.disconnect();
     await dataSource.destroy();
   });
 

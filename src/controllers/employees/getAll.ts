@@ -1,37 +1,47 @@
-import { Request } from 'express';
-
-import Validation from '../../modules/Validation';
-import EmployeeModule from '../../modules/Employee';
+import Redis from '../../modules/Redis';
+import { RouteHandler } from '../../types/global';
 import { Employee } from '../../entities/Employee';
+import EmployeeModule from '../../modules/Employee';
 import { getAllEmployeesQuery } from '../../pgQueries/employees/getAll';
 
-export const getEmployees = async ({
-  query: { companyUuid, managerUuid, limit },
-}: Request) => {
-  companyUuid = companyUuid as string;
-  managerUuid = managerUuid as string;
+export const getEmployees: RouteHandler = async (
+  { query: { companyUuid, managerUuid, limit } },
+  res,
+  next,
+) => {
+  try {
+    companyUuid = companyUuid as string;
+    managerUuid = managerUuid as string;
 
-  let employees: Employee[];
+    let employees: Employee[];
 
-  const resultsLimit = Validation.limit(+limit);
+    const resultsLimit = EmployeeModule.limit(+limit);
 
-  const stringifyParams = EmployeeModule.stringifyParams({
-    companyUuid,
-    managerUuid,
-    limit: resultsLimit,
-  });
-
-  employees = await EmployeeModule.getListFromCache(stringifyParams);
-
-  if (!employees) {
-    employees = await getAllEmployeesQuery(
+    const stringifyParams = EmployeeModule.stringifyParams({
       companyUuid,
       managerUuid,
-      resultsLimit,
+      limit: resultsLimit,
+    });
+
+    employees = await Redis.get(
+      EmployeeModule.REDIS_LIST_KEY + stringifyParams,
     );
 
-    await EmployeeModule.setListInCache(stringifyParams, employees);
-  }
+    if (!employees) {
+      employees = await getAllEmployeesQuery(
+        companyUuid,
+        managerUuid,
+        resultsLimit,
+      );
 
-  return { statusCode: 200, content: employees };
+      await Redis.set(
+        EmployeeModule.REDIS_LIST_KEY + stringifyParams,
+        employees,
+      );
+    }
+
+    return res.status(200).json(employees);
+  } catch (error) {
+    next(error);
+  }
 };
