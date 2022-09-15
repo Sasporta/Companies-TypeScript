@@ -39,29 +39,29 @@ workflows:
     jobs:
       - test
 
-      - heroku/deploy-via-git:
-          filters:
-            branches:
-              only: main
-          requires:
-            - test
+      # - heroku/deploy-via-git:
+      #     filters:
+      #       branches:
+      #         only: main
+      #     requires:
+      #       - test
           # post-steps:
           #   - run: your-database-migration-command
 
-      - heroku/deploy-via-git:
-          app-name: ${HEROKU_LOAD_APP_NAME}
-          filters:
-            branches:
-              only: main
-          requires:
-            - test
+      # - heroku/deploy-via-git:
+      #     app-name: ${HEROKU_LOAD_APP_NAME}
+      #     filters:
+      #       branches:
+      #         only: main
+      #     requires:
+      #       - test
 
-  scheduled-load-test:
-    triggers:
-      - schedule:
-          cron: "0 13 * * 3"
-          filters:
-            branches:
-              only: main
-    jobs:
-      - load_test
+  # scheduled-load-test:
+  #   triggers:
+  #     - schedule:
+  #         cron: "0 13 * * 3"
+  #         filters:
+  #           branches:
+  #             only: main
+  #   jobs:
+  #     - load_test
