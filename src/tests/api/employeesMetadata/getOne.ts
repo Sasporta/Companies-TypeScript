@@ -5,15 +5,13 @@ export const getOneRequestTest = () => {
   describe('get employeeMetadata request', () => {
     it('should return 200 status with chosen employee metadata', async () => {
       const { statusCode, headers, body } = await get(
-        PATH.EMPLOYEES_METADATA +
-          '/' +
-          EXISTING.employeesMetadata[0].employeeUuid,
+        PATH.EMPLOYEES_METADATA + '/' + EXISTING.employeesMetadata[0]._id,
       );
 
       expect(statusCode).toBe(200);
       expect(headers['content-type']).toMatch('application/json');
       expect(body).toStrictEqual({
-        employeeUuid: EXISTING.employeesMetadata[0].employeeUuid,
+        _id: EXISTING.employeesMetadata[0]._id,
         subordinatesCount: EXISTING.employeesMetadata[0].subordinatesCount,
       });
     });
