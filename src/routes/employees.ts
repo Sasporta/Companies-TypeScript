@@ -7,8 +7,6 @@ import { updateEmployee } from '../controllers/employees/update';
 import { deleteEmployee } from '../controllers/employees/delete';
 import { getCousins } from '../controllers/employees/getAllCousins';
 
-
-
 const router = express.Router();
 
 router.get('/employees', getEmployees);
