@@ -9,6 +9,8 @@ import { redis } from '../../../config/redis';
 import { dataSource } from '../../../config/typeorm';
 import { connectMongoDB } from '../../../config/mongo';
 import { getAllCousinsRequestTest } from './getAllCousins';
+import { getAllMetadataRequestTest } from './employeesMetadata/getAll';
+import { getOneMetadataRequestTest } from './employeesMetadata/getOne';
 
 describe('employees CRUD requests', () => {
   beforeAll(async () => {
@@ -21,6 +23,8 @@ describe('employees CRUD requests', () => {
     await mongoose.connection.close();
   });
 
+  getAllMetadataRequestTest();
+  getOneMetadataRequestTest();
   getAllCousinsRequestTest();
   getAllRequestTest();
   getOneRequestTest();
