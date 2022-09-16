@@ -1,7 +1,21 @@
 import BaseModule from './Base';
-import { Model } from '../types/global';
+import {
+  EmployeeMetadataUpdateProperties,
+  Model,
+  ModelType,
+} from '../types/global';
 
-type GetOneFn = (uuid: string) => Promise<Model | Error>;
+type GetOneFn = (uuid: string) => Promise<ModelType | Error>;
+
+type EditFn = (
+  uuid: string,
+  params: EmployeeMetadataUpdateProperties,
+) => Promise<ModelType | Error>;
+
+type IncrementFn = (
+  uuid: string,
+  count: { [key: string]: number },
+) => Promise<ModelType | Error>;
 
 export default class Mongo extends BaseModule {
   model: Model;
@@ -14,9 +28,15 @@ export default class Mongo extends BaseModule {
   getOne: GetOneFn = async uuid =>
     (await this.model.findOne({ _id: uuid })) ?? this.throwError(404);
 
-  // will be dealt with in next pr:
+  edit: EditFn = async (uuid, ...params) =>
+    (await this.model.findByIdAndUpdate(uuid, ...params, {
+      new: true,
+    })) ?? this.throwError(404);
 
-  // static edit = updateOrThrow404(Employee);
+  increment: IncrementFn = async (uuid, count) =>
+    (await this.model.findByIdAndUpdate(uuid, { $inc: count })) ??
+    this.throwError(404);
 
-  // static destroy = deleteOrThrow404(Employee);
+  // destroy = async uuid =>
+  //   (await this.model.findOne({ _id: uuid })) ?? this.throwError(404);
 }

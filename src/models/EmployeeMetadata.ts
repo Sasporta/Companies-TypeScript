@@ -1,11 +1,9 @@
 import mongoose from 'mongoose';
 
 export interface EmployeeMetadataDocument extends mongoose.Document {
+  _id: string;
   companyUuid: string;
-  employeeUuid: string;
   subordinatesCount: number;
-  createdAt: Date;
-  updatedAt: Date;
 }
 
 const EmployeeMetadataSchema = new mongoose.Schema(

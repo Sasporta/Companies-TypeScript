@@ -94,4 +94,11 @@ export const UPDATED = {
   employeeToManager: {
     managerUuid: null,
   },
+  managerToEmployee: {
+    managerUuid: testEmployeesUuids[0],
+  },
+  employeeToDiffCompanyAndManager: {
+    companyUuid: testCompaniesUuids[4],
+    managerUuid: testEmployeesUuids[7],
+  },
 };

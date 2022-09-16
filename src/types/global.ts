@@ -2,9 +2,13 @@ import { NextFunction, Request, Response } from 'express';
 
 import { Company } from '../entities/Company';
 import { Employee } from '../entities/Employee';
-import EmployeeMetadata from '../models/EmployeeMetadata';
+import EmployeeMetadata, {
+  EmployeeMetadataDocument,
+} from '../models/EmployeeMetadata';
 
 export type Model = typeof EmployeeMetadata;
+
+export type ModelType = EmployeeMetadataDocument;
 
 export type Entity = Company & Employee;
 
@@ -29,6 +33,10 @@ type EmployeeUpdateProperties = {
 export type EntityUpdateProperties =
   | CompanyUpdateProperties
   | EmployeeUpdateProperties;
+
+export type EmployeeMetadataUpdateProperties = {
+  companyUuid: string;
+};
 
 export type RouteHandler = (
   req: Request,
