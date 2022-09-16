@@ -1,7 +1,7 @@
-import { get } from '../../helpers';
-import { EXISTING, PATH } from '../testsData';
+import { get } from '../../../helpers';
+import { EXISTING, PATH } from '../../testsData';
 
-export const getAllRequestTest = () => {
+export const getAllMetadataRequestTest = () => {
   describe('get employeesMetadata request', () => {
     it('should return 200 status with all employees Metadata', async () => {
       const { statusCode, headers, body } = await get(PATH.EMPLOYEES_METADATA);

@@ -2,6 +2,7 @@ import Redis from '../../modules/Redis';
 import { RouteHandler } from '../../types/global';
 import CompanyModule from '../../modules/Company';
 import EmployeeModule from '../../modules/Employee';
+import EmployeeMetadataModule from '../../modules/EmployeeMetadata';
 
 export const updateEmployee: RouteHandler = async (
   { params: { id: uuid }, body: { companyUuid, managerUuid, name, age } },
@@ -22,6 +23,14 @@ export const updateEmployee: RouteHandler = async (
         : managerUuid === null
           ? { id: null }
           : { id: undefined };
+
+    if (company_id || manager_id || manager_id === null) {
+      await EmployeeMetadataModule.updateNecessaryDocs(
+        uuid,
+        companyUuid,
+        managerUuid,
+      );
+    }
 
     const employee = await EmployeeModule.edit({
       uuid,
