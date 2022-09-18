@@ -16,13 +16,13 @@ export type EntityType = typeof Company | typeof Employee;
 
 export type ReqBodyParams = boolean | number | object | string | undefined;
 
-type CompanyUpdateProperties = {
+export type CompanyUpdateProperties = {
   uuid: string;
   name?: string;
   country?: string;
 };
 
-type EmployeeUpdateProperties = {
+export type EmployeeUpdateProperties = {
   uuid: string;
   name?: string;
   age?: number;

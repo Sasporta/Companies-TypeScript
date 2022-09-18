@@ -1,7 +1,7 @@
-import Redis from '../../modules/Redis';
+import Redis from '../../services/Data/Redis';
 import { RouteHandler } from '../../types/global';
-import EmployeeModule from '../../modules/Employee';
 import { Employee } from '../../entities/Employee';
+import EmployeeService from '../../services/businessLogic/Employee';
 import { getAllCousinsQuery } from '../../pgQueries/employees/getAllCousins';
 
 export const getCousins: RouteHandler = async (
@@ -12,20 +12,23 @@ export const getCousins: RouteHandler = async (
   try {
     let cousins: Employee[];
 
-    const resultsLimit = EmployeeModule.limit(+limit);
+    const resultsLimit = EmployeeService.limit(+limit);
 
-    const stringifyParams = EmployeeModule.stringifyParams({
+    const stringifyParams = EmployeeService.stringifyParams({
       uuid,
       path: 'cousins',
       limit: resultsLimit,
     });
 
-    cousins = await Redis.get(EmployeeModule.REDIS_LIST_KEY + stringifyParams);
+    cousins = await Redis.get(EmployeeService.REDIS_LIST_KEY + stringifyParams);
 
     if (!cousins) {
       cousins = await getAllCousinsQuery(uuid, resultsLimit);
 
-      await Redis.set(EmployeeModule.REDIS_LIST_KEY + stringifyParams, cousins);
+      await Redis.set(
+        EmployeeService.REDIS_LIST_KEY + stringifyParams,
+        cousins,
+      );
     }
 
     return res.status(200).json(cousins);

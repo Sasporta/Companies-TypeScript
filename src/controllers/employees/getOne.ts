@@ -1,7 +1,8 @@
-import Redis from '../../modules/Redis';
+import Redis from '../../services/Data/Redis';
 import { RouteHandler } from '../../types/global';
 import { Employee } from '../../entities/Employee';
-import EmployeeModule from '../../modules/Employee';
+import { EmployeeDataManager } from '../../services/Data/TypeORM';
+import EmployeeService from '../../services/businessLogic/Employee';
 
 export const getEmployee: RouteHandler = async (
   { params: { id: uuid } },
@@ -11,12 +12,14 @@ export const getEmployee: RouteHandler = async (
   try {
     let employee: Employee;
 
-    employee = await Redis.get(EmployeeModule.REDIS_ITEM_KEY + uuid);
+    employee = await Redis.get(EmployeeService.REDIS_ITEM_KEY + uuid);
 
     if (!employee) {
-      employee = await EmployeeModule.getOne(uuid, 404);
+      employee = await EmployeeDataManager.getOne(uuid);
 
-      await Redis.set(EmployeeModule.REDIS_ITEM_KEY + uuid, employee);
+      !employee && EmployeeService.throwError(404);
+
+      await Redis.set(EmployeeService.REDIS_ITEM_KEY + uuid, employee);
     }
 
     return res

@@ -8,10 +8,9 @@ import { dataSource } from '../../../config/typeorm';
 
 describe('companies CRUD requests', () => {
   beforeAll(async () => await dataSource.initialize());
-  afterAll(async () => {
-    redis.disconnect();
-    await dataSource.destroy();
-  });
+  afterAll(
+    async () => await Promise.all([redis.disconnect(), dataSource.destroy()]),
+  );
 
   getAllRequestTest();
   getOneRequestTest();

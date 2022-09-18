@@ -1,18 +1,17 @@
-import CompanyModule from '../../../modules/Company';
-
+import CompanyService from '../../../services/businessLogic/Company';
 type GetErrorFn = (status: number) => Error;
 
 describe('throwError method', () => {
   const getError: GetErrorFn = status => {
     try {
-      CompanyModule.throwError(status);
+      CompanyService.throwError(status);
     } catch (error) {
       return error;
     }
   };
 
   it('should throw an error', () => {
-    expect(() => CompanyModule.throwError(404)).toThrow();
+    expect(() => CompanyService.throwError(404)).toThrow();
   });
 
   it('should return an error with status 404 and proper error message', () => {

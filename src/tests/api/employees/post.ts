@@ -1,7 +1,7 @@
-import Redis from '../../../modules/Redis';
 import { PATH, POSTED } from '../testsData';
 import { post, testError } from '../../helpers';
-import EmployeeModule from '../../../modules/Employee';
+import Redis from '../../../services/Data/Redis';
+import EmployeeService from '../../../services/businessLogic/Employee';
 
 export const postRequestTest = () => {
   describe('post employee request', () => {
@@ -34,7 +34,7 @@ export const postRequestTest = () => {
     });
 
     it('should remove all cached employees lists', async () => {
-      const result = await Redis.get(EmployeeModule.REDIS_LIST_KEY);
+      const result = await Redis.get(EmployeeService.REDIS_LIST_KEY);
 
       expect(result).toStrictEqual(null);
     });

@@ -1,12 +1,11 @@
-import Redis from '../../../modules/Redis';
 import { patch, testError } from '../../helpers';
+import Redis from '../../../services/Data/Redis';
 import { Employee } from '../../../entities/Employee';
-import EmployeeModule from '../../../modules/Employee';
 import { PATH, EXISTING, UPDATED } from '../testsData';
-import EmployeeMetadataModule from '../../../modules/EmployeeMetadata';
-import EmployeeMetadata, {
-  EmployeeMetadataDocument,
-} from '../../../models/EmployeeMetadata';
+import EmployeeMetadata from '../../../models/EmployeeMetadata';
+import { EmployeeDataManager } from '../../../services/Data/TypeORM';
+import EmployeeService from '../../../services/businessLogic/Employee';
+import { EmployeeMetadataDataManager } from '../../../services/Data/Mongo';
 
 export const updateRequestTest = () => {
   describe('update employee request', () => {
@@ -27,14 +26,14 @@ export const updateRequestTest = () => {
 
       it('should remove cached employee', async () => {
         const result = await Redis.get(
-          EmployeeModule.REDIS_ITEM_KEY + EXISTING.employees[0].uuid,
+          EmployeeService.REDIS_ITEM_KEY + EXISTING.employees[0].uuid,
         );
 
         expect(result).toBe(null);
       });
 
       it('should remove all cached employees lists', async () => {
-        const result = await Redis.get(EmployeeModule.REDIS_LIST_KEY);
+        const result = await Redis.get(EmployeeService.REDIS_LIST_KEY);
 
         expect(result).toBe(null);
       });
@@ -46,20 +45,19 @@ export const updateRequestTest = () => {
             UPDATED.employeeToManager,
           );
 
-          const { manager_id } = await EmployeeModule.getOne(
+          const employee = await EmployeeDataManager.getOne(
             EXISTING.employees[2].uuid,
-            404,
           );
 
-          expect(manager_id).toBe(null);
+          expect(employee?.manager_id).toBe(null);
         });
 
         it("should decrement employee's manager's subordinatesCount by 1", async () => {
-          const { subordinatesCount } = (await EmployeeMetadataModule.getOne(
+          const employeeMetadataData = await EmployeeMetadataDataManager.getOne(
             EXISTING.employeesMetadata[0]._id,
-          )) as EmployeeMetadataDocument;
+          );
 
-          expect(subordinatesCount).toBe(1);
+          expect(employeeMetadataData?.subordinatesCount).toBe(1);
         });
       });
 
@@ -69,20 +67,19 @@ export const updateRequestTest = () => {
             UPDATED.managerToEmployee,
           );
 
-          const { manager_id } = await EmployeeModule.getOne(
+          const employee = await EmployeeDataManager.getOne(
             EXISTING.employees[2].uuid,
-            404,
           );
 
-          expect(manager_id).toBe(1);
+          expect(employee?.manager_id).toBe(1);
         });
 
         it("should increment employee's manager's subordinatesCount by 1", async () => {
-          const { subordinatesCount } = (await EmployeeMetadataModule.getOne(
+          const employeeMetadataData = await EmployeeMetadataDataManager.getOne(
             EXISTING.employeesMetadata[0]._id,
-          )) as EmployeeMetadataDocument;
+          );
 
-          expect(subordinatesCount).toBe(2);
+          expect(employeeMetadataData?.subordinatesCount).toBe(2);
         });
       });
 
@@ -96,12 +93,8 @@ export const updateRequestTest = () => {
             uuid: EXISTING.employees[3].uuid,
           });
 
-          expect(updatedEmployee?.company_id).toStrictEqual(
-            EXISTING.companies[4].id,
-          );
-          expect(updatedEmployee?.manager_id).toStrictEqual(
-            EXISTING.employees[7].id,
-          );
+          expect(updatedEmployee?.company_id).toBe(EXISTING.companies[4].id);
+          expect(updatedEmployee?.manager_id).toBe(EXISTING.employees[7].id);
         });
 
         it("should update employee's metadata's companyUuid", async () => {
@@ -112,25 +105,23 @@ export const updateRequestTest = () => {
             { companyUuid: true },
           );
 
-          expect(company?.companyUuid).toStrictEqual(
-            EXISTING.companies[4].uuid,
-          );
+          expect(company?.companyUuid).toBe(EXISTING.companies[4].uuid);
         });
 
         it("should decrement employee's manager's subordinatesCount by 1", async () => {
-          const { subordinatesCount } = (await EmployeeMetadataModule.getOne(
+          const employeeMetadataData = await EmployeeMetadataDataManager.getOne(
             EXISTING.employeesMetadata[1]._id,
-          )) as EmployeeMetadataDocument;
+          );
 
-          expect(subordinatesCount).toStrictEqual(1);
+          expect(employeeMetadataData?.subordinatesCount).toBe(1);
         });
 
         it("should increment employee's new manager's subordinatesCount by 1", async () => {
-          const { subordinatesCount } = (await EmployeeMetadataModule.getOne(
+          const employeeMetadataData = await EmployeeMetadataDataManager.getOne(
             EXISTING.employeesMetadata[7]._id,
-          )) as EmployeeMetadataDocument;
+          );
 
-          expect(subordinatesCount).toStrictEqual(1);
+          expect(employeeMetadataData?.subordinatesCount).toBe(1);
         });
       });
     });

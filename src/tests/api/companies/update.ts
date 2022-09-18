@@ -1,7 +1,7 @@
-import Redis from '../../../modules/Redis';
 import { patch, testError } from '../../helpers';
-import CompanyModule from '../../../modules/Company';
+import Redis from '../../../services/Data/Redis';
 import { PATH, EXISTING, UPDATED } from '../testsData';
+import CompanyService from '../../../services/businessLogic/Company';
 
 export const updateRequestTest = () => {
   describe('update company request', () => {
@@ -21,14 +21,14 @@ export const updateRequestTest = () => {
 
     it('should remove cached company', async () => {
       const result = await Redis.get(
-        CompanyModule.REDIS_ITEM_KEY + EXISTING.companies[0].uuid,
+        CompanyService.REDIS_ITEM_KEY + EXISTING.companies[0].uuid,
       );
 
       expect(result).toStrictEqual(null);
     });
 
     it('should remove all cached companies lists', async () => {
-      const result = await Redis.get(CompanyModule.REDIS_LIST_KEY);
+      const result = await Redis.get(CompanyService.REDIS_LIST_KEY);
 
       expect(result).toStrictEqual(null);
     });

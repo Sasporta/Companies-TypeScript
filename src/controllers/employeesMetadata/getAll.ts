@@ -1,6 +1,6 @@
 import { RouteHandler } from '../../types/global';
-import EmployeeMetadata from '../../models/EmployeeMetadata';
-import EmployeeMetadataModule from '../../modules/EmployeeMetadata';
+import EmployeeService from '../../services/businessLogic/Employee';
+import { EmployeeMetadataDataManager } from '../../services/Data/Mongo';
 
 export const getEmployeesMetadata: RouteHandler = async (
   { query: { companyUuid, limit } },
@@ -8,11 +8,14 @@ export const getEmployeesMetadata: RouteHandler = async (
   next,
 ) => {
   try {
-    const whereStatement = companyUuid ? { companyUuid } : {};
+    const whereStatement = companyUuid
+      ? { companyUuid: companyUuid as string }
+      : {};
 
-    const resultsLimit = EmployeeMetadataModule.limit(+limit);
+    const resultsLimit = EmployeeService.limit(+limit);
 
-    const employees = await EmployeeMetadata.find(whereStatement).limit(
+    const employees = await EmployeeMetadataDataManager.getAll(
+      whereStatement,
       resultsLimit,
     );
 
