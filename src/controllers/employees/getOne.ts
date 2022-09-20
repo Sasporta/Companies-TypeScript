@@ -24,7 +24,7 @@ export const getEmployee: RouteHandler = async (
 
     return res
       .status(200)
-      .json({ uuid: employee.uuid, name: employee.name, age: employee.age });
+      .json({ uuid: employee.uuid, name: employee.name, title: employee.title });
   } catch (error) {
     next(error);
   }

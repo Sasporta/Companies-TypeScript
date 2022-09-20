@@ -15,7 +15,7 @@ export const getAllEmployeesQuery: GetAllEmployeesQueryFn = (
 ) => {
   let getAllQuery = dataSource
     .createQueryBuilder()
-    .select(['employee.uuid', 'employee.name', 'employee.age'])
+    .select(['employee.uuid', 'employee.name', 'employee.title'])
     .from(Employee, 'employee');
 
   if (companyUuid && managerUuid) {

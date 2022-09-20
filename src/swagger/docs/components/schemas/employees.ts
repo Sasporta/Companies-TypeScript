@@ -5,8 +5,8 @@ export default {
       name: {
         $ref: '#/components/schemas/Name',
       },
-      age: {
-        $ref: '#/components/schemas/Age',
+      title: {
+        $ref: '#/components/schemas/Title',
       },
       companyUuid: {
         $ref: '#/components/schemas/UUID',
@@ -18,13 +18,13 @@ export default {
   },
   EmployeeInPostRequest: {
     type: 'object',
-    required: ['name', 'age', 'companyUuid'],
+    required: ['name', 'title', 'companyUuid'],
     properties: {
       name: {
         $ref: '#/components/schemas/Name',
       },
-      age: {
-        $ref: '#/components/schemas/Age',
+      title: {
+        $ref: '#/components/schemas/Title',
       },
       companyUuid: {
         $ref: '#/components/schemas/UUID',
@@ -36,7 +36,7 @@ export default {
   },
   EmployeeInRespond: {
     type: 'object',
-    required: ['uuid', 'name', 'age'],
+    required: ['uuid', 'name', 'title'],
     properties: {
       uuid: {
         $ref: '#/components/schemas/UUID',
@@ -44,8 +44,8 @@ export default {
       name: {
         $ref: '#/components/schemas/Name',
       },
-      age: {
-        $ref: '#/components/schemas/Age',
+      title: {
+        $ref: '#/components/schemas/Title',
       },
     },
   },

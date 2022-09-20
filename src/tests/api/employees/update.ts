@@ -9,7 +9,7 @@ import { EmployeeMetadataDataManager } from '../../../services/Data/Mongo';
 
 export const updateRequestTest = () => {
   describe('update employee request', () => {
-    describe('update employee age and check for cache invalidation', () => {
+    describe('update employee title and check for cache invalidation', () => {
       it('should return 200 status with updated employee', async () => {
         const { statusCode, headers, body } = await patch(
           PATH.EMPLOYEES + '/' + EXISTING.employees[0].uuid,
@@ -20,7 +20,7 @@ export const updateRequestTest = () => {
         expect(body).toStrictEqual({
           uuid: EXISTING.employees[0].uuid,
           name: EXISTING.employees[0].name,
-          age: UPDATED.employee.age,
+          title: UPDATED.employee.title,
         });
       });
 

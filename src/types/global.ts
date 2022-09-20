@@ -25,7 +25,7 @@ export type CompanyUpdateProperties = {
 export type EmployeeUpdateProperties = {
   uuid: string;
   name?: string;
-  age?: number;
+  title?: string;
   company_id?: number;
   manager_id?: number;
 };

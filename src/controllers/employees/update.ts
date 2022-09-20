@@ -7,12 +7,17 @@ import {
 } from '../../services/Data/TypeORM';
 
 export const updateEmployee: RouteHandler = async (
-  { params: { id: uuid }, body: { companyUuid, managerUuid, name, age } },
+  { params: { id: uuid }, body: { companyUuid, managerUuid, name, title } },
   res,
   next,
 ) => {
   try {
-    EmployeeService.atLeastOneParamExists(name, age, companyUuid, managerUuid);
+    EmployeeService.atLeastOneParamExists(
+      name,
+      title,
+      companyUuid,
+      managerUuid,
+    );
 
     let company_id: number;
 
@@ -43,7 +48,7 @@ export const updateEmployee: RouteHandler = async (
     const employee = await EmployeeDataManager.edit({
       uuid,
       name,
-      age,
+      title,
       company_id,
       manager_id,
     });
@@ -57,7 +62,11 @@ export const updateEmployee: RouteHandler = async (
 
     return res
       .status(200)
-      .json({ uuid: employee.uuid, name: employee.name, age: employee.age });
+      .json({
+        uuid: employee.uuid,
+        name: employee.name,
+        title: employee.title,
+      });
   } catch (error) {
     next(error);
   }

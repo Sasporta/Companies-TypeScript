@@ -9,12 +9,12 @@ export const getAllCousinsRequestTest = () => {
       {
         uuid: EXISTING.employees[5].uuid,
         name: EXISTING.employees[5].name,
-        age: EXISTING.employees[5].age,
+        title: EXISTING.employees[5].title,
       },
       {
         uuid: EXISTING.employees[6].uuid,
         name: EXISTING.employees[6].name,
-        age: EXISTING.employees[6].age,
+        title: EXISTING.employees[6].title,
       },
     ];
 

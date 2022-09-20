@@ -9,7 +9,7 @@ export class Employee extends PrimaryEntity {
     name: string;
 
   @Column()
-    age: number;
+    title: string;
 
   @Column()
     company_id: number;

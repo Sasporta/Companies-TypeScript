@@ -22,7 +22,7 @@ export const getEmployeesB = async ({
       select: {
         uuid: true,
         name: true,
-        age: true,
+        title: true,
       },
       take: validateLimit(+limit),
     });
@@ -36,7 +36,7 @@ export const getEmployeesB = async ({
       select: {
         uuid: true,
         name: true,
-        age: true,
+        title: true,
       },
       take: validateLimit(+limit),
     });
@@ -50,7 +50,7 @@ export const getEmployeesB = async ({
       select: {
         uuid: true,
         name: true,
-        age: true,
+        title: true,
       },
       take: validateLimit(+limit),
     });
@@ -59,7 +59,7 @@ export const getEmployeesB = async ({
       select: {
         uuid: true,
         name: true,
-        age: true,
+        title: true,
       },
       take: validateLimit(+limit),
     });
