@@ -9,6 +9,8 @@ export const deleteEmployee: RouteHandler = async (
   next,
 ) => {
   try {
+    await EmployeeService.deleteCount(uuid);
+
     (await EmployeeDataManager.destroy(uuid)) ||
       EmployeeService.throwError(404);
 

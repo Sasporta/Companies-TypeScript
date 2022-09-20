@@ -10,7 +10,6 @@ type UpdateCompanyUuidFn = (
 ) => Promise<void> | undefined;
 
 type UpdatePreviousManagerFn = (
-  managerUuid: string,
   employeeUuid: string,
 ) => Promise<void> | undefined;
 
@@ -28,13 +27,15 @@ type UpdateCountsFn = (
   employeeUuid: string,
   companyUuid?: string,
   managerUuid?: string,
-) => Promise<void | Error>;
+) => Promise<void>;
 
 type CreateCountFn = (
   employeeUuid: string,
   companyUuid: string,
   managerUuid: string | undefined,
-) => Promise<void | Error>;
+) => Promise<void>;
+
+type DeleteCountFn = (employeeUuid: string) => Promise<void>;
 
 class EmployeeService extends BaseService {
   REDIS_ITEM_KEY = 'get_one_employee?uuid:';
@@ -48,19 +49,15 @@ class EmployeeService extends BaseService {
       (await EmployeeMetadataDataManager.edit(employeeUuid, { companyUuid }));
   };
 
-  private updatePreviousManager: UpdatePreviousManagerFn = async (
-    managerUuid,
-    employeeUuid,
-  ) => {
-    if (managerUuid || managerUuid === null) {
+  private updatePreviousManager: UpdatePreviousManagerFn =
+    async employeeUuid => {
       const previousManager = await getEmployeeManagerQuery(employeeUuid);
 
       previousManager &&
         (await EmployeeMetadataDataManager.increment(previousManager?.uuid, {
           subordinatesCount: -1,
         }));
-    }
-  };
+    };
 
   private updateNewManager: UpdateNewManagerFn = async managerUuid => {
     managerUuid &&
@@ -97,7 +94,8 @@ class EmployeeService extends BaseService {
     await Promise.all([
       this.updateNewManager(managerUuid),
       this.updateCompanyUuid(companyUuid, employeeUuid),
-      this.updatePreviousManager(managerUuid, employeeUuid),
+      (managerUuid || managerUuid === null) &&
+        this.updatePreviousManager(employeeUuid),
     ]);
   };
 
@@ -109,6 +107,13 @@ class EmployeeService extends BaseService {
     await Promise.all([
       this.updateNewManager(managerUuid),
       EmployeeMetadataDataManager.save(employeeUuid, companyUuid),
+    ]);
+  };
+
+  deleteCount: DeleteCountFn = async employeeUuid => {
+    await Promise.all([
+      this.updatePreviousManager(employeeUuid),
+      EmployeeMetadataDataManager.destroy(employeeUuid),
     ]);
   };
 }
