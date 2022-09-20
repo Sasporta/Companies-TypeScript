@@ -3,7 +3,7 @@ import { Employee } from '../../entities/Employee';
 
 type GetEmployeeManagerFn = (employeeUuid: string) => Promise<Employee>;
 
-export const getEmployeeManager: GetEmployeeManagerFn = employeeUuid =>
+export const getEmployeeManagerQuery: GetEmployeeManagerFn = employeeUuid =>
   dataSource
     .createQueryBuilder()
     .select(['manager.uuid'])

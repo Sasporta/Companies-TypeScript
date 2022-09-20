@@ -2,7 +2,6 @@ import Redis from '../../services/Data/Redis';
 import { RouteHandler } from '../../types/global';
 import { Employee } from '../../entities/Employee';
 import EmployeeService from '../../services/businessLogic/Employee';
-import { getAllCousinsQuery } from '../../pgQueries/employees/getAllCousins';
 
 export const getCousins: RouteHandler = async (
   { params: { id: uuid }, query: { limit } },
@@ -23,7 +22,7 @@ export const getCousins: RouteHandler = async (
     cousins = await Redis.get(EmployeeService.REDIS_LIST_KEY + stringifyParams);
 
     if (!cousins) {
-      cousins = await getAllCousinsQuery(uuid, resultsLimit);
+      cousins = await EmployeeService.getAllCousins(uuid, resultsLimit);
 
       await Redis.set(
         EmployeeService.REDIS_LIST_KEY + stringifyParams,

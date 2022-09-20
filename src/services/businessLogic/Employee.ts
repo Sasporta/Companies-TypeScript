@@ -1,6 +1,8 @@
 import BaseService from './Base';
 import { EmployeeMetadataDataManager } from '../Data/Mongo';
-import { getEmployeeManager } from '../../pgQueries/employees/getParent';
+import { getAllEmployeesQuery } from '../../pgQueries/employees/getAll';
+import { getAllCousinsQuery } from '../../pgQueries/employees/getAllCousins';
+import { getEmployeeManagerQuery } from '../../pgQueries/employees/getParent';
 
 type UpdateCompanyUuidFn = (
   companyUuid: string,
@@ -46,7 +48,7 @@ class EmployeeService extends BaseService {
     employeeUuid,
   ) => {
     if (managerUuid || managerUuid === null) {
-      const previousManager = await getEmployeeManager(employeeUuid);
+      const previousManager = await getEmployeeManagerQuery(employeeUuid);
 
       previousManager &&
         (await EmployeeMetadataDataManager.increment(previousManager?.uuid, {
@@ -61,6 +63,10 @@ class EmployeeService extends BaseService {
         subordinatesCount: 1,
       }));
   };
+
+  getAll = getAllEmployeesQuery;
+
+  getAllCousins = getAllCousinsQuery;
 
   stringifyParams: StringifyParamsFn = ({
     limit,

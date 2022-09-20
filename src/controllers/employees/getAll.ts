@@ -2,7 +2,6 @@ import Redis from '../../services/Data/Redis';
 import { RouteHandler } from '../../types/global';
 import { Employee } from '../../entities/Employee';
 import EmployeeService from '../../services/businessLogic/Employee';
-import { getAllEmployeesQuery } from '../../pgQueries/employees/getAll';
 
 export const getEmployees: RouteHandler = async (
   { query: { companyUuid, managerUuid, limit } },
@@ -28,7 +27,7 @@ export const getEmployees: RouteHandler = async (
     );
 
     if (!employees) {
-      employees = await getAllEmployeesQuery(
+      employees = await EmployeeService.getAll(
         companyUuid,
         managerUuid,
         resultsLimit,
