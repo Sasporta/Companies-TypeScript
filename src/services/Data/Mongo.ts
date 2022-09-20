@@ -22,6 +22,8 @@ type IncrementFn = (
   count: { [key: string]: number },
 ) => Promise<ModelType | null>;
 
+type SaveFn = (uuid: string, companyUuid: string) => Promise<ModelType>;
+
 class Mongo {
   model: Model;
 
@@ -41,6 +43,9 @@ class Mongo {
 
   increment: IncrementFn = async (uuid, count) =>
     await this.model.findByIdAndUpdate(uuid, { $inc: count });
+
+  save: SaveFn = async (uuid, companyUuid) =>
+    await this.model.create({ _id: uuid, companyUuid });
 }
 
 export const EmployeeMetadataDataManager = new Mongo(EmployeeMetadata);

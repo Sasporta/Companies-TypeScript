@@ -24,11 +24,16 @@ type StringifyParamsFn = (stringifyParams: {
   uuid?: string;
 }) => string;
 
-type UpdateEmployeesCountsFn = (
+type UpdateCountsFn = (
   employeeUuid: string,
-  newCompanyUuid?: string,
-  newManagerUuid?: string,
-  oldManagerUuid?: string,
+  companyUuid?: string,
+  managerUuid?: string,
+) => Promise<void | Error>;
+
+type CreateCountFn = (
+  employeeUuid: string,
+  companyUuid: string,
+  managerUuid: string | undefined,
 ) => Promise<void | Error>;
 
 class EmployeeService extends BaseService {
@@ -84,7 +89,7 @@ class EmployeeService extends BaseService {
     return string + `?limit:${limit}`;
   };
 
-  updateEmployeesCounts: UpdateEmployeesCountsFn = async (
+  updateCounts: UpdateCountsFn = async (
     employeeUuid,
     companyUuid,
     managerUuid,
@@ -93,6 +98,17 @@ class EmployeeService extends BaseService {
       this.updateNewManager(managerUuid),
       this.updateCompanyUuid(companyUuid, employeeUuid),
       this.updatePreviousManager(managerUuid, employeeUuid),
+    ]);
+  };
+
+  createCount: CreateCountFn = async (
+    employeeUuid,
+    companyUuid,
+    managerUuid,
+  ) => {
+    await Promise.all([
+      this.updateNewManager(managerUuid),
+      EmployeeMetadataDataManager.save(employeeUuid, companyUuid),
     ]);
   };
 }

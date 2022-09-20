@@ -37,11 +37,7 @@ export const updateEmployee: RouteHandler = async (
     }
 
     if (company_id || manager_id || manager_id === null) {
-      await EmployeeService.updateEmployeesCounts(
-        uuid,
-        companyUuid,
-        managerUuid,
-      );
+      await EmployeeService.updateCounts(uuid, companyUuid, managerUuid);
     }
 
     const employee = await EmployeeDataManager.edit({
