@@ -1,14 +1,9 @@
 import express from 'express';
 
-import routes from './routes';
-import customMiddleware from './middleware';
+import middleware from './middleware';
 
 const app = express();
 
-app.use(express.json());
-
-app.use('/', routes);
-
-app.use(...customMiddleware);
+app.use(...middleware);
 
 export default app;
