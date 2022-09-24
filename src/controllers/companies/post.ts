@@ -11,9 +11,10 @@ export const createCompany: RouteHandler = async (
   try {
     CompanyService.allParamsExists(name, country);
 
-    const company = await CompanyDataManager.save({ name, country });
-
-    await Redis.removeAll(CompanyService.REDIS_LIST_PREFIX_KEY);
+    const [company] = await Promise.all([
+      CompanyDataManager.save({ name, country }),
+      Redis.removeAll(CompanyService.REDIS_LIST_PREFIX_KEY),
+    ]);
 
     return res.status(201).json({
       uuid: company.uuid,
