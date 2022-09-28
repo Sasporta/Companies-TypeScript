@@ -32,16 +32,12 @@ export const createEmployee: RouteHandler = async (
       manager_id = null;
     }
 
-    const employee = await EmployeeDataManager.save({
-      name,
-      title,
-      company_id,
-      manager_id,
-    });
+    const [employee] = await Promise.all([
+      EmployeeDataManager.save({ name, title, company_id, manager_id }),
+      Redis.removeAll(EmployeeService.REDIS_LIST_KEY),
+    ]);
 
     await EmployeeService.createCount(employee.uuid, companyUuid, managerUuid);
-
-    await Redis.removeAll(EmployeeService.REDIS_LIST_KEY);
 
     return res.status(201).json({
       uuid: employee.uuid,
