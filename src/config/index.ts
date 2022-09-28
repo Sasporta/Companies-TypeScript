@@ -10,6 +10,9 @@ const secureConnection =
     : false;
 
 export default {
+  cors: {
+    allowedOrigins: ['http://localhost:3000'],
+  },
   env: {
     port: env.PORT || 3000,
   },
