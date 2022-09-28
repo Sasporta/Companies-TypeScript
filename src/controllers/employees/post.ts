@@ -7,12 +7,12 @@ import {
 } from '../../services/Data/TypeORM';
 
 export const createEmployee: RouteHandler = async (
-  { body: { name, age, companyUuid, managerUuid } },
+  { body: { name, title, companyUuid, managerUuid } },
   res,
   next,
 ) => {
   try {
-    EmployeeService.allParamsExists(name, age, companyUuid);
+    EmployeeService.allParamsExists(name, title, companyUuid);
 
     const company = await CompanyDataManager.getOne(companyUuid);
 
@@ -34,7 +34,7 @@ export const createEmployee: RouteHandler = async (
 
     const employee = await EmployeeDataManager.save({
       name,
-      age,
+      title,
       company_id,
       manager_id,
     });
@@ -43,9 +43,11 @@ export const createEmployee: RouteHandler = async (
 
     await Redis.removeAll(EmployeeService.REDIS_LIST_KEY);
 
-    return res
-      .status(201)
-      .json({ uuid: employee.uuid, name: employee.name, age: employee.age });
+    return res.status(201).json({
+      uuid: employee.uuid,
+      name: employee.name,
+      title: employee.title,
+    });
   } catch (error) {
     next(error);
   }

@@ -15,7 +15,7 @@ export const getOneRequestTest = () => {
       expect(body).toStrictEqual({
         uuid: EXISTING.employees[0].uuid,
         name: EXISTING.employees[0].name,
-        age: EXISTING.employees[0].age,
+        title: EXISTING.employees[0].title,
       });
     });
 

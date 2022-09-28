@@ -11,7 +11,7 @@ type GetAllCousinsQueryFn = (
 export const getAllCousinsQuery: GetAllCousinsQueryFn = (uuid, limit) =>
   dataSource
     .createQueryBuilder()
-    .select(['cousin.uuid', 'cousin.name', 'cousin.age'])
+    .select(['cousin.uuid', 'cousin.name', 'cousin.title'])
     .from(Employee, 'cousin')
     .innerJoin(Employee, 'parent', 'cousin.manager_id = parent.id')
     .where(qb => {

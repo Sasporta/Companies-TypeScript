@@ -31,6 +31,17 @@ const testEmployeesUuids = [
   '5a7848e1-5e4c-4cad-8859-2a782a32b924',
 ];
 
+const testEmployeesTitles = [
+  'CEO',
+  'manager1',
+  'manager2',
+  'employee1',
+  'employee2',
+  'employee1',
+  'employee2',
+  'CEO',
+];
+
 const testEmployeesManagersIds = [null, 1, 1, 2, 2, 3, 3, null];
 
 export const EXISTING = {
@@ -46,7 +57,7 @@ export const EXISTING = {
     id: i + 1,
     uuid,
     name: `TestEmployeeForEmployeesTest${i + 1}`,
-    age: (i + 1) * 10,
+    title: testEmployeesTitles[i],
     company_id: i === 7 ? 5 : 4,
     manager_id: testEmployeesManagersIds[i],
     updated_at: new Date().toISOString(),
@@ -72,13 +83,13 @@ export const POSTED = {
   },
   employee: {
     name: 'PostedEmployee',
-    age: 100,
+    title: 'employee3',
     companyUuid: testCompaniesUuids[3],
     managerUuid: testEmployeesUuids[2],
   },
   manager: {
     name: 'PostedManager',
-    age: 200,
+    title: 'manager3',
     companyUuid: testCompaniesUuids[3],
     managerUuid: null,
   },
@@ -89,7 +100,7 @@ export const UPDATED = {
     country: 'UpdatedCountry',
   },
   employee: {
-    age: 300,
+    title: 'UpdatedTitle',
   },
   employeeToManager: {
     managerUuid: null,

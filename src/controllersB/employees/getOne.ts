@@ -8,6 +8,10 @@ export const getEmployeeB = async ({ params: { id: uuid } }: Request) => {
 
   return {
     statusCode: 200,
-    content: { uuid: employee.uuid, name: employee.name, age: employee.age },
+    content: {
+      uuid: employee.uuid,
+      name: employee.name,
+      title: employee.title,
+    },
   };
 };

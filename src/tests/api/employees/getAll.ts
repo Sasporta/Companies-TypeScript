@@ -5,11 +5,13 @@ import EmployeeService from '../../../services/businessLogic/Employee';
 
 export const getAllRequestTest = () => {
   describe('get employees request', () => {
-    const fetchedEmployees = EXISTING.employees.map(({ uuid, name, age }) => ({
-      uuid,
-      name,
-      age,
-    }));
+    const fetchedEmployees = EXISTING.employees.map(
+      ({ uuid, name, title }) => ({
+        uuid,
+        name,
+        title,
+      }),
+    );
 
     it('should return 200 status with employees', async () => {
       const { statusCode, headers, body } = await get(PATH.EMPLOYEES);
@@ -44,7 +46,7 @@ export const getAllRequestTest = () => {
             EXISTING.employees[4],
             EXISTING.employees[5],
             EXISTING.employees[6],
-          ].map(({ uuid, name, age }) => ({ uuid, name, age })),
+          ].map(({ uuid, name, title }) => ({ uuid, name, title })),
         );
       });
     });
@@ -61,12 +63,12 @@ export const getAllRequestTest = () => {
           {
             uuid: EXISTING.employees[1].uuid,
             name: EXISTING.employees[1].name,
-            age: EXISTING.employees[1].age,
+            title: EXISTING.employees[1].title,
           },
           {
             uuid: EXISTING.employees[2].uuid,
             name: EXISTING.employees[2].name,
-            age: EXISTING.employees[2].age,
+            title: EXISTING.employees[2].title,
           },
         ]);
       });
@@ -88,12 +90,12 @@ export const getAllRequestTest = () => {
           {
             uuid: EXISTING.employees[1].uuid,
             name: EXISTING.employees[1].name,
-            age: EXISTING.employees[1].age,
+            title: EXISTING.employees[1].title,
           },
           {
             uuid: EXISTING.employees[2].uuid,
             name: EXISTING.employees[2].name,
-            age: EXISTING.employees[2].age,
+            title: EXISTING.employees[2].title,
           },
         ]);
       });

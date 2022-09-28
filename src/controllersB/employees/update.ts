@@ -10,9 +10,9 @@ import {
 
 export const updateEmployeeB = async ({
   params: { id: uuid },
-  body: { companyUuid, managerUuid, name, age },
+  body: { companyUuid, managerUuid, name, title },
 }: Request) => {
-  validateAtLeastOneParamExists(name, age, companyUuid, managerUuid);
+  validateAtLeastOneParamExists(name, title, companyUuid, managerUuid);
 
   const { id: company_id } =
     typeof companyUuid === 'string'
@@ -29,13 +29,17 @@ export const updateEmployeeB = async ({
   const employee = await updateOrThrow404(Employee, {
     uuid,
     name,
-    age,
+    title,
     company_id,
     manager_id,
   });
 
   return {
     statusCode: 200,
-    content: { uuid: employee.uuid, name: employee.name, age: employee.age },
+    content: {
+      uuid: employee.uuid,
+      name: employee.name,
+      title: employee.title,
+    },
   };
 };

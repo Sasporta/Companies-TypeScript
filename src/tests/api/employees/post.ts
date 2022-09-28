@@ -20,7 +20,7 @@ export const postRequestTest = () => {
       expect(body).toStrictEqual({
         uuid: expect.any(String),
         name: POSTED.employee.name,
-        age: POSTED.employee.age,
+        title: POSTED.employee.title,
       });
       expect(employeeMetadata?._id).toStrictEqual(body.uuid);
       expect(employeeMetadata?.subordinatesCount).toStrictEqual(0);
@@ -44,7 +44,7 @@ export const postRequestTest = () => {
       expect(body).toStrictEqual({
         uuid: expect.any(String),
         name: POSTED.manager.name,
-        age: POSTED.manager.age,
+        title: POSTED.manager.title,
       });
     });
 
