@@ -1,7 +1,7 @@
 import { patch, testError } from '../../helpers';
 import Redis from '../../../services/Data/Redis';
 import { Employee } from '../../../entities/Employee';
-import { PATH, EXISTING, UPDATED } from '../testsData';
+import { BAD, PATH, EXISTING, UPDATED } from '../testsData';
 import EmployeeMetadata from '../../../models/EmployeeMetadata';
 import { EmployeeDataManager } from '../../../services/Data/TypeORM';
 import EmployeeService from '../../../services/businessLogic/Employee';
