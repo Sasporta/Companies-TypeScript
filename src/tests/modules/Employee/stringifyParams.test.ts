@@ -1,9 +1,9 @@
-import EmployeeModule from '../../../modules/Employee';
+import EmployeeService from '../../../services/businessLogic/Employee';
 
 describe('stringifyParams method', () => {
   it('should only string params that are not undefined', async () => {
     expect(
-      EmployeeModule.stringifyParams({
+      EmployeeService.stringifyParams({
         limit: 10,
         companyUuid: undefined,
         managerUuid: undefined,
@@ -14,7 +14,7 @@ describe('stringifyParams method', () => {
   });
 
   expect(
-    EmployeeModule.stringifyParams({
+    EmployeeService.stringifyParams({
       limit: 10,
       companyUuid: 'abc',
       managerUuid: 'abc',

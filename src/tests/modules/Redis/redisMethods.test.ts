@@ -1,5 +1,5 @@
-import Redis from '../../../modules/Redis';
 import { redis } from '../../../config/redis';
+import Redis from '../../../services/Data/Redis';
 import { Company } from '../../../entities/Company';
 
 describe('Redis methods', () => {
@@ -47,11 +47,14 @@ describe('Redis methods', () => {
   });
 
   describe('removeAll method', () => {
-    beforeAll(async () => {
-      await redis.set('removeAll-key1', 'removeAll-test value1');
-      await redis.set('removeAll-key2', 'removeAll-test value2');
-      await redis.set('removeAll-key3', 'removeAll-test value3');
-    });
+    beforeAll(
+      async () =>
+        await Promise.all([
+          redis.set('removeAll-key1', 'removeAll-test value1'),
+          redis.set('removeAll-key2', 'removeAll-test value2'),
+          redis.set('removeAll-key3', 'removeAll-test value3'),
+        ]),
+    );
 
     it('should remove all values of a chosen pattern', async () => {
       await Redis.removeAll('removeAll-key');

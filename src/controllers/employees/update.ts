@@ -1,8 +1,10 @@
-import Redis from '../../modules/Redis';
+import Redis from '../../services/Data/Redis';
 import { RouteHandler } from '../../types/global';
-import CompanyModule from '../../modules/Company';
-import EmployeeModule from '../../modules/Employee';
-import EmployeeMetadataModule from '../../modules/EmployeeMetadata';
+import EmployeeService from '../../services/businessLogic/Employee';
+import {
+  CompanyDataManager,
+  EmployeeDataManager,
+} from '../../services/Data/TypeORM';
 
 export const updateEmployee: RouteHandler = async (
   { params: { id: uuid }, body: { companyUuid, managerUuid, name, age } },
@@ -10,29 +12,39 @@ export const updateEmployee: RouteHandler = async (
   next,
 ) => {
   try {
-    EmployeeModule.atLeastOneParamExists(name, age, companyUuid, managerUuid);
+    EmployeeService.atLeastOneParamExists(name, age, companyUuid, managerUuid);
 
-    const { id: company_id } =
-      typeof companyUuid === 'string'
-        ? await CompanyModule.getOne(companyUuid, 422)
-        : { id: undefined };
+    let company_id: number;
 
-    const { id: manager_id } =
-      typeof managerUuid === 'string'
-        ? await EmployeeModule.getOne(managerUuid, 422)
-        : managerUuid === null
-          ? { id: null }
-          : { id: undefined };
+    if (typeof companyUuid === 'string') {
+      const company = await CompanyDataManager.getOne(companyUuid);
+
+      !company && EmployeeService.throwError(422);
+
+      company_id = company.id;
+    }
+
+    let manager_id: number;
+
+    if (typeof managerUuid === 'string') {
+      const manager = await EmployeeDataManager.getOne(managerUuid);
+
+      !manager && EmployeeService.throwError(422);
+
+      manager_id = manager.id;
+    } else if (managerUuid === null) {
+      manager_id = null;
+    }
 
     if (company_id || manager_id || manager_id === null) {
-      await EmployeeMetadataModule.updateNecessaryDocs(
+      await EmployeeService.updateEmployeesCounts(
         uuid,
         companyUuid,
         managerUuid,
       );
     }
 
-    const employee = await EmployeeModule.edit({
+    const employee = await EmployeeDataManager.edit({
       uuid,
       name,
       age,
@@ -40,9 +52,11 @@ export const updateEmployee: RouteHandler = async (
       manager_id,
     });
 
+    !employee && EmployeeService.throwError(404);
+
     await Promise.all([
-      Redis.remove(EmployeeModule.REDIS_ITEM_KEY + uuid),
-      Redis.removeAll(EmployeeModule.REDIS_LIST_KEY),
+      Redis.remove(EmployeeService.REDIS_ITEM_KEY + uuid),
+      Redis.removeAll(EmployeeService.REDIS_LIST_KEY),
     ]);
 
     return res

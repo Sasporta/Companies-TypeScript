@@ -13,15 +13,17 @@ import { getAllMetadataRequestTest } from './employeesMetadata/getAll';
 import { getOneMetadataRequestTest } from './employeesMetadata/getOne';
 
 describe('employees CRUD requests', () => {
-  beforeAll(async () => {
-    await dataSource.initialize();
-    await connectMongoDB();
-  });
-  afterAll(async () => {
-    redis.disconnect();
-    await dataSource.destroy();
-    await mongoose.connection.close();
-  });
+  beforeAll(
+    async () => await Promise.all([dataSource.initialize(), connectMongoDB()]),
+  );
+  afterAll(
+    async () =>
+      await Promise.all([
+        redis.disconnect(),
+        dataSource.destroy(),
+        mongoose.connection.close(),
+      ]),
+  );
 
   getAllMetadataRequestTest();
   getOneMetadataRequestTest();

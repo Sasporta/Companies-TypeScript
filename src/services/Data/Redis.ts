@@ -1,11 +1,11 @@
-import { redis } from '../config/redis';
-import { Entity } from '../types/global';
-import { Company } from '../entities/Company';
-import { Employee } from '../entities/Employee';
+import { redis } from '../../config/redis';
+import { Entity } from '../../types/global';
+import { Company } from '../../entities/Company';
+import { Employee } from '../../entities/Employee';
 
 type Entities = Company[] & Employee[];
 
-type GetFn = (key: string) => Promise<Entity & Entities>;
+type GetFn = (key: string) => Promise<Entity & Entities | null>;
 
 type RemoveFn = (key: string) => Promise<void>;
 

@@ -1,8 +1,7 @@
-import Redis from '../../modules/Redis';
+import Redis from '../../services/Data/Redis';
 import { RouteHandler } from '../../types/global';
 import { Employee } from '../../entities/Employee';
-import EmployeeModule from '../../modules/Employee';
-import { getAllEmployeesQuery } from '../../pgQueries/employees/getAll';
+import EmployeeService from '../../services/businessLogic/Employee';
 
 export const getEmployees: RouteHandler = async (
   { query: { companyUuid, managerUuid, limit } },
@@ -15,27 +14,27 @@ export const getEmployees: RouteHandler = async (
 
     let employees: Employee[];
 
-    const resultsLimit = EmployeeModule.limit(+limit);
+    const resultsLimit = EmployeeService.limit(+limit);
 
-    const stringifyParams = EmployeeModule.stringifyParams({
+    const stringifyParams = EmployeeService.stringifyParams({
       companyUuid,
       managerUuid,
       limit: resultsLimit,
     });
 
     employees = await Redis.get(
-      EmployeeModule.REDIS_LIST_KEY + stringifyParams,
+      EmployeeService.REDIS_LIST_KEY + stringifyParams,
     );
 
     if (!employees) {
-      employees = await getAllEmployeesQuery(
+      employees = await EmployeeService.getAll(
         companyUuid,
         managerUuid,
         resultsLimit,
       );
 
       await Redis.set(
-        EmployeeModule.REDIS_LIST_KEY + stringifyParams,
+        EmployeeService.REDIS_LIST_KEY + stringifyParams,
         employees,
       );
     }

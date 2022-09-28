@@ -1,7 +1,7 @@
-import Redis from '../../modules/Redis';
-import { Company } from '../../entities/Company';
+import Redis from '../../services/Data/Redis';
 import { RouteHandler } from '../../types/global';
-import CompanyModule from '../../modules/Company';
+import CompanyService from '../../services/businessLogic/Company';
+import { CompanyDataManager } from '../../services/Data/TypeORM';
 
 export const createCompany: RouteHandler = async (
   { body: { name, country } },
@@ -9,13 +9,11 @@ export const createCompany: RouteHandler = async (
   next,
 ) => {
   try {
-    CompanyModule.allParamsExists(name, country);
+    CompanyService.allParamsExists(name, country);
 
-    const company = Company.create({ name, country });
+    const company = await CompanyDataManager.save({ name, country });
 
-    await company.save();
-
-    await Redis.removeAll(CompanyModule.REDIS_LIST_PREFIX_KEY);
+    await Redis.removeAll(CompanyService.REDIS_LIST_PREFIX_KEY);
 
     return res.status(201).json({
       uuid: company.uuid,

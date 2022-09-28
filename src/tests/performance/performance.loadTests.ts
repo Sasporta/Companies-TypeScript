@@ -7,10 +7,9 @@ import { queriesLoadTest } from './PgQueries/getAllQueries';
 
 describe('performance tests', () => {
   beforeAll(async () => await dataSource.initialize());
-  afterAll(async () => {
-    await redis.disconnect();
-    await dataSource.destroy();
-  });
+  afterAll(
+    async () => await Promise.all([redis.disconnect(), dataSource.destroy()]),
+  );
 
   jest.setTimeout(30000);
 

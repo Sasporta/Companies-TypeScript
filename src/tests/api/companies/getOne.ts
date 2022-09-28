@@ -1,7 +1,7 @@
-import Redis from '../../../modules/Redis';
 import { PATH, EXISTING } from '../testsData';
 import { get, testError } from '../../helpers';
-import CompanyModule from '../../../modules/Company';
+import Redis from '../../../services/Data/Redis';
+import CompanyService from '../../../services/businessLogic/Company';
 
 export const getOneRequestTest = () => {
   describe('get company request', () => {
@@ -21,7 +21,7 @@ export const getOneRequestTest = () => {
 
     it('should return cached company', async () => {
       const result = await Redis.get(
-        CompanyModule.REDIS_ITEM_KEY + EXISTING.companies[0].uuid,
+        CompanyService.REDIS_ITEM_KEY + EXISTING.companies[0].uuid,
       );
 
       expect(result).toStrictEqual({

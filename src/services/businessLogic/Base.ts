@@ -1,5 +1,5 @@
-import { ReqBodyParams } from '../types/global';
-import resDoc from '../swagger/docs/components/responses';
+import { ReqBodyParams } from '../../types/global';
+import resDoc from '../../swagger/docs/components/responses';
 
 type LimitFn = (limit: number) => number;
 
@@ -9,7 +9,7 @@ type AllParamsExistsFn = (...params: ReqBodyParams[]) => void | Error;
 
 type AtLeastOneParamExistsFn = (...params: ReqBodyParams[]) => void | Error;
 
-export default class BaseModule {
+export default class BaseService {
   throwError: ThrowErrorFn = status => {
     throw { status, message: resDoc.responses[status] };
   };

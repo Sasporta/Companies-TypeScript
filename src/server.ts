@@ -9,9 +9,7 @@ const {
 } = config;
 
 app.listen(port, async () => {
-  await connectTypeormWithPostgres();
-
-  await connectMongoDB();
+  await Promise.all([connectTypeormWithPostgres(), connectMongoDB()]);
 
   console.log('App running on port ', port);
 });

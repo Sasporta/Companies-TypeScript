@@ -1,5 +1,5 @@
 import { ReqBodyParams } from '../../../types/global';
-import CompanyModule from '../../../modules/Company';
+import CompanyService from '../../../services/businessLogic/Company';
 
 type ValFn = (...params: ReqBodyParams[]) => void;
 
@@ -22,7 +22,7 @@ describe('atLeastOneParamExists method', () => {
   it('should not throw an error if even one of the params is not undefined', async () => {
     expect(
       validate(
-        CompanyModule.atLeastOneParamExists,
+        CompanyService.atLeastOneParamExists,
         undefined,
         undefined,
         undefined,
@@ -34,7 +34,7 @@ describe('atLeastOneParamExists method', () => {
   it('should throw an error only if all the params are undefined', async () => {
     expect(
       validate(
-        CompanyModule.atLeastOneParamExists,
+        CompanyService.atLeastOneParamExists,
         undefined,
         undefined,
         undefined,

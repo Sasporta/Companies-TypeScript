@@ -1,8 +1,10 @@
-import Redis from '../../modules/Redis';
+import Redis from '../../services/Data/Redis';
 import { RouteHandler } from '../../types/global';
-import CompanyModule from '../../modules/Company';
-import { Employee } from '../../entities/Employee';
-import EmployeeModule from '../../modules/Employee';
+import EmployeeService from '../../services/businessLogic/Employee';
+import {
+  CompanyDataManager,
+  EmployeeDataManager,
+} from '../../services/Data/TypeORM';
 
 export const createEmployee: RouteHandler = async (
   { body: { name, age, companyUuid, managerUuid } },
@@ -10,20 +12,34 @@ export const createEmployee: RouteHandler = async (
   next,
 ) => {
   try {
-    EmployeeModule.allParamsExists(name, age, companyUuid);
+    EmployeeService.allParamsExists(name, age, companyUuid);
 
-    const { id: company_id } = await CompanyModule.getOne(companyUuid, 422);
+    const company = await CompanyDataManager.getOne(companyUuid);
 
-    const { id: manager_id } =
-      typeof managerUuid === 'string'
-        ? await EmployeeModule.getOne(managerUuid, 422)
-        : { id: null };
+    !company && EmployeeService.throwError(422);
 
-    const employee = Employee.create({ name, age, company_id, manager_id });
+    const company_id = company.id;
 
-    await employee.save();
+    let manager_id: number;
 
-    await Redis.removeAll(EmployeeModule.REDIS_LIST_KEY);
+    if (typeof managerUuid === 'string') {
+      const manager = await EmployeeDataManager.getOne(managerUuid);
+
+      !manager && EmployeeService.throwError(422);
+
+      manager_id = manager.id;
+    } else {
+      manager_id = null;
+    }
+
+    const employee = await EmployeeDataManager.save({
+      name,
+      age,
+      company_id,
+      manager_id,
+    });
+
+    await Redis.removeAll(EmployeeService.REDIS_LIST_KEY);
 
     return res
       .status(201)

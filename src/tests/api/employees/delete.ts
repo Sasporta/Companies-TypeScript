@@ -1,8 +1,7 @@
-import Redis from '../../../modules/Redis';
 import { PATH, EXISTING } from '../testsData';
+import Redis from '../../../services/Data/Redis';
 import { destroy, testError } from '../../helpers';
-import EmployeeModule from '../../../modules/Employee';
-
+import EmployeeService from '../../../services/businessLogic/Employee';
 
 export const deleteRequestTest = () => {
   describe('delete employee request', () => {
@@ -17,14 +16,14 @@ export const deleteRequestTest = () => {
 
     it('should remove cached employee', async () => {
       const result = await Redis.get(
-        EmployeeModule.REDIS_ITEM_KEY + EXISTING.employees[0].uuid,
+        EmployeeService.REDIS_ITEM_KEY + EXISTING.employees[0].uuid,
       );
 
       expect(result).toStrictEqual(null);
     });
 
     it('should remove all cached employees lists', async () => {
-      const result = await Redis.get(EmployeeModule.REDIS_LIST_KEY);
+      const result = await Redis.get(EmployeeService.REDIS_LIST_KEY);
 
       expect(result).toStrictEqual(null);
     });

@@ -1,8 +1,7 @@
-import Redis from '../../modules/Redis';
+import Redis from '../../services/Data/Redis';
 import { Company } from '../../entities/Company';
 import { RouteHandler } from '../../types/global';
-import CompanyModule from '../../modules/Company';
-import { getAllCompaniesQuery } from '../../pgQueries/companies/getAll';
+import CompanyService from '../../services/businessLogic/Company';
 
 export const getCompanies: RouteHandler = async (
   { query: { limit } },
@@ -12,14 +11,14 @@ export const getCompanies: RouteHandler = async (
   try {
     let companies: Company[];
 
-    const resultsLimit = CompanyModule.limit(+limit);
+    const resultsLimit = CompanyService.limit(+limit);
 
-    companies = await Redis.get(CompanyModule.REDIS_LIST_KEY + resultsLimit);
+    companies = await Redis.get(CompanyService.REDIS_LIST_KEY + resultsLimit);
 
     if (!companies) {
-      companies = await getAllCompaniesQuery(resultsLimit);
+      companies = await CompanyService.getAll(resultsLimit);
 
-      await Redis.set(CompanyModule.REDIS_LIST_KEY + resultsLimit, companies);
+      await Redis.set(CompanyService.REDIS_LIST_KEY + resultsLimit, companies);
     }
 
     return res.status(200).json(companies);
