@@ -1,7 +1,7 @@
 import { patch, testError } from '../../helpers';
 import Redis from '../../../services/Data/Redis';
 import { Employee } from '../../../entities/Employee';
-import { PATH, EXISTING, UPDATED } from '../testsData';
+import { BAD, PATH, EXISTING, UPDATED } from '../testsData';
 import EmployeeMetadata from '../../../models/EmployeeMetadata';
 import { EmployeeDataManager } from '../../../services/Data/TypeORM';
 import EmployeeService from '../../../services/businessLogic/Employee';
@@ -131,24 +131,19 @@ export const updateRequestTest = () => {
       testError(patch, PATH.EMPLOYEES + '/' + EXISTING.employees[0].uuid, 422));
 
     describe('when employee uuid invalid', () =>
-      testError(
-        patch,
-        PATH.EMPLOYEES + '/a1111111-b222-c333-d444-e55555555555',
-        404,
-        UPDATED.employee,
-      ));
+      testError(patch, PATH.EMPLOYEES + '/' + BAD.uuid, 404, UPDATED.employee));
 
     describe('when company uuid invalid', () => {
       testError(patch, PATH.EMPLOYEES + '/' + EXISTING.employees[0].uuid, 422, {
         ...UPDATED.employee,
-        companyUuid: 'a1111111-b222-c333-d444-e55555555555',
+        companyUuid: BAD.uuid,
       });
     });
 
     describe('when manager uuid invalid', () => {
       testError(patch, PATH.EMPLOYEES + '/' + EXISTING.employees[0].uuid, 422, {
         ...UPDATED.employee,
-        managerUuid: 'a1111111-b222-c333-d444-e55555555555',
+        managerUuid: BAD.uuid,
       });
     });
   });

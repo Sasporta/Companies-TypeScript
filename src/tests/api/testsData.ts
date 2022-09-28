@@ -113,3 +113,7 @@ export const UPDATED = {
     managerUuid: testEmployeesUuids[7],
   },
 };
+
+export const BAD = {
+  uuid: '0414e768-b769-44f1-aca2-e13d73a4a3ba',
+};

@@ -1,5 +1,5 @@
-import { PATH, EXISTING } from '../testsData';
 import Redis from '../../../services/Data/Redis';
+import { BAD, PATH, EXISTING } from '../testsData';
 import { destroy, testError } from '../../helpers';
 import EmployeeService from '../../../services/businessLogic/Employee';
 import { EmployeeMetadataDataManager } from '../../../services/Data/Mongo';
@@ -46,10 +46,6 @@ export const deleteRequestTest = () => {
     });
 
     describe('when employee uuid invalid', () =>
-      testError(
-        destroy,
-        PATH.EMPLOYEES + '/a1111111-b222-c333-d444-e55555555555',
-        404,
-      ));
+      testError(destroy, PATH.EMPLOYEES + '/' + BAD.uuid, 404));
   });
 };

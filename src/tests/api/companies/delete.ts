@@ -1,5 +1,5 @@
-import { PATH, EXISTING } from '../testsData';
 import Redis from '../../../services/Data/Redis';
+import { BAD, PATH, EXISTING } from '../testsData';
 import { destroy, testError } from '../../helpers';
 import CompanyService from '../../../services/businessLogic/Company';
 
@@ -29,11 +29,7 @@ export const deleteRequestTest = () => {
     });
 
     describe('when company uuid invalid', () => {
-      testError(
-        destroy,
-        PATH.COMPANIES + '/a1111111-b222-c333-d444-e55555555555',
-        404,
-      );
+      testError(destroy, PATH.COMPANIES + '/' + BAD.uuid, 404);
     });
   });
 };

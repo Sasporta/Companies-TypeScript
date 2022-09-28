@@ -1,6 +1,6 @@
 import CompanyService from '../../../services/businessLogic/Company';
 
-describe('throwError method', () => {
+describe('throw method', () => {
   const REDIS_COMPANY_KEYS = {
     ITEM: 'get_one_company?uuid:',
     LIST: 'get_all_companies?limit:',

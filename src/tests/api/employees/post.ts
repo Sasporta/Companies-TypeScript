@@ -1,5 +1,5 @@
-import { PATH, POSTED } from '../testsData';
 import { post, testError } from '../../helpers';
+import { BAD, PATH, POSTED } from '../testsData';
 import Redis from '../../../services/Data/Redis';
 import EmployeeService from '../../../services/businessLogic/Employee';
 import { EmployeeMetadataDataManager } from '../../../services/Data/Mongo';
@@ -59,14 +59,14 @@ export const postRequestTest = () => {
     describe('when company uuid invalid', () => {
       testError(post, PATH.EMPLOYEES, 422, {
         ...POSTED.employee,
-        companyUuid: 'a1111111-b222-c333-d444-e55555555555',
+        companyUuid: BAD.uuid,
       });
     });
 
     describe('when manager uuid invalid', () => {
       testError(post, PATH.EMPLOYEES, 422, {
         ...POSTED.employee,
-        managerUuid: 'a1111111-b222-c333-d444-e55555555555',
+        managerUuid: BAD.uuid,
       });
     });
   });

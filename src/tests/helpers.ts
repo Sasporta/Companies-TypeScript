@@ -32,7 +32,7 @@ export const testError: TestErrorFn = (
     const { status, body } = await crudMethod(path).send(reqBody);
 
     expect(status).toBe(errorCode);
-    expect(body).toStrictEqual(resDoc.responses[errorCode]);
+    expect(body).toStrictEqual(resDoc.responses[errorCode].description);
   });
 };
 
