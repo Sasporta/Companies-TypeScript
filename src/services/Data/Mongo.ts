@@ -24,6 +24,8 @@ type IncrementFn = (
 
 type SaveFn = (uuid: string, companyUuid: string) => Promise<ModelType>;
 
+type DeleteFn = (uuid: string) => Promise<boolean>;
+
 class Mongo {
   model: Model;
 
@@ -46,6 +48,9 @@ class Mongo {
 
   save: SaveFn = async (uuid, companyUuid) =>
     await this.model.create({ _id: uuid, companyUuid });
+
+  destroy: DeleteFn = async uuid =>
+    (await this.model.deleteOne({ _id: uuid })).deletedCount === 1;
 }
 
 export const EmployeeMetadataDataManager = new Mongo(EmployeeMetadata);
