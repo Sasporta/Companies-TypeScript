@@ -1,5 +1,5 @@
-import { EXISTING, PATH } from '../../testsData';
 import { get, testError } from '../../../helpers';
+import { BAD, EXISTING, PATH } from '../../testsData';
 
 export const getOneMetadataRequestTest = () => {
   describe('get employeeMetadata request', () => {
@@ -17,10 +17,6 @@ export const getOneMetadataRequestTest = () => {
     });
 
     describe('when employeeUuid invalid', () =>
-      testError(
-        get,
-        PATH.EMPLOYEES_METADATA + '/a1111111-b222-c333-d444-e55555555555',
-        404,
-      ));
+      testError(get, PATH.EMPLOYEES_METADATA + '/' + BAD.uuid, 404));
   });
 };

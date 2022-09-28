@@ -9,5 +9,8 @@ export default {
     422: {
       description: 'Unprocessable entity, missing or invalid parameters',
     },
+    500: {
+      description: 'Internal Server Error',
+    },
   },
 };

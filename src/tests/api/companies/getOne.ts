@@ -1,6 +1,6 @@
-import { PATH, EXISTING } from '../testsData';
 import { get, testError } from '../../helpers';
 import Redis from '../../../services/Data/Redis';
+import { BAD, PATH, EXISTING } from '../testsData';
 import CompanyService from '../../../services/businessLogic/Company';
 
 export const getOneRequestTest = () => {
@@ -32,10 +32,6 @@ export const getOneRequestTest = () => {
     });
 
     describe('when company uuid invalid', () =>
-      testError(
-        get,
-        PATH.COMPANIES + '/a1111111-b222-c333-d444-e55555555555',
-        404,
-      ));
+      testError(get, PATH.COMPANIES + '/' + BAD.uuid, 404));
   });
 };

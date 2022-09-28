@@ -1,25 +1,24 @@
+import { validationResult } from 'express-validator';
+
 import Redis from '../../services/Data/Redis';
 import { RouteHandler } from '../../types/global';
 import { Employee } from '../../entities/Employee';
 import EmployeeService from '../../services/businessLogic/Employee';
 
-export const getEmployees: RouteHandler = async (
-  { query: { companyUuid, managerUuid, limit } },
-  res,
-  next,
-) => {
+export const getEmployees: RouteHandler = async (req, res, next) => {
   try {
-    companyUuid = companyUuid as string;
-    managerUuid = managerUuid as string;
+    validationResult(req).throw();
+
+    const {
+      query: { companyUuid, managerUuid, limit },
+    } = req;
 
     let employees: Employee[];
 
-    const resultsLimit = EmployeeService.limit(+limit);
-
     const stringifyParams = EmployeeService.stringifyParams({
-      companyUuid,
-      managerUuid,
-      limit: resultsLimit,
+      companyUuid: companyUuid as string,
+      managerUuid: managerUuid as string,
+      limit: limit as unknown as number,
     });
 
     employees = await Redis.get(
@@ -28,9 +27,9 @@ export const getEmployees: RouteHandler = async (
 
     if (!employees) {
       employees = await EmployeeService.getAll(
-        companyUuid,
-        managerUuid,
-        resultsLimit,
+        companyUuid as string,
+        managerUuid as string,
+        limit as unknown as number,
       );
 
       await Redis.set(

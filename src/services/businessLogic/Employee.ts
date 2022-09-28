@@ -1,4 +1,3 @@
-import BaseService from './Base';
 import { EmployeeMetadataDataManager } from '../Data/Mongo';
 import { getAllEmployeesQuery } from '../../pgQueries/employees/getAll';
 import { getAllCousinsQuery } from '../../pgQueries/employees/getAllCousins';
@@ -37,7 +36,7 @@ type CreateCountFn = (
 
 type DeleteCountFn = (employeeUuid: string) => Promise<void>;
 
-class EmployeeService extends BaseService {
+class EmployeeService {
   REDIS_ITEM_KEY = 'get_one_employee?uuid:';
   REDIS_LIST_KEY = 'get_all_employees?limit:';
 

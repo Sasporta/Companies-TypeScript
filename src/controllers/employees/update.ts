@@ -1,3 +1,5 @@
+import { validationResult } from 'express-validator';
+
 import Redis from '../../services/Data/Redis';
 import { RouteHandler } from '../../types/global';
 import EmployeeService from '../../services/businessLogic/Employee';
@@ -6,25 +8,23 @@ import {
   EmployeeDataManager,
 } from '../../services/Data/TypeORM';
 
-export const updateEmployee: RouteHandler = async (
-  { params: { id: uuid }, body: { companyUuid, managerUuid, name, title } },
-  res,
-  next,
-) => {
+export const updateEmployee: RouteHandler = async (req, res, next) => {
   try {
-    EmployeeService.atLeastOneParamExists(
-      name,
-      title,
-      companyUuid,
-      managerUuid,
-    );
+    validationResult(req).throw();
+
+    const {
+      params: { id: uuid },
+      body: { companyUuid, managerUuid, name, title },
+    } = req;
 
     let company_id: number;
 
     if (typeof companyUuid === 'string') {
       const company = await CompanyDataManager.getOne(companyUuid);
 
-      !company && EmployeeService.throwError(422);
+      if (!company) {
+        throw { status: 422, entity: 'company', uuid: companyUuid };
+      }
 
       company_id = company.id;
     }
@@ -34,7 +34,9 @@ export const updateEmployee: RouteHandler = async (
     if (typeof managerUuid === 'string') {
       const manager = await EmployeeDataManager.getOne(managerUuid);
 
-      !manager && EmployeeService.throwError(422);
+      if (!manager) {
+        throw { status: 422, entity: 'employee', uuid: managerUuid };
+      }
 
       manager_id = manager.id;
     } else if (managerUuid === null) {
@@ -53,20 +55,20 @@ export const updateEmployee: RouteHandler = async (
       manager_id,
     });
 
-    !employee && EmployeeService.throwError(404);
+    if (!employee) {
+      throw { status: 404, entity: 'employee', uuid };
+    }
 
     await Promise.all([
       Redis.remove(EmployeeService.REDIS_ITEM_KEY + uuid),
       Redis.removeAll(EmployeeService.REDIS_LIST_KEY),
     ]);
 
-    return res
-      .status(200)
-      .json({
-        uuid: employee.uuid,
-        name: employee.name,
-        title: employee.title,
-      });
+    return res.status(200).json({
+      uuid: employee.uuid,
+      name: employee.name,
+      title: employee.title,
+    });
   } catch (error) {
     next(error);
   }

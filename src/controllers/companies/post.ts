@@ -1,15 +1,17 @@
+import { validationResult } from 'express-validator';
+
 import Redis from '../../services/Data/Redis';
 import { RouteHandler } from '../../types/global';
 import CompanyService from '../../services/businessLogic/Company';
 import { CompanyDataManager } from '../../services/Data/TypeORM';
 
-export const createCompany: RouteHandler = async (
-  { body: { name, country } },
-  res,
-  next,
-) => {
+export const createCompany: RouteHandler = async (req, res, next) => {
   try {
-    CompanyService.allParamsExists(name, country);
+    validationResult(req).throw();
+
+    const {
+      body: { name, country },
+    } = req;
 
     const [company] = await Promise.all([
       CompanyDataManager.save({ name, country }),

@@ -1,3 +1,5 @@
+import { validationResult } from 'express-validator';
+
 import Redis from '../../services/Data/Redis';
 import { RouteHandler } from '../../types/global';
 import EmployeeService from '../../services/businessLogic/Employee';
@@ -6,17 +8,19 @@ import {
   EmployeeDataManager,
 } from '../../services/Data/TypeORM';
 
-export const createEmployee: RouteHandler = async (
-  { body: { name, title, companyUuid, managerUuid } },
-  res,
-  next,
-) => {
+export const createEmployee: RouteHandler = async (req, res, next) => {
   try {
-    EmployeeService.allParamsExists(name, title, companyUuid);
+    validationResult(req).throw();
+
+    const {
+      body: { name, title, companyUuid, managerUuid },
+    } = req;
 
     const company = await CompanyDataManager.getOne(companyUuid);
 
-    !company && EmployeeService.throwError(422);
+    if (!company) {
+      throw { status: 422, entity: 'company', uuid: companyUuid };
+    }
 
     const company_id = company.id;
 
@@ -25,7 +29,9 @@ export const createEmployee: RouteHandler = async (
     if (typeof managerUuid === 'string') {
       const manager = await EmployeeDataManager.getOne(managerUuid);
 
-      !manager && EmployeeService.throwError(422);
+      if (!manager) {
+        throw { status: 422, entity: 'employee', uuid: managerUuid };
+      }
 
       manager_id = manager.id;
     } else {
