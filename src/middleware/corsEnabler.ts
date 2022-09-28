@@ -9,7 +9,7 @@ export const corsEnabler: RouteHandler = (req, res, next) => {
     'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
   );
 
-  res.append('Access-Control-Allow-Headers', 'Content-Type, authorization');
+  res.append('Access-Control-Allow-Headers', 'Content-Type');
 
   next();
 };

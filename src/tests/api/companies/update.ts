@@ -1,6 +1,6 @@
 import { patch, testError } from '../../helpers';
 import Redis from '../../../services/Data/Redis';
-import { BAD, PATH, EXISTING, UPDATED } from '../testsData';
+import { PATH, EXISTING, UPDATED } from '../testsData';
 import CompanyService from '../../../services/businessLogic/Company';
 
 export const updateRequestTest = () => {
