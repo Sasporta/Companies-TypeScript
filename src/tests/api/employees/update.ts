@@ -38,6 +38,7 @@ export const updateRequestTest = () => {
         expect(result).toBe(null);
       });
     });
+
     describe('update relevant employees metadata according to employees updates', () => {
       describe('promote employee to manager', () => {
         it("should update employee's manager id to null", async () => {

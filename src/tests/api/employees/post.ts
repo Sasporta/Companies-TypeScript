@@ -2,12 +2,17 @@ import { PATH, POSTED } from '../testsData';
 import { post, testError } from '../../helpers';
 import Redis from '../../../services/Data/Redis';
 import EmployeeService from '../../../services/businessLogic/Employee';
+import { EmployeeMetadataDataManager } from '../../../services/Data/Mongo';
 
 export const postRequestTest = () => {
   describe('post employee request', () => {
-    it('should return 201 status with new employee', async () => {
+    it('should return 201 status with new employee and create new metadata document', async () => {
       const { statusCode, headers, body } = await post(PATH.EMPLOYEES).send(
         POSTED.employee,
+      );
+
+      const employeeMetadata = await EmployeeMetadataDataManager.getOne(
+        body.uuid,
       );
 
       expect(statusCode).toBe(201);
@@ -17,6 +22,16 @@ export const postRequestTest = () => {
         name: POSTED.employee.name,
         age: POSTED.employee.age,
       });
+      expect(employeeMetadata?._id).toStrictEqual(body.uuid);
+      expect(employeeMetadata?.subordinatesCount).toStrictEqual(0);
+    });
+
+    it("should update new employee's manager metadata", async () => {
+      const managerMetadata = await EmployeeMetadataDataManager.getOne(
+        POSTED.employee.managerUuid,
+      );
+
+      expect(managerMetadata?.subordinatesCount).toBe(3);
     });
 
     it('should return 201 status with new manager', async () => {

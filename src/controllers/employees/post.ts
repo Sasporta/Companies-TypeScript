@@ -39,6 +39,8 @@ export const createEmployee: RouteHandler = async (
       manager_id,
     });
 
+    await EmployeeService.createCount(employee.uuid, companyUuid, managerUuid);
+
     await Redis.removeAll(EmployeeService.REDIS_LIST_KEY);
 
     return res
