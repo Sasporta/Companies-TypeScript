@@ -42,4 +42,4 @@ export type RouteHandler = (
   req: Request,
   res: Response,
   next: NextFunction,
-) => Promise<Response>;
+) => Promise<Response> | void;
