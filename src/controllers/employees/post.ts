@@ -12,11 +12,7 @@ export const createEmployee: RouteHandler = async (
   next,
 ) => {
   try {
-<<<<<<< HEAD
     EmployeeService.allParamsExists(name, title, companyUuid);
-=======
-    EmployeeService.allParamsExists(name, age, companyUuid);
->>>>>>> main
 
     const company = await CompanyDataManager.getOne(companyUuid);
 
