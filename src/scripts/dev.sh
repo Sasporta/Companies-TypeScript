@@ -5,6 +5,6 @@ function cleanup {
 }
 
 docker-compose up -d
-sleep 2
+sleep 3
 nodemon $1
 trap cleanup exit

@@ -33,4 +33,8 @@ export default {
   mongo: {
     mongoUrl: env.MONGO_URL,
   },
+  rabbit: {
+    rabbitUrl: env.RABBIT_URL,
+    metadataUpdateQueue: 'metadataUpdateQueue',
+  },
 };

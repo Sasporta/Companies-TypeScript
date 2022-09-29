@@ -1,7 +1,7 @@
 {
   "name": "hierarchy-service-backend",
   "version": "1.0.0",
-  "description": "ts project",
+  "description": "hierarchy project",
   "main": "app.ts",
   "scripts": {
     "lint": "eslint ./",
@@ -16,6 +16,7 @@
   "author": "Yahav Sasporta",
   "license": "ISC",
   "dependencies": {
+    "amqplib": "^0.10.3",
     "dd-trace": "^2.11.0",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
@@ -29,6 +30,7 @@
     "typeorm-extension": "^2.1.2"
   },
   "devDependencies": {
+    "@types/amqplib": "^0.8.2",
     "@types/express": "^4.17.13",
     "@types/jest": "^27.1.1",
     "@types/mongoose": "^5.11.97",
