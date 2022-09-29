@@ -1,0 +1,12 @@
+{
+  "name": "metadata-service",
+  "version": "1.0.0",
+  "description": "hierarchy project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Yahav Sasporta",
+  "license": "ISC"
+}
