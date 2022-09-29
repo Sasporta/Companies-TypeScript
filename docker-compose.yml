@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   postgres:
-    image: 'postgres:latest'
+    image: postgres:latest
     container_name: postgres
     restart: always
     ports:
@@ -12,13 +12,13 @@ services:
       - ./src/seeds/seed_companies.sql:/docker-entrypoint-initdb.d/seed_companies.sql
       - ./src/seeds/seed_employees.sql:/docker-entrypoint-initdb.d/seed_employees.sql
   redis:
-    image: 'redis:latest'
+    image: redis:latest
     container_name: redis
     restart: always
     ports:
       - 6379:6379
   mongo:
-    image : 'mongo:latest'
+    image : mongo:latest
     container_name: mongo
     restart: always
     environment:
@@ -28,3 +28,9 @@ services:
       - 27017:27017
     volumes:
       - ./src/seeds/seed_employeesMetadata.js:/docker-entrypoint-initdb.d/seed_employeesMetadata.js
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbit
+    ports:
+        - 5672:5672
+        - 15672:15672
