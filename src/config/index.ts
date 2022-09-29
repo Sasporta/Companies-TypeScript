@@ -14,7 +14,8 @@ export default {
     allowedOrigins: ['http://localhost:3000'],
   },
   env: {
-    port: env.PORT || 3000,
+    webPort: env.WRB_PORT || 8000,
+    metadataPort: env.METADATA_PORT || 8001,
   },
   postgres: {
     host: env.HOST,

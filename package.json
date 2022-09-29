@@ -7,7 +7,8 @@
     "lint": "eslint ./",
     "postinstall": "npx tsc",
     "start": "node dist/server.js",
-    "dev": "bash src/scripts/dev.sh src/server.ts",
+    "dev:1": "bash src/scripts/devWeb.sh src/server.ts",
+    "dev:2": "bash src/scripts/devMetadata.sh src/apps/metadata/server.ts",
     "test": "bash src/scripts/test.sh",
     "load-test": "bash src/scripts/loadTests.sh",
     "test:coverage": "bash src/scripts/test:coverage.sh"

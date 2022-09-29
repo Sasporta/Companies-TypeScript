@@ -6,15 +6,15 @@ import { connectRabbitMQ } from './config/rabbit';
 import { connectTypeormWithPostgres } from './config/typeorm';
 
 const {
-  env: { port },
+  env: { webPort },
 } = config;
 
-app.listen(port, async () => {
+app.listen(webPort, async () => {
   await Promise.all([
     connectMongoDB(),
     connectRabbitMQ(),
     connectTypeormWithPostgres(),
   ]);
 
-  console.log('App running on port ', port);
+  console.log('Web app running on port ', webPort);
 });
