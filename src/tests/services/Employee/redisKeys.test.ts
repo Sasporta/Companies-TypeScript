@@ -1,4 +1,4 @@
-import EmployeeService from '../../../services/businessLogic/Employee';
+import EmployeeService from '../../../services/Employee';
 
 describe('throw method', () => {
   const REDIS_EMPLOYEE_KEYS = {

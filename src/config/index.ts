@@ -1,4 +1,5 @@
 import dotenv from 'dotenv';
+import { RedisOptions } from 'ioredis';
 
 dotenv.config();
 
@@ -28,7 +29,7 @@ export default {
     loadTestSeeding: env.LOAD_TEST_SEEDING === 'true',
   },
   redis: {
-    tls: secureConnection,
+    tls: secureConnection as RedisOptions,
     redisUrl: env.REDIS_TLS_URL,
   },
   mongo: {

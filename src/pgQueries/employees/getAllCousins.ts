@@ -1,26 +1,26 @@
 import { NotBrackets } from 'typeorm';
 
 import { dataSource } from '../../config/typeorm';
-import { Employee } from '../../entities/Employee';
+import { EmployeeEntity } from '../../entities/Employee';
 
 type GetAllCousinsQueryFn = (
   uuid: string,
   limit: number,
-) => Promise<Employee[]>;
+) => Promise<EmployeeEntity[]>;
 
 export const getAllCousinsQuery: GetAllCousinsQueryFn = (uuid, limit) =>
   dataSource
     .createQueryBuilder()
     .select(['cousin.uuid', 'cousin.name', 'cousin.title'])
-    .from(Employee, 'cousin')
-    .innerJoin(Employee, 'parent', 'cousin.manager_id = parent.id')
+    .from(EmployeeEntity, 'cousin')
+    .innerJoin(EmployeeEntity, 'parent', 'cousin.manager_id = parent.id')
     .where(qb => {
       const subQuery = qb
         .subQuery()
         .select(['parent.id'])
-        .from(Employee, 'parent')
+        .from(EmployeeEntity, 'parent')
         .innerJoin(
-          Employee,
+          EmployeeEntity,
           'grandparent',
           'parent.manager_id = grandparent.id',
         )
@@ -28,12 +28,12 @@ export const getAllCousinsQuery: GetAllCousinsQueryFn = (uuid, limit) =>
           const subQuery = qb
             .subQuery()
             .select(['parent.manager_id'])
-            .from(Employee, 'parent')
+            .from(EmployeeEntity, 'parent')
             .where(qb => {
               const subQuery = qb
                 .subQuery()
                 .select(['child.manager_id'])
-                .from(Employee, 'child')
+                .from(EmployeeEntity, 'child')
                 .where('child.uuid = :uuid', { uuid })
                 .getQuery();
 
@@ -53,7 +53,7 @@ export const getAllCousinsQuery: GetAllCousinsQueryFn = (uuid, limit) =>
           const subQuery = qb
             .subQuery()
             .select(['child.manager_id'])
-            .from(Employee, 'child')
+            .from(EmployeeEntity, 'child')
             .where('child.uuid = :uuid', { uuid })
             .getQuery();
 

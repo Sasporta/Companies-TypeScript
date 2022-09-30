@@ -1,7 +1,7 @@
 import { get } from '../../helpers';
+import Redis from '../../../services/Redis';
 import { PATH, EXISTING } from '../testsData';
-import Redis from '../../../services/Data/Redis';
-import EmployeeService from '../../../services/businessLogic/Employee';
+import Employee from '../../../services/Employee';
 
 export const getAllRequestTest = () => {
   describe('get employees request', () => {
@@ -22,9 +22,7 @@ export const getAllRequestTest = () => {
     });
 
     it('should return cached employees', async () => {
-      const result = await Redis.get(
-        EmployeeService.REDIS_LIST_KEY + '?limit:10',
-      );
+      const result = await Redis.get(Employee.REDIS_LIST_KEY + '?limit:10');
 
       expect(result).toStrictEqual(fetchedEmployees);
     });

@@ -1,4 +1,4 @@
-import EmployeeService from '../../../services/businessLogic/Employee';
+import EmployeeService from '../../../services/Employee';
 
 describe('stringifyParams method', () => {
   it('should only string params that are not undefined', async () => {

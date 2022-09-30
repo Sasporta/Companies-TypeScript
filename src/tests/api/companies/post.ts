@@ -1,7 +1,7 @@
 import { PATH, POSTED } from '../testsData';
+import Redis from '../../../services/Redis';
 import { post, testError } from '../../helpers';
-import Redis from '../../../services/Data/Redis';
-import CompanyService from '../../../services/businessLogic/Company';
+import Company from '../../../services/Company';
 
 export const postRequestTest = () => {
   describe('post company request', () => {
@@ -20,7 +20,7 @@ export const postRequestTest = () => {
     });
 
     it('should remove all cached companies lists', async () => {
-      const result = await Redis.get(CompanyService.REDIS_LIST_KEY);
+      const result = await Redis.get(Company.REDIS_LIST_KEY);
 
       expect(result).toStrictEqual(null);
     });

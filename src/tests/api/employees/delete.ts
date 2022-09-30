@@ -1,8 +1,8 @@
-import Redis from '../../../services/Data/Redis';
+import Redis from '../../../services/Redis';
 import { BAD, PATH, EXISTING } from '../testsData';
 import { destroy, testError } from '../../helpers';
-import EmployeeService from '../../../services/businessLogic/Employee';
-import { EmployeeMetadataDataManager } from '../../../services/Data/Mongo';
+import EmployeeService from '../../../services/Employee';
+import { EmployeeMetadataMongo } from '../../../services/Mongo';
 
 export const deleteRequestTest = () => {
   describe('delete employee request', () => {
@@ -16,7 +16,7 @@ export const deleteRequestTest = () => {
     });
 
     it("should delete employee's metadata", async () => {
-      const employeeMetadataData = await EmployeeMetadataDataManager.getOne(
+      const employeeMetadataData = await EmployeeMetadataMongo.getOne(
         EXISTING.employees[1].uuid,
       );
 
@@ -24,7 +24,7 @@ export const deleteRequestTest = () => {
     });
 
     it("should decrement employee's manager's subordinatesCount by 1", async () => {
-      const employeeMetadataData = await EmployeeMetadataDataManager.getOne(
+      const employeeMetadataData = await EmployeeMetadataMongo.getOne(
         EXISTING.employeesMetadata[0]._id,
       );
 

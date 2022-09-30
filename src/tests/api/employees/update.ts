@@ -1,11 +1,11 @@
+import Redis from '../../../services/Redis';
 import { patch, testError } from '../../helpers';
-import Redis from '../../../services/Data/Redis';
-import { Employee } from '../../../entities/Employee';
+import EmployeeService from '../../../services/Employee';
 import { BAD, PATH, EXISTING, UPDATED } from '../testsData';
+import { EmployeeEntity } from '../../../entities/Employee';
+import { EmployeePostgres } from '../../../services/Postgres';
 import EmployeeMetadata from '../../../models/EmployeeMetadata';
-import { EmployeeDataManager } from '../../../services/Data/TypeORM';
-import EmployeeService from '../../../services/businessLogic/Employee';
-import { EmployeeMetadataDataManager } from '../../../services/Data/Mongo';
+import { EmployeeMetadataMongo } from '../../../services/Mongo';
 
 export const updateRequestTest = () => {
   describe('update employee request', () => {
@@ -46,7 +46,7 @@ export const updateRequestTest = () => {
             UPDATED.employeeToManager,
           );
 
-          const employee = await EmployeeDataManager.getOne(
+          const employee = await EmployeePostgres.getOne(
             EXISTING.employees[2].uuid,
           );
 
@@ -54,7 +54,7 @@ export const updateRequestTest = () => {
         });
 
         it("should decrement employee's manager's subordinatesCount by 1", async () => {
-          const employeeMetadataData = await EmployeeMetadataDataManager.getOne(
+          const employeeMetadataData = await EmployeeMetadataMongo.getOne(
             EXISTING.employeesMetadata[0]._id,
           );
 
@@ -68,7 +68,7 @@ export const updateRequestTest = () => {
             UPDATED.managerToEmployee,
           );
 
-          const employee = await EmployeeDataManager.getOne(
+          const employee = await EmployeePostgres.getOne(
             EXISTING.employees[2].uuid,
           );
 
@@ -76,7 +76,7 @@ export const updateRequestTest = () => {
         });
 
         it("should increment employee's manager's subordinatesCount by 1", async () => {
-          const employeeMetadataData = await EmployeeMetadataDataManager.getOne(
+          const employeeMetadataData = await EmployeeMetadataMongo.getOne(
             EXISTING.employeesMetadata[0]._id,
           );
 
@@ -90,7 +90,7 @@ export const updateRequestTest = () => {
             UPDATED.employeeToDiffCompanyAndManager,
           );
 
-          const updatedEmployee = await Employee.findOneBy({
+          const updatedEmployee = await EmployeeEntity.findOneBy({
             uuid: EXISTING.employees[3].uuid,
           });
 
@@ -110,7 +110,7 @@ export const updateRequestTest = () => {
         });
 
         it("should decrement employee's manager's subordinatesCount by 1", async () => {
-          const employeeMetadataData = await EmployeeMetadataDataManager.getOne(
+          const employeeMetadataData = await EmployeeMetadataMongo.getOne(
             EXISTING.employeesMetadata[1]._id,
           );
 
@@ -118,7 +118,7 @@ export const updateRequestTest = () => {
         });
 
         it("should increment employee's new manager's subordinatesCount by 1", async () => {
-          const employeeMetadataData = await EmployeeMetadataDataManager.getOne(
+          const employeeMetadataData = await EmployeeMetadataMongo.getOne(
             EXISTING.employeesMetadata[7]._id,
           );
 

@@ -1,10 +1,10 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
-import { Company } from './Company';
+import { CompanyEntity } from './Company';
 import { PrimaryEntity } from './PrimaryEntity';
 
 @Entity('employees')
-export class Employee extends PrimaryEntity {
+export class EmployeeEntity extends PrimaryEntity {
   @Column()
     name: string;
 
@@ -19,11 +19,11 @@ export class Employee extends PrimaryEntity {
   })
     manager_id: number;
 
-  @ManyToOne(() => Company, company => company.employees, {
+  @ManyToOne(() => CompanyEntity, company => company.employees, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({
     name: 'company_id',
   })
-    company: Company;
+    company: CompanyEntity;
 }

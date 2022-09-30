@@ -1,8 +1,8 @@
 import { post, testError } from '../../helpers';
+import Redis from '../../../services/Redis';
 import { BAD, PATH, POSTED } from '../testsData';
-import Redis from '../../../services/Data/Redis';
-import EmployeeService from '../../../services/businessLogic/Employee';
-import { EmployeeMetadataDataManager } from '../../../services/Data/Mongo';
+import EmployeeService from '../../../services/Employee';
+import { EmployeeMetadataMongo } from '../../../services/Mongo';
 
 export const postRequestTest = () => {
   describe('post employee request', () => {
@@ -11,9 +11,7 @@ export const postRequestTest = () => {
         POSTED.employee,
       );
 
-      const employeeMetadata = await EmployeeMetadataDataManager.getOne(
-        body.uuid,
-      );
+      const employeeMetadata = await EmployeeMetadataMongo.getOne(body.uuid);
 
       expect(statusCode).toBe(201);
       expect(headers['content-type']).toMatch('application/json');
@@ -27,7 +25,7 @@ export const postRequestTest = () => {
     });
 
     it("should update new employee's manager metadata", async () => {
-      const managerMetadata = await EmployeeMetadataDataManager.getOne(
+      const managerMetadata = await EmployeeMetadataMongo.getOne(
         POSTED.employee.managerUuid,
       );
 

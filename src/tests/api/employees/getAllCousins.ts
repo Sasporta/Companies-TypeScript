@@ -1,7 +1,7 @@
 import { get } from '../../helpers';
+import Redis from '../../../services/Redis';
 import { PATH, EXISTING } from '../testsData';
-import Redis from '../../../services/Data/Redis';
-import EmployeeService from '../../../services/businessLogic/Employee';
+import Employee from '../../../services/Employee';
 
 export const getAllCousinsRequestTest = () => {
   describe("get employee's cousins request", () => {
@@ -29,15 +29,13 @@ export const getAllCousinsRequestTest = () => {
     });
 
     it('should return cached employees', async () => {
-      const stringifyParams = EmployeeService.stringifyParams({
+      const stringifyParams = Employee.stringifyParams({
         uuid: EXISTING.employees[3].uuid,
         path: 'cousins',
         limit: 10,
       });
 
-      const result = await Redis.get(
-        EmployeeService.REDIS_LIST_KEY + stringifyParams,
-      );
+      const result = await Redis.get(Employee.REDIS_LIST_KEY + stringifyParams);
 
       expect(result).toStrictEqual(fetchedEmployees);
     });

@@ -1,13 +1,13 @@
 import { dataSource } from '../../config/typeorm';
-import { Employee } from '../../entities/Employee';
+import { EmployeeEntity } from '../../entities/Employee';
 
-type GetEmployeeManagerFn = (employeeUuid: string) => Promise<Employee>;
+type getParentQueryFn = (employeeUuid: string) => Promise<EmployeeEntity>;
 
-export const getEmployeeManagerQuery: GetEmployeeManagerFn = employeeUuid =>
+export const getParentQuery: getParentQueryFn = employeeUuid =>
   dataSource
     .createQueryBuilder()
     .select(['manager.uuid'])
-    .from(Employee, 'manager')
-    .innerJoin(Employee, 'employee', 'manager.id = employee.manager_id')
+    .from(EmployeeEntity, 'manager')
+    .innerJoin(EmployeeEntity, 'employee', 'manager.id = employee.manager_id')
     .where('employee.uuid = :employeeUuid', { employeeUuid })
     .getOne();

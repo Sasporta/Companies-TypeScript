@@ -1,5 +1,5 @@
 import { get } from './settings';
-import { redis } from '../../config/redis';
+import Redis from '../../services/Redis';
 import { dataSource } from '../../config/typeorm';
 import { companiesLoadTest } from './api/companies';
 import { employeesLoadTest } from './api/employees';
@@ -8,7 +8,8 @@ import { queriesLoadTest } from './PgQueries/getAllQueries';
 describe('performance tests', () => {
   beforeAll(async () => await dataSource.initialize());
   afterAll(
-    async () => await Promise.all([redis.disconnect(), dataSource.destroy()]),
+    async () =>
+      await Promise.all([Redis.instance.disconnect(), dataSource.destroy()]),
   );
 
   jest.setTimeout(30000);

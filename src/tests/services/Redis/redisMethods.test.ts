@@ -1,6 +1,7 @@
-import { redis } from '../../../config/redis';
-import Redis from '../../../services/Data/Redis';
-import { Company } from '../../../entities/Company';
+import Redis from '../../../services/Redis';
+import { CompanyEntity } from '../../../entities/Company';
+
+const redis = Redis.instance;
 
 describe('Redis methods', () => {
   afterAll(async () => await redis.disconnect());
@@ -8,7 +9,7 @@ describe('Redis methods', () => {
   const company = {
     name: 'set-test name',
     country: 'set-test country',
-  } as Company;
+  } as CompanyEntity;
 
   describe('get method', () => {
     beforeAll(async () => await redis.set('get-key', JSON.stringify(company)));
@@ -24,7 +25,7 @@ describe('Redis methods', () => {
     it('should set a chosen value of type entities with EX of 691200000 ms', async () => {
       await Redis.set('set-key', company);
 
-      const result = JSON.parse(await redis.get('set-key'));
+      const result = JSON.parse(await redis.get('set-key') as string);
 
       const ttl = await redis.ttl('set-key');
 

@@ -1,4 +1,4 @@
-import CompanyService from '../../../services/businessLogic/Company';
+import CompanyService from '../../../services/Company';
 
 describe('throw method', () => {
   const REDIS_COMPANY_KEYS = {

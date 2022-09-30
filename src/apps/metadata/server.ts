@@ -1,16 +1,16 @@
 import app from './app';
 import config from '../../config';
-import { connectMongoDB } from '../../config/mongo';
-import { connectRabbitMQ } from '../../config/rabbit';
+import Mongo from '../../services/Mongo';
+import Rabbit from '../../services/rabbitMQ';
 
 const {
   env: { metadataPort },
 } = config;
 
 app.listen(metadataPort, async () => {
-  await Promise.all([connectMongoDB(), connectRabbitMQ()]);
+  await Promise.all([Mongo.connect(), Rabbit.connect()]);
+
+  Rabbit.consume();
 
   console.log('Metadata worker running on port ', metadataPort);
 });
-
-export default app;
