@@ -46,7 +46,7 @@ export const createEmployee: RouteHandler = async (req, res, next) => {
 
     Rabbit.send({
       action: 'create',
-      uuid: employee.uuid,
+      employeeUuid: employee.uuid,
       companyUuid,
       futureManagerUuid: managerUuid,
     });

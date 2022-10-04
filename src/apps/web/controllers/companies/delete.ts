@@ -1,8 +1,8 @@
 import { validationResult } from 'express-validator';
 
 import Redis from '../../../../services/Redis';
+import Company from '../../../../services/Company';
 import { RouteHandler } from '../../../../types/global';
-import CompanyService from '../../../../services/Company';
 import { CompanyPostgres } from '../../../../services/Postgres';
 
 export const deleteCompany: RouteHandler = async (req, res, next) => {
@@ -20,8 +20,8 @@ export const deleteCompany: RouteHandler = async (req, res, next) => {
     }
 
     await Promise.all([
-      Redis.remove(CompanyService.REDIS_ITEM_KEY + uuid),
-      Redis.removeAll(CompanyService.REDIS_LIST_PREFIX_KEY),
+      Redis.remove(Company.REDIS_ITEM_KEY + uuid),
+      Redis.removeAll(Company.REDIS_LIST_PREFIX_KEY),
     ]);
 
     return res.status(204).json({});

@@ -18,6 +18,9 @@ export default {
     webPort: env.WRB_PORT || 8000,
     metadataPort: env.METADATA_PORT || 8001,
   },
+  logs: {
+    allowLogs: env.LOGS === 'true',
+  },
   postgres: {
     host: env.HOST,
     ssl: secureConnection,

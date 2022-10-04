@@ -41,4 +41,34 @@ db.employee_metadatas.insertMany([
     companyUuid: 'c7a1d809-399d-4991-ad8e-5803c54a0213',
     subordinatesCount: 0,
   },
+  {
+    _id: 'c07319d8-f077-4318-a3f1-66a2d0af141e',
+    companyUuid: '367b6446-8d11-411a-ab42-faefa67b2fbe',
+    subordinatesCount: 1,
+  },
+  {
+    _id: '156ff148-eb6c-423a-aeca-732d7296e162',
+    companyUuid: '367b6446-8d11-411a-ab42-faefa67b2fbe',
+    subordinatesCount: 0,
+  },
+  {
+    _id: 'b754775b-0865-473d-bcdc-2b5fd3fa5597',
+    companyUuid: 'acd14f6f-d639-4e3e-95ed-d7af0b217288',
+    subordinatesCount: 0,
+  },
+  {
+    _id: '5b5d4cec-6145-45ab-acd9-00ed51de60d7',
+    companyUuid: 'd0f1b894-12d2-41cc-9a8b-857e995ac3c1',
+    subordinatesCount: 1,
+  },
+  {
+    _id: '5ac5d2b7-be2a-4257-9a0d-6524403b7361',
+    companyUuid: 'd0f1b894-12d2-41cc-9a8b-857e995ac3c1',
+    subordinatesCount: 0,
+  },
+  {
+    _id: '4889a1c8-3064-4fd9-8f70-7326d121c081',
+    companyUuid: '4c1287e3-8493-47e6-9ab7-7d8dd1889c42',
+    subordinatesCount: 0,
+  },
 ]);

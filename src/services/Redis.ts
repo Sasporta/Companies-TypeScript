@@ -20,7 +20,19 @@ const {
 } = config;
 
 class redis {
-  instance = new Redis(redisUrl, { tls });
+  instance: Redis.Redis;
+
+  connect = () => {
+    try {
+      this.instance = new Redis(redisUrl, { tls });
+
+      console.log('Redis has been connected!');
+    } catch (error) {
+      console.error('Error during Redis connection ', error);
+    }
+  };
+
+  disconnect = () => this.instance.disconnect();
 
   get: GetFn = async key => {
     const result = await this.instance.get(key);

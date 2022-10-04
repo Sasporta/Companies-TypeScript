@@ -26,4 +26,7 @@ VALUES
     ('47a89e37-aef0-4690-80a3-2383ea7bd285', 'TestEmployeeForEmployeesTest5', 'employee2', 4, 2),
     ('48f91ff6-1cdd-49ca-a382-c7a581342d8c', 'TestEmployeeForEmployeesTest6', 'employee1', 4, 3),
     ('f8293029-ed60-4a84-a581-cb8e64f84553', 'TestEmployeeForEmployeesTest7', 'employee2', 4, 3),
-    ('5a7848e1-5e4c-4cad-8859-2a782a32b924', 'TestEmployeeForEmployeesTest8', 'CEO', 5, null);
+    ('5a7848e1-5e4c-4cad-8859-2a782a32b924', 'TestEmployeeForEmployeesTest8', 'CEO', 5, null),
+    ('5b5d4cec-6145-45ab-acd9-00ed51de60d7', 'TestEmployeeForIntegrationTest1', 'CEO', 7, null),
+    ('5ac5d2b7-be2a-4257-9a0d-6524403b7361', 'TestEmployeeForIntegrationTest2', 'manager1', 7, 9),
+    ('4889a1c8-3064-4fd9-8f70-7326d121c081', 'TestEmployeeForIntegrationTest3', 'CEO', 8, null);

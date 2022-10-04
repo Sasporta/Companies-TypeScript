@@ -23,7 +23,11 @@ export const deleteEmployee: RouteHandler = async (req, res, next) => {
       throw { status: 404, entity: 'employee', uuid };
     }
 
-    Rabbit.send({ action: 'delete', uuid, previousManagerUuid: manager?.uuid });
+    Rabbit.send({
+      action: 'delete',
+      employeeUuid: uuid,
+      previousManagerUuid: manager?.uuid,
+    });
 
     await Promise.all([
       Redis.remove(Employee.REDIS_ITEM_KEY + uuid),

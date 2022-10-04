@@ -1,7 +1,7 @@
 import amqp from 'amqplib';
 
 import config from '../config';
-import MetadataService from './Metadata';
+import Metadata from './Metadata';
 
 const {
   rabbit: { metadataUpdateQueue, rabbitUrl },
@@ -11,11 +11,13 @@ class RabbitMQ {
   channel: amqp.Channel;
   connection: amqp.Connection;
 
-  async connect() {
+  connect = async () => {
     try {
       this.connection = await amqp.connect(rabbitUrl);
 
       this.channel = await this.connection.createChannel();
+
+      await this.channel.assertQueue(metadataUpdateQueue, { durable: true });
 
       console.log('RabbitMQ has been connected!');
 
@@ -23,12 +25,15 @@ class RabbitMQ {
     } catch (error) {
       console.error('Error during RabbitMQ connection ', error);
     }
-  }
+  };
+
+  disconnect = async () => {
+    await this.channel.close();
+    await this.connection.close();
+  };
 
   async send(data: object) {
     try {
-      await this.channel.assertQueue(metadataUpdateQueue, { durable: true });
-
       this.channel.sendToQueue(
         metadataUpdateQueue,
         Buffer.from(JSON.stringify(data)),
@@ -42,20 +47,18 @@ class RabbitMQ {
 
   async consume() {
     try {
-      await this.channel.assertQueue(metadataUpdateQueue, { durable: true });
-
       this.channel.consume(metadataUpdateQueue, async data => {
-        const message = JSON.parse(JSON.stringify(data.content));
+        const message = JSON.parse(data.content.toString());
 
         switch (message.action) {
         case 'create':
-          await MetadataService.createCount(message);
+          await Metadata.createCount(message);
           break;
         case 'update':
-          await MetadataService.updateCounts(message);
+          await Metadata.updateCounts(message);
           break;
         case 'delete':
-          await MetadataService.deleteCount(message);
+          await Metadata.deleteCount(message);
           break;
         }
 

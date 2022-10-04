@@ -50,6 +50,8 @@ class Mongo {
     }
   };
 
+  static disconnect = async () => await mongoose.connection.close();
+
   getAll: GetAllFn = async (whereStatement, limit) =>
     await this.model.find(whereStatement).limit(limit);
 

@@ -1,4 +1,4 @@
-import { BaseEntity, DeepPartial, FindOptionsWhere } from 'typeorm';
+import { BaseEntity, DataSource, DeepPartial, FindOptionsWhere } from 'typeorm';
 
 import { dataSource } from '../config/typeorm';
 import { CompanyEntity } from '../entities/Company';
@@ -16,6 +16,7 @@ type SaveFn = (params: DeepPartial<Entity>) => Promise<Entity>;
 
 class Postgres {
   entity: any;
+  static dataSource: DataSource;
 
   constructor(entity: any) {
     this.entity = entity;
@@ -23,13 +24,15 @@ class Postgres {
 
   static connect = async () => {
     try {
-      await dataSource.initialize();
+      this.dataSource = await dataSource.initialize();
 
       console.log('TypeORM with Postgres has been connected!');
     } catch (error) {
       console.error('Error during TypeORM with Postgres connection ', error);
     }
   };
+
+  static disconnect = async () => await dataSource.destroy();
 
   getOne: GetOneFn = async uuid =>
     (await this.entity.findOneBy({

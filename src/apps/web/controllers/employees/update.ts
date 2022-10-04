@@ -49,7 +49,7 @@ export const updateEmployee: RouteHandler = async (req, res, next) => {
 
       Rabbit.send({
         action: 'update',
-        uuid,
+        employeeUuid: uuid,
         companyUuid,
         futureManagerUuid: managerUuid,
         previousManagerUuid: previousManager?.uuid,

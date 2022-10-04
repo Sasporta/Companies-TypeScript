@@ -23,7 +23,6 @@ type CreateCountFnParams = {
   companyUuid: string | undefined;
   employeeUuid: string | undefined;
   futureManagerUuid: string | undefined;
-  previousManagerUuid: string | undefined;
 };
 type CreateCountFn = (params: CreateCountFnParams) => Promise<void>;
 

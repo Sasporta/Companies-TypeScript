@@ -1,2 +1,3 @@
 #!/bin/bash
-nodemon $1
+sleep 5
+nodemon src/apps/metadata/server.ts
