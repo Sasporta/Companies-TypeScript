@@ -1,7 +1,6 @@
-import { patch } from '../../helpers';
+import { get, patch } from './helpers';
 import { PATH, testEmployeesUuids, UPDATED } from './testsData';
 import EmployeeMetadata from '../../../models/EmployeeMetadata';
-import { EmployeeMetadataMongo } from '../../../services/Mongo';
 
 export const updateRequestTest = () => {
   describe("update employees metadata when updating employee's company and manager", () => {
@@ -31,16 +30,16 @@ export const updateRequestTest = () => {
     });
 
     it("should decrement employee's previous manager's subordinatesCount by 1", async () => {
-      const previousManagerMetadata = await EmployeeMetadataMongo.getOne(
-        testEmployeesUuids[0],
+      const { body: previousManagerMetadata } = await get(
+        PATH.EMPLOYEES_METADATA + '/' + testEmployeesUuids[0],
       );
 
       expect(previousManagerMetadata?.subordinatesCount).toBe(0);
     });
 
     it("should increment employee's future manager's subordinatesCount by 1", async () => {
-      const futureManagerMetadata = await EmployeeMetadataMongo.getOne(
-        testEmployeesUuids[2],
+      const { body: futureManagerMetadata } = await get(
+        PATH.EMPLOYEES_METADATA + '/' + testEmployeesUuids[2],
       );
 
       expect(futureManagerMetadata?.subordinatesCount).toBe(1);

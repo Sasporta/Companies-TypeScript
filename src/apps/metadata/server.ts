@@ -8,9 +8,13 @@ const {
 } = config;
 
 app.listen(metadataPort, async () => {
-  await Promise.all([Mongo.connect(), Rabbit.connect()]);
+  try {
+    await Promise.all([Mongo.connect(), Rabbit.connect()]);
 
-  Rabbit.consume();
+    Rabbit.consume();
 
-  console.log('Metadata worker running on port ', metadataPort);
+    console.log('Metadata worker running on port ', metadataPort);
+  } catch (error) {
+    console.error('Error during Metadata initialization ', error);
+  }
 });

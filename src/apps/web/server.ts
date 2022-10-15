@@ -11,12 +11,16 @@ const {
 } = config;
 
 app.listen(webPort, async () => {
-  await Promise.all([
-    Mongo.connect(),
-    Postgres.connect(),
-    Rabbit.connect(),
-    Redis.connect(),
-  ]);
+  try {
+    await Promise.all([
+      Mongo.connect(),
+      Postgres.connect(),
+      Rabbit.connect(),
+      Redis.connect(),
+    ]);
 
-  console.log('Web app running on port ', webPort);
+    console.log('Web app running on port ', webPort);
+  } catch (error) {
+    console.error('Error during Web initialization ', error);
+  }
 });

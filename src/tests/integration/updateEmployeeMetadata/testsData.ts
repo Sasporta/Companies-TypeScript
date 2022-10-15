@@ -11,6 +11,7 @@ export const testEmployeesUuids = [
 
 export const PATH = {
   EMPLOYEES: '/employees',
+  EMPLOYEES_METADATA: '/employeesMetadata',
 };
 
 export const POSTED = {

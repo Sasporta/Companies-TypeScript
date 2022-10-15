@@ -4,7 +4,7 @@ services:
   postgres:
     image: postgres:latest
     container_name: postgres
-    profiles: ['web', 'integration']
+    profiles: [web, integration]
     restart: always
     ports:
       - 5432:5432
@@ -16,7 +16,7 @@ services:
   redis:
     image: redis:latest
     container_name: redis
-    profiles: ['web', 'integration']
+    profiles: [web, integration]
     restart: always
     ports:
       - 6379:6379
@@ -24,7 +24,7 @@ services:
   mongo:
     image : mongo:latest
     container_name: mongo
-    profiles: ['web', 'metadata', 'integration']
+    profiles: [web, metadata, integration]
     restart: always
     environment:
       - PUID=1000
@@ -37,7 +37,7 @@ services:
   rabbit:
     image: rabbitmq:3-management-alpine
     container_name: rabbit
-    profiles: ['integration']
+    profiles: [integration]
     restart: always
     ports:
       - 5672:5672
@@ -45,15 +45,35 @@ services:
 
   metadata-app:
     build:
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.metadata
     container_name: metadata
-    profiles: ['integration']
+    profiles: [integration]
+    restart: on-failure
     environment:
       RABBIT_URL: amqp://rabbit:5672
       MONGO_URL: mongodb://mongo:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
     ports:
       - 8001:8001
     depends_on:
+      - mongo
+      - rabbit
+
+  web-app:
+    build:
+      dockerfile: Dockerfile.web
+    container_name: web
+    profiles: [integration]
+    restart: on-failure
+    environment:
+      REDIS_URL: redis://redis:6379
+      RABBIT_URL: amqp://rabbit:5672
+      POSTGRES_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      MONGO_URL: mongodb://mongo:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
+    ports:
+      - 8000:8000
+    depends_on:
+      - redis
+      - postgres
       - mongo
       - rabbit
 
