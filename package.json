@@ -1,21 +1,26 @@
 {
   "name": "hierarchy-service-backend",
   "version": "1.0.0",
-  "description": "ts project",
-  "main": "app.ts",
+  "description": "hierarchy project",
+  "main": "src/apps/web/server.ts",
   "scripts": {
     "lint": "eslint ./",
-    "postinstall": "npx tsc",
-    "start": "node dist/server.js",
-    "dev": "bash src/scripts/dev.sh src/server.ts",
-    "test": "bash src/scripts/test.sh",
-    "load-test": "bash src/scripts/loadTests.sh",
-    "test:coverage": "bash src/scripts/test:coverage.sh"
+    "build": "npx tsc",
+    "start": "node dist/apps/web/server.js",
+    "dev:1": "bash src/scripts/devWeb.sh",
+    "dev:2": "bash src/scripts/devMetadata.sh",
+    "test": "bash src/scripts/test.sh '--profile web --profile metadata'",
+    "test:web": "bash src/scripts/test.sh '--profile web' tests/webApp",
+    "test:metadata": "bash src/scripts/test.sh '--profile metadata' tests/metadataApp",
+    "test:integration": "bash src/scripts/test.sh '--profile integration' '--testMatch **/*.integrationTest.*'",
+    "test:load": "bash src/scripts/loadTests.sh",
+    "test:coverage": "bash src/scripts/test.sh '--profile integration' '--testMatch **/*.test.* **/*.integrationTest.* --coverage-reporters=html'"
   },
   "keywords": [],
   "author": "Yahav Sasporta",
   "license": "ISC",
   "dependencies": {
+    "amqplib": "^0.10.3",
     "dd-trace": "^2.11.0",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
@@ -29,9 +34,10 @@
     "typeorm-extension": "^2.1.2"
   },
   "devDependencies": {
+    "@types/amqplib": "^0.8.2",
     "@types/express": "^4.17.13",
+    "@types/ioredis": "^4.28.10",
     "@types/jest": "^27.1.1",
-    "@types/mongoose": "^5.11.97",
     "@types/node": "^17.0.25",
     "@types/supertest": "^2.0.12",
     "@types/swagger-ui-express": "^4.1.3",

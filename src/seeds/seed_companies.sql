@@ -20,5 +20,5 @@ VALUES
     ('aa7e4bd8-a649-4141-8383-beacd85a4e24', 'TestCompanyForEmployeesTest1', 'Country4'),
     ('c7a1d809-399d-4991-ad8e-5803c54a0213', 'TestCompanyForEmployeesTest2', 'Country5'),
     ('ed9bde07-516f-403a-be33-01aa633fa3f3', 'TestCompanyForEmployeesTest3', 'Country6'),
-    ('d0f1b894-12d2-41cc-9a8b-857e995ac3c1', 'TestCompanyForDeleteOrThrow404Test', 'Country7'),
-    ('4c1287e3-8493-47e6-9ab7-7d8dd1889c42', 'TestCompanyForUpdateOrThrow404Test', 'Country8');
+    ('d0f1b894-12d2-41cc-9a8b-857e995ac3c1', 'TestCompanyForIntegrationTest1', 'Country7'),
+    ('4c1287e3-8493-47e6-9ab7-7d8dd1889c42', 'TestCompanyForIntegrationTest2', 'Country8');

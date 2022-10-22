@@ -1,8 +1,8 @@
 import request from 'supertest';
 import { performance } from 'perf_hooks';
 
-import app from '../app';
-import resDoc from '../swagger/docs/components/responses';
+import app from '../apps/web/app';
+import resDoc from '../apps/web/swagger/docs/components/responses';
 
 type CrudMethodFn = (a: string) => request.Test;
 
@@ -13,7 +13,7 @@ type TestErrorFn = (
   reqBody?: object,
 ) => void;
 
-type SomeProcessFn = (...params: unknown[]) => Promise<void>;
+type SomeProcessFn = (...params: any[]) => Promise<any>;
 
 type TestPerformanceFn = (
   benchmark: number,

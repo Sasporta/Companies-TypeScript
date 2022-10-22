@@ -17,8 +17,9 @@ jobs:
                 POSTGRES_PASSWORD=${LOCAL_DB_PASSWORD}$'\n'
                 MONGO_URL=${LOCAL_MONGO_URL}$'\n'
               > .env
+      - run: npx tsc
       - run: npx eslint ./
-      - run: docker-compose up -d
+      - run: docker-compose --profile web --profile metadata up -d
       - run: nvm install node && npx jest --maxWorkers=50%
 
   load_test:

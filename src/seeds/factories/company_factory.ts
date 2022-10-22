@@ -1,8 +1,8 @@
 import { setSeederFactory } from 'typeorm-extension';
-import { Company } from '../../entities/Company';
+import { CompanyEntity } from '../../entities/Company';
 
-export default setSeederFactory(Company, faker => {
-  const company = new Company();
+export default setSeederFactory(CompanyEntity, faker => {
+  const company = new CompanyEntity();
 
   company.name = faker.company.companyName();
   company.country = faker.address.country();

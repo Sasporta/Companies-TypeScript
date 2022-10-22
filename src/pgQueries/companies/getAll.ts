@@ -1,12 +1,12 @@
-import { Company } from '../../entities/Company';
+import { CompanyEntity } from '../../entities/Company';
 import { dataSource } from '../../config/typeorm';
 
-type GetAllCompaniesQueryFn = (limit: number) => Promise<Company[]>;
+type GetAllCompaniesQueryFn = (limit: number) => Promise<CompanyEntity[]>;
 
-export const getAllCompaniesQuery: GetAllCompaniesQueryFn = limit =>
+export const getAllQuery: GetAllCompaniesQueryFn = limit =>
   dataSource
     .createQueryBuilder()
-    .from(Company, 'company')
+    .from(CompanyEntity, 'company')
     .select(['company.uuid', 'company.name', 'company.country'])
     .limit(limit)
     .getMany();

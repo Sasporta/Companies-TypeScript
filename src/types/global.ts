@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 
-import { Company } from '../entities/Company';
-import { Employee } from '../entities/Employee';
+import { CompanyEntity } from '../entities/Company';
+import { EmployeeEntity } from '../entities/Employee';
 import EmployeeMetadata, {
   EmployeeMetadataDocument,
 } from '../models/EmployeeMetadata';
@@ -10,19 +10,17 @@ export type Model = typeof EmployeeMetadata;
 
 export type ModelType = EmployeeMetadataDocument;
 
-export type Entity = Company & Employee;
+export type Entity = CompanyEntity & EmployeeEntity;
 
-export type EntityType = typeof Company | typeof Employee;
+export type EntityType = typeof CompanyEntity | typeof EmployeeEntity;
 
-export type ReqBodyParams = boolean | number | object | string | undefined;
-
-export type CompanyUpdateProperties = {
+type CompanyUpdateProperties = {
   uuid: string;
   name?: string;
   country?: string;
 };
 
-export type EmployeeUpdateProperties = {
+type EmployeeUpdateProperties = {
   uuid: string;
   name?: string;
   title?: string;
