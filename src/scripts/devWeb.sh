@@ -6,5 +6,6 @@ function cleanup {
 }
 
 docker-compose --profile web up -d
+sleep 5
 nodemon src/apps/web/server.ts
 trap cleanup exit
