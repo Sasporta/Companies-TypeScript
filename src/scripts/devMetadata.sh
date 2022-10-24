@@ -6,5 +6,6 @@ function cleanup {
 }
 
 docker-compose --profile metadata up -d
+sleep 5
 nodemon src/apps/metadata/server.ts
 trap cleanup exit

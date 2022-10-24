@@ -45,11 +45,13 @@ services:
 
   metadata-app:
     build:
-      dockerfile: Dockerfile.metadata
+      dockerfile: Dockerfile
     container_name: metadata
     profiles: [integration]
     restart: on-failure
     environment:
+      DEPLOY_ENV: dev
+      APP: metadata/server.js
       RABBIT_URL: amqp://rabbit:5672
       MONGO_URL: mongodb://mongo:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.5.4
     ports:
@@ -60,11 +62,13 @@ services:
 
   web-app:
     build:
-      dockerfile: Dockerfile.web
+      dockerfile: Dockerfile
     container_name: web
     profiles: [integration]
     restart: on-failure
     environment:
+      DEPLOY_ENV: dev
+      APP: web/server.js
       REDIS_URL: redis://redis:6379
       RABBIT_URL: amqp://rabbit:5672
       POSTGRES_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
