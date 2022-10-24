@@ -29,11 +29,11 @@ jobs:
       - checkout
       - run: npm i
       - run:  echo
-                  POSTGRES_DB=${LOCAL_DB_NAME}$'\n'
-                  POSTGRES_USER=${LOCAL_DB_USER}$'\n'
-                  POSTGRES_PASSWORD=${LOCAL_DB_PASSWORD}$'\n'
-                  MONGO_URL=${LOCAL_MONGO_URL}$'\n'
-                > .env
+                POSTGRES_DB=${LOCAL_DB_NAME}$'\n'
+                POSTGRES_USER=${LOCAL_DB_USER}$'\n'
+                POSTGRES_PASSWORD=${LOCAL_DB_PASSWORD}$'\n'
+                MONGO_URL=${LOCAL_MONGO_URL}$'\n'
+              > .env
       - run: npx tsc
       - run: npx eslint ./
       - run: docker-compose --profile integration up -d
@@ -65,15 +65,19 @@ workflows:
               # only: integration-test
               only: updating-ci-to-deploy-to-aws
 
-  # deploy_to_ecr:
-  #   jobs:
-  #     - aws-ecr/build-and-push-image:
-  #         repo: hierarchy-service-backend/web
-  #         tag: "latest, v0.1.${CIRCLE_BUILD_NUM}"
-  #         dockerfile: Dockerfile
-  #         path: .
-  #         requires:
-  #           - test
+  deploy_to_ecr:
+    jobs:
+      - aws-ecr/build-and-push-image:
+          repo: hierarchy-service-backend/web
+          tag: latest
+          dockerfile: Dockerfile
+          path: .
+          requires:
+            - test
+          filters:
+            branches:
+              # only: main
+              only: updating-ci-to-deploy-to-aws
 
 
       # - heroku/deploy-via-git:
