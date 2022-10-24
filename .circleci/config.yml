@@ -56,6 +56,17 @@ workflows:
   test_and_deploy:
     jobs:
       - test
+      - aws-ecr/build-and-push-image:
+          repo: hierarchy-service-backend/web
+          tag: latest
+          dockerfile: Dockerfile
+          path: .
+          filters:
+            branches:
+              # only: main
+              only: updating-ci-to-deploy-to-aws
+          requires:
+            - test
 
   integration_test:
     jobs:
@@ -64,38 +75,6 @@ workflows:
             branches:
               # only: integration-test
               only: updating-ci-to-deploy-to-aws
-
-  deploy_to_ecr:
-    jobs:
-      - aws-ecr/build-and-push-image:
-          repo: hierarchy-service-backend/web
-          tag: latest
-          dockerfile: Dockerfile
-          path: .
-          requires:
-            - test
-          filters:
-            branches:
-              # only: main
-              only: updating-ci-to-deploy-to-aws
-
-
-      # - heroku/deploy-via-git:
-      #     filters:
-      #       branches:
-      #         only: main
-      #     requires:
-      #       - test
-      #     post-steps:
-      #       - run: your-database-migration-command
-
-      # - heroku/deploy-via-git:
-      #     app-name: ${HEROKU_LOAD_APP_NAME}
-      #     filters:
-      #       branches:
-      #         only: main
-      #     requires:
-      #       - test
 
   # scheduled-load-test:
   #   triggers:
