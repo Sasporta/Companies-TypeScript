@@ -27,13 +27,13 @@ export default {
     port: +env.POSTGRES_PORT,
     database: env.POSTGRES_DB,
     username: env.POSTGRES_USER,
-    postgresUrl: env.DATABASE_URL,
+    postgresUrl: env.POSTGRES_URL,
     password: env.POSTGRES_PASSWORD,
     loadTestSeeding: env.LOAD_TEST_SEEDING === 'true',
   },
   redis: {
     tls: secureConnection as RedisOptions,
-    redisUrl: env.REDIS_TLS_URL,
+    redisUrl: env.REDIS_URL,
   },
   mongo: {
     mongoUrl: env.MONGO_URL,

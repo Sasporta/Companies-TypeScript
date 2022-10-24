@@ -1,6 +1,5 @@
-import { post } from '../../helpers';
+import { get, post } from './helpers';
 import { PATH, POSTED } from './testsData';
-import { EmployeeMetadataMongo } from '../../../services/Mongo';
 
 export const postRequestTest = () => {
   describe('create a new document and update its manager metadata when posting employee', () => {
@@ -16,7 +15,9 @@ export const postRequestTest = () => {
         ),
       );
 
-      const employeeMetadata = await EmployeeMetadataMongo.getOne(body.uuid);
+      const { body: employeeMetadata } = await get(
+        PATH.EMPLOYEES_METADATA + '/' + body.uuid,
+      );
 
       expect(statusCode).toBe(201);
       expect(employeeMetadata?._id).toBe(body.uuid);
@@ -24,8 +25,8 @@ export const postRequestTest = () => {
     });
 
     it("should increment employee's future manager's subordinatesCount by 1", async () => {
-      const futureManagerMetadata = await EmployeeMetadataMongo.getOne(
-        POSTED.employee.managerUuid,
+      const { body: futureManagerMetadata } = await get(
+        PATH.EMPLOYEES_METADATA + '/' + POSTED.employee.managerUuid,
       );
 
       expect(futureManagerMetadata?.subordinatesCount).toBe(1);

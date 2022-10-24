@@ -1,11 +1,10 @@
-import { destroy } from '../../helpers';
+import { destroy, get } from './helpers';
 import { PATH, testEmployeesUuids } from './testsData';
-import { EmployeeMetadataMongo } from '../../../services/Mongo';
 
 export const deleteRequestTest = () => {
   describe("delete employee's metadata and update its manager metadata", () => {
     it("should delete employee's metadata", async () => {
-      const { statusCode } = await destroy(
+      const { statusCode: deleteStatus } = await destroy(
         PATH.EMPLOYEES + '/' + testEmployeesUuids[1],
       );
 
@@ -16,17 +15,17 @@ export const deleteRequestTest = () => {
         ),
       );
 
-      const employeeMetadata = await EmployeeMetadataMongo.getOne(
-        testEmployeesUuids[1],
+      const { statusCode: getStatus } = await get(
+        PATH.EMPLOYEES_METADATA + '/' + testEmployeesUuids[1],
       );
 
-      expect(statusCode).toBe(204);
-      expect(employeeMetadata).toBe(null);
+      expect(deleteStatus).toBe(204);
+      expect(getStatus).toBe(404);
     });
 
     it("should decrement employee's previous manager's subordinatesCount by 1", async () => {
-      const previousManagerMetadata = await EmployeeMetadataMongo.getOne(
-        testEmployeesUuids[2],
+      const { body: previousManagerMetadata } = await get(
+        PATH.EMPLOYEES_METADATA + '/' + testEmployeesUuids[2],
       );
 
       expect(previousManagerMetadata?.subordinatesCount).toBe(0);
