@@ -22,6 +22,28 @@ jobs:
       - run: docker-compose --profile web --profile metadata up -d
       - run: nvm install node && npx jest --maxWorkers=50%
 
+  integration_test:
+    machine:
+      image: ubuntu-2204:current
+    steps:
+      - checkout
+      - run: npm i
+      - run:  echo
+                WEB_PORT=${LOCAL_WEB_PORT}$'\n'
+                METADATA_PORT=${LOCAL_METADATA_PORT}$'\n'
+                HOST=${LOCAL_DB_HOST}$'\n'
+                POSTGRES_DB=${LOCAL_DB_NAME}$'\n'
+                POSTGRES_PORT=${LOCAL_DB_PORT}$'\n'
+                POSTGRES_USER=${LOCAL_DB_USER}$'\n'
+                POSTGRES_PASSWORD=${LOCAL_DB_PASSWORD}$'\n'
+                MONGO_URL=${LOCAL_MONGO_URL}$'\n'
+                RABBIT_URL=${LOCAL_RABBIT_URL}$'\n'
+              > .env
+      - run: npx tsc
+      - run: npx eslint ./
+      - run: docker-compose --profile integration up -d
+      - run: nvm install node && npx jest --maxWorkers=50% --testMatch **/*.integrationTest.*
+
   load_test:
     docker:
       - image: cimg/node:18.4.0
@@ -40,14 +62,22 @@ workflows:
     jobs:
       - test
 
+  integration_test:
+    jobs:
+      - integration_test:
+          filters:
+            branches:
+              only: updating-ci-to-deploy-to-aws
+
+
       # - heroku/deploy-via-git:
       #     filters:
       #       branches:
       #         only: main
       #     requires:
       #       - test
-          # post-steps:
-          #   - run: your-database-migration-command
+      #     post-steps:
+      #       - run: your-database-migration-command
 
       # - heroku/deploy-via-git:
       #     app-name: ${HEROKU_LOAD_APP_NAME}
