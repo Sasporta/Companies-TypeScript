@@ -31,6 +31,7 @@ jobs:
       - run: npm i
       - run:  echo
                 LOGS=true
+                MONGO_URL=${LOCAL_MONGO_URL}$'\n'
               > .env
       - run: npx tsc
       - run: npx eslint ./
