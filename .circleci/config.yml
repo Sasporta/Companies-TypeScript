@@ -67,7 +67,7 @@ workflows:
       - integration_test:
           filters:
             branches:
-              only: updating-ci-to-deploy-to-aws
+              only: integration-test
 
 
       # - heroku/deploy-via-git:
