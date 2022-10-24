@@ -29,10 +29,7 @@ jobs:
     steps:
       - checkout
       - run: npm i
-      - run:  echo
-                LOGS=true
-                MONGO_URL=${LOCAL_MONGO_URL}$'\n'
-              > .env
+      - run:  echo MONGO_URL=${LOCAL_MONGO_URL} > .env
       - run: npx tsc
       - run: npx eslint ./
       - run: docker-compose --profile integration up -d

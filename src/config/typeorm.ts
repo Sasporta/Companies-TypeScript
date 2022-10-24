@@ -13,11 +13,6 @@ import EmployeeFactory from '../seeds/factories/employee_factory';
 const {
   postgres: {
     ssl,
-    port,
-    host,
-    database,
-    password,
-    username,
     postgresUrl,
     loadTestSeeding,
   },
@@ -26,11 +21,6 @@ const {
 const options: DataSourceOptions & SeederOptions = {
   type: 'postgres',
   ssl,
-  host,
-  port,
-  database,
-  password,
-  username,
   url: postgresUrl,
   entities: [CompanyEntity, EmployeeEntity],
   factories: [CompanyFactory, EmployeeFactory],

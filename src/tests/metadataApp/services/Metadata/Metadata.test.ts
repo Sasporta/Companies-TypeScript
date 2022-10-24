@@ -4,7 +4,16 @@ import EmployeeMetadata from '../../../../models/EmployeeMetadata';
 import Mongo, { EmployeeMetadataMongo } from '../../../../services/Mongo';
 
 describe('Metadata App', () => {
-  beforeAll(async () => await Mongo.connect());
+  beforeAll(async () => {
+    await new Promise(res =>
+      setTimeout(
+        () => res(console.log('waiting for mongo to recover')),
+        2000,
+      ),
+    );
+
+    await Mongo.connect();
+  });
 
   afterAll(async () => await Mongo.disconnect());
 
