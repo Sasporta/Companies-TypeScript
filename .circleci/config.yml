@@ -32,7 +32,6 @@ jobs:
                   POSTGRES_DB=${LOCAL_DB_NAME}$'\n'
                   POSTGRES_USER=${LOCAL_DB_USER}$'\n'
                   POSTGRES_PASSWORD=${LOCAL_DB_PASSWORD}$'\n'
-                  POSTGRES_URL=${LOCAL_POSTGRES_URL}$'\n'
                   MONGO_URL=${LOCAL_MONGO_URL}$'\n'
                 > .env
       - run: npx tsc
