@@ -10,7 +10,6 @@ jobs:
     steps:
       - checkout
       - run: npm i
-      - run: echo ${AWS_ECR_ACCOUNT_URL}
       - run:  echo
                 POSTGRES_DB=${LOCAL_DB_NAME}$'\n'
                 POSTGRES_USER=${LOCAL_DB_USER}$'\n'
