@@ -59,13 +59,16 @@ workflows:
       - test
       - aws-ecr/build-and-push-image:
           repo: hierarchy-service-backend/web
-          tag: latest
-          dockerfile: Dockerfile
-          path: .
           filters:
             branches:
-              # only: main
-              only: updating-ci-to-deploy-to-aws
+              only: main
+          requires:
+            - test
+      - aws-ecr/build-and-push-image:
+          repo: hierarchy-service-backend/metadata
+          filters:
+            branches:
+              only: main
           requires:
             - test
 
@@ -74,8 +77,7 @@ workflows:
       - integration_test:
           filters:
             branches:
-              # only: integration-test
-              only: updating-ci-to-deploy-to-aws
+              only: integration-test
 
   # scheduled-load-test:
   #   triggers:
