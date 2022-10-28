@@ -22,13 +22,8 @@ export default {
     allowLogs: env.LOGS === 'true',
   },
   postgres: {
-    host: env.HOST,
     ssl: secureConnection,
-    port: +env.POSTGRES_PORT,
-    database: env.POSTGRES_DB,
-    username: env.POSTGRES_USER,
     postgresUrl: env.POSTGRES_URL,
-    password: env.POSTGRES_PASSWORD,
     loadTestSeeding: env.LOAD_TEST_SEEDING === 'true',
   },
   redis: {
