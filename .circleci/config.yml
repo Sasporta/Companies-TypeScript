@@ -65,6 +65,7 @@ workflows:
                 - main
 
       - aws-ecr/build-and-push-image:
+          name: deploy-web-to-load
           repo: hierarchy-service-backend/load/web
           filters:
             branches:
@@ -74,6 +75,7 @@ workflows:
             - integration_test
 
       - aws-ecr/build-and-push-image:
+          name: deploy-metadata-to-load
           repo: hierarchy-service-backend/load/metadata
           filters:
             branches:
@@ -87,9 +89,11 @@ workflows:
             branches:
               only: main
           requires:
-            - aws-ecr/build-and-push-image
+            - deploy-web-to-load
+            - deploy-metadata-to-load
 
       - aws-ecr/build-and-push-image:
+          name: deploy-web-to-prod
           repo: hierarchy-service-backend/prod/web
           filters:
             branches:
@@ -98,6 +102,7 @@ workflows:
             - load_test
 
       - aws-ecr/build-and-push-image:
+          name: deploy-metadata-to-prod
           repo: hierarchy-service-backend/prod/metadata
           filters:
             branches:
