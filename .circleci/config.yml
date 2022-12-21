@@ -56,27 +56,59 @@ workflows:
   test_and_deploy:
     jobs:
       - test
-      - aws-ecr/build-and-push-image:
-          repo: hierarchy-service-backend/web
-          filters:
-            branches:
-              only: main
-          requires:
-            - test
-      - aws-ecr/build-and-push-image:
-          repo: hierarchy-service-backend/metadata
-          filters:
-            branches:
-              only: main
-          requires:
-            - test
 
-  integration_test:
-    jobs:
       - integration_test:
           filters:
             branches:
-              only: integration-test
+              only:
+                - int
+                - main
+
+      - aws-ecr/build-and-push-image:
+          name: deploy-web-to-load
+          repo: hierarchy-service-backend/load/web
+          filters:
+            branches:
+              only: main
+          requires:
+            - test
+            - integration_test
+
+      - aws-ecr/build-and-push-image:
+          name: deploy-metadata-to-load
+          repo: hierarchy-service-backend/load/metadata
+          filters:
+            branches:
+              only: main
+          requires:
+            - test
+            - integration_test
+
+      - load_test:
+          filters:
+            branches:
+              only: main
+          requires:
+            - deploy-web-to-load
+            - deploy-metadata-to-load
+
+      - aws-ecr/build-and-push-image:
+          name: deploy-web-to-prod
+          repo: hierarchy-service-backend/prod/web
+          filters:
+            branches:
+              only: main
+          requires:
+            - load_test
+
+      - aws-ecr/build-and-push-image:
+          name: deploy-metadata-to-prod
+          repo: hierarchy-service-backend/prod/metadata
+          filters:
+            branches:
+              only: main
+          requires:
+            - load_test
 
   # scheduled-load-test:
   #   triggers:
